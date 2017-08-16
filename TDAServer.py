@@ -11,9 +11,9 @@ def start_game():
 def cli():
     while True:
         if "map1" in client_list.keys() and "console1" in client_list.keys() \
-            and "stats1" in client_list.keys(): #and "map2" in \
-            #client_list.keys() and "console2" in client_list.keys() and \
-                #"stats2" in client_list.keys():
+                and "stats1" in client_list.keys():  # and "map2" in \
+            # client_list.keys() and "console2" in client_list.keys() and \
+                # "stats2" in client_list.keys():
             print("All clients are connected. Type start to start game.")
             usr_input = input("->")
             if usr_input == "start":
