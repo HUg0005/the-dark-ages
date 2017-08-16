@@ -1,10 +1,8 @@
-The Dark Ages
+# The Dark Ages
 
-Documentation
+# Documentation
 
-NOTE: I use * as dot points.
-
-Game Mechanics:
+## Game Mechanics:
 * 1 tick is equal to 1 second.
 * Units require food every 10 ticks except for rams. Knights consume 2 food every 10 ticks; all other units 1 food every 10 ticks.
 * Idle villagers decrease working villagers of the same type efficiency.
@@ -21,7 +19,7 @@ Game Mechanics:
 * WARNING: If you change your map to view the enemies (map *enemy number*) then your units will be shown as the enemy.
 * All error messages end with a !
 
-Game Commands:
+## Game Commands:
 * b coordinates building(archery, stable, workshop, barracks, wall)
     build; everything but wall can only can only be built once.
 
@@ -37,7 +35,7 @@ Game Commands:
 * f unit_name/building/coordinates
     focus; displays information in stats
 
-Server Commands:
+## Server Commands:
 * start
     starts game.
 * save
@@ -45,21 +43,21 @@ Server Commands:
 * load
     load a previously saved game.
 
-Unit buildings:
+## Unit buildings:
 * villagers = town_center
 * militia = barracks
 * archer = archery
 * knights = stable
 * ram = workshop
 
-Build time:
+## Build time:
 * wall = 2 ticks
 * barracks = 5 ticks
 * archery = 5 ticks
 * stable = 10 ticks
 * workshop = 10 ticks
 
-Health:
+## Health:
 * town_center = 3000
 * barracks = 1000
 * archery = 1000
@@ -73,21 +71,21 @@ Health:
 * knight = 200
 * ram = 100
 
-Movement Speed:
+## Movement Speed:
 * villager = 1 place per tick
 * militia = 1 place per tick
 * archer = 1 place per tick
 * knight = 2 places per tick
 * ram = 1 place per tick
 
-Damage:
+## Damage:
 * villager = 1
 * militia = 50
 * archer = 25
 * knight = 100
 * ram = 200 (only buildings)
 
-Required Resources:
+## Required Resources:
 * barracks = 200 stone
 * archery = 200 stone 100 wood
 * stable = 300 stone 200 wood
@@ -99,7 +97,7 @@ Required Resources:
 * knight = 200 food 50 wood
 * ram = 100 wood 100 stone
 
-Map symbols:
+## Map symbols:
 * green @ = tree
 * yellow ; = farm
 * cyan ~ = water
@@ -123,11 +121,11 @@ Map symbols:
 * % = not built building
 
 
-Resource Usage:
+## Resource Usage:
 * knights = 2 food per 10 ticks
 * all other units (except rams)= 1 food per 10 ticks
 
-Developer's Notes:
+## Developer's Notes:
 * unit_data(symbol, health, movement_speed, food_consumption, unit_type, unit_status, damage)
 
 
