@@ -1,7 +1,5 @@
 # The Dark Ages
 
-# Documentation
-
 ## Game Mechanics:
 * 1 tick is equal to 1 second.
 * Units require food every 10 ticks except for rams. Knights consume 2 food every 10 ticks; all other units 1 food every 10 ticks.
@@ -43,21 +41,23 @@
 * load
     load a previously saved game.
 
-## Unit buildings:
+## Extra Information
+
+### Unit Spawn Buildings:
 * villagers = town_center
 * militia = barracks
 * archer = archery
 * knights = stable
 * ram = workshop
 
-## Build time:
+### Building Build Time:
 * wall = 2 ticks
 * barracks = 5 ticks
 * archery = 5 ticks
 * stable = 10 ticks
 * workshop = 10 ticks
 
-## Health:
+### Unit Health:
 * town_center = 3000
 * barracks = 1000
 * archery = 1000
@@ -65,39 +65,42 @@
 * workshop = 2500
 * walls = 500
 
+### Building Health
+
 * villager = 100
 * militia = 150
 * archer = 125
 * knight = 200
 * ram = 100
 
-## Movement Speed:
+### Unit Movement Speed:
 * villager = 1 place per tick
 * militia = 1 place per tick
 * archer = 1 place per tick
 * knight = 2 places per tick
 * ram = 1 place per tick
 
-## Damage:
+### Unit Delt Damage:
 * villager = 1
 * militia = 50
 * archer = 25
 * knight = 100
 * ram = 200 (only buildings)
 
-## Required Resources:
+### Required Resources for Buildings:
 * barracks = 200 stone
 * archery = 200 stone 100 wood
 * stable = 300 stone 200 wood
 * workshop = 400 stone 300 wood
 
+### Required Resources for Units:
 * villager = 100 food
 * militia = 100 food 50 stone
 * archer = 100 food 50 stone 50 wood
 * knight = 200 food 50 wood
 * ram = 100 wood 100 stone
 
-## Map symbols:
+### Map symbols:
 * green @ = tree
 * yellow ; = farm
 * cyan ~ = water
@@ -121,12 +124,11 @@
 * % = not built building
 
 
-## Resource Usage:
+### Unit Resource Usage:
 * knights = 2 food per 10 ticks
 * all other units (except rams)= 1 food per 10 ticks
 
 ## Developer's Notes:
 * unit_data(symbol, health, movement_speed, food_consumption, unit_type, unit_status, damage)
 
-
-Hayden Hughes
+*Hayden Hughes*
