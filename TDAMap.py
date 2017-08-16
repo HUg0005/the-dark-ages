@@ -1487,19 +1487,3 @@ if start.decode() == "start":
             printmap = 0
         elif data[0] == "start":
             printmap = 1
-            if current_map == "player":
-                threading._start_new_thread(print_game_map, (player_map,))
-            elif current_map == "enemy":
-                threading._start_new_thread(print_game_map, (enemy_map,))
-
-        elif data[0] == "map":
-            if data[1] == str(enemy_num):
-                current_map = "enemy"
-                printmap = 0
-                printmap = 1
-                threading._start_new_thread(print_game_map, (enemy_map,))
-            elif data[1] == str(player_num):
-                current_map = "player"
-                printmap = 0
-                printmap = 1
-                threading._start_new_thread(print_game_map, (player_map,))
