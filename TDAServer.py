@@ -3,7 +3,7 @@ import json
 import threading
 
 
-def start_game():
+def startGame():
     for client in client_list.keys():
         s.sendto("start".encode(), client_list[client])
 
@@ -17,7 +17,7 @@ def cli():
             print("All clients are connected. Type start to start game.")
             usr_input = input("->")
             if usr_input == "start":
-                start_game()
+                startGame()
                 break
 
 

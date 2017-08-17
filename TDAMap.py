@@ -1404,7 +1404,7 @@ def print_game_map(map):
         time.sleep(1)
 
 
-def get_client(clienttype, playernum):
+def getClient(clienttype, playernum):
     message = "request clients"
     s.sendto(message.encode(), server)
     data, addr = s.recvfrom(1024)
@@ -1412,22 +1412,22 @@ def get_client(clienttype, playernum):
     return tuple(clients[str(clienttype + playernum)])
 
 
-def check_coords(coords):
+def checkCoords(coords):
     return player_map[coords]
 
 
-def check_exists(unit):
+def checkExists(unit):
     if unit in player_map.values():
         return "yes"
     else:
         return "no"
 
 
-def get_pos(unit_name):
+def getPos(unit_name):
     return list(player_map.keys())[list(player_map.values()).index(unit_name)]
 
 
-def get_enemy_number():
+def getEnemyNumber():
     if player_num == "1":
         return "2"
     elif player_num == "2":
@@ -1437,7 +1437,7 @@ def get_enemy_number():
 host = input("Server IP: ")
 port = int(input("Server Port: "))
 player_num = input("Player Number: ")
-enemy_num = get_enemy_number()
+enemy_num = getEnemyNumber()
 server = (host, port)
 printmap = 1
 current_map = "player"
@@ -1465,15 +1465,15 @@ if start.decode() == "start":
         data = (s.recvfrom(1024)).decode()
 
         if data[0] == "checkcoords":
-            coords_message = check_coords(data[1])
+            coords_message = checkCoords(data[1])
             s.sendto(coords_message.encode(), addr)
 
         elif data[0] == "checkexist":
-            exists_message = check_exists(data[1])
+            exists_message = checkExists(data[1])
             s.sendto(exists_message.encode(), addr)
 
         elif data[0] == "getpos":
-            pos_message = get_pos(data[1])
+            pos_message = getPos(data[1])
             s.sendto(pos_message.encode(), addr)
 
         elif data[0] == "set":

@@ -1,7 +1,7 @@
 import socket
 
 
-def print_stats():
+def printStats():
     print("Food: " + str(resources_list["food"]) + "  Stone: " + str(resources_list["stone"]) + "  Wood: " + str(
         resources_list["wood"]))
 
@@ -33,7 +33,7 @@ if start.decode() == "start":
             resources_list["food"] += int(data[1])
             resources_list["stone"] += int(data[2])
             resources_list["wood"] += int(data[3])
-            print_stats()
+            printStats()
 
         elif data[0] == "getstats":
             if data[1] == "food":
