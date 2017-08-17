@@ -2,8 +2,9 @@ import socket
 
 
 def printStats():
-    print("Food: " + str(resources_list["food"]) + "  Stone: " + str(resources_list["stone"]) + "  Wood: " + str(
-        resources_list["wood"]))
+    print("Food: " + str(resources_list["food"]) +
+          "  Stone: " + str(resources_list["stone"]) + "  Wood: " + str(
+          resources_list["wood"]))
 
 
 host = input("Server IP: ")

@@ -54,20 +54,20 @@ def buildRequest(coords, building):
         request_message = str("set" + " " + coords + " " + building)
         s.sendto(request_message.encode(), getClient("map"))
         if building == "wall":
-            unitDataList(building, "#", 500, 0, 0, "wall_" +
-                           player_num, "None", "None")
+            unitDataList(building, "#", 500, 0, 0, "wall_" + player_num,
+                         "None", "None")
         elif building == "barracks":
             unitDataList(building, "B", 1000, 0, 0,
-                           "barracks_" + player_num, "None", "None")
+                         "barracks_" + player_num, "None", "None")
         elif building == "archery":
             unitDataList(building, "A", 1000, 0, 0,
-                           "archer_" + player_num, "None", "None")
+                         "archer_" + player_num, "None", "None")
         elif building == "stable":
             unitDataList(building, "S", 2000, 0, 0,
-                           "stable_" + player_num, "None", "None")
+                         "stable_" + player_num, "None", "None")
         elif building == "workshop":
             unitDataList(building, "W", 2500, 0, 0,
-                           "workshop_" + player_num, "None", "None")
+                         "workshop_" + player_num, "None", "None")
         print("Built" + " " + building + " at " + coords)
     else:
         print("Building blocked by", checkCoords(coords) + "!")
@@ -106,10 +106,12 @@ def getEnemyNumber():
         return "1"
 
 
-def unitDataList(unit_name, unit_symbol, unit_health, movement_speed, food_consumption, unit_type, unit_status, damage):
+def unitDataList(unit_name, unit_symbol, unit_health, movement_speed,
+                 food_consumption, unit_type, unit_status, damage):
     if unit_name not in unit_data.keys():
         unit_data[unit_name] = [unit_symbol, unit_health, movement_speed,
-                                food_consumption, unit_type, unit_status, damage]
+                                food_consumption, unit_type, unit_status,
+                                damage]
     else:
         if unit_symbol is not None:
             unit_data[unit_name][0] = unit_symbol
@@ -232,7 +234,7 @@ def createVillager(villager_type):
             else:
                 symbol = "0"
             unitDataList(villager_name, symbol, 100,
-                           1, -1, villager_type, "idle", 1)
+                         1, -1, villager_type, "idle", 1)
             sendStats(-100, 0, 0)
         else:
             print("Town Center spawn site blocked!")
@@ -249,7 +251,7 @@ def createMilitia():
                 "," + str(int(barracks_pos[1]) + 1)
             setCoords(barracks_spawn, militia_name)
             unitDataList(militia_name, "!", 150, 1, -1,
-                           "militia_" + player_num, "idle", 50)
+                         "militia_" + player_num, "idle", 50)
         else:
             print("Barracks spawn site blocked!")
     else:
@@ -264,7 +266,7 @@ def createArcher():
             archery_spawn = archery_pos[0] + "," + str(int(archery_pos[1]) + 1)
             setCoords(archery_spawn, archer_name)
             unitDataList(archer_name, ")", 125, 1, -1,
-                           "archer_" + player_num, "idle", 25)
+                         "archer_" + player_num, "idle", 25)
         else:
             print("Archery spawn site blocked!")
     else:
@@ -279,7 +281,7 @@ def createKnight():
             stable_spawn = stable_pos[0] + "," + str(int(stable_pos[1]) + 1)
             setCoords(stable_spawn, knight_name)
             unitDataList(knight_name, "^", 200, 2, -2,
-                           "knight_" + player_num, "idle", 100)
+                         "knight_" + player_num, "idle", 100)
         else:
             print("Stable spawn site blocked!")
     else:
@@ -295,7 +297,7 @@ def createRam():
                 "," + str(int(workshop_pos[1]) + 1)
             setCoords(workshop_spawn, ram_name)
             unitDataList(ram_name, "=", 100, 1, 0,
-                           "ram_" + player_num, "idle", 200)
+                         "ram_" + player_num, "idle", 200)
         else:
             print("Workshop spawn site blocked!")
     else:
@@ -321,23 +323,23 @@ def farmer(run_time):
             if unit_data[unit_name][3] == "farmer_" + player_num:
                 if getNextTo(unit_name, "up") == "farm":
                     unitDataList(unit_name, None, None, None,
-                                   None, None, "farming", None)
+                                 None, None, "farming", None)
                     farmer_amount += 1
                 if getNextTo(unit_name, "down") == "farm":
                     unitDataList(unit_name, None, None, None,
-                                   None, None, "farming", None)
+                                 None, None, "farming", None)
                     farmer_amount += 1
                 if getNextTo(unit_name, "left") == "farm":
                     unitDataList(unit_name, None, None, None,
-                                   None, None, "farming", None)
+                                 None, None, "farming", None)
                     farmer_amount += 1
                 if getNextTo(unit_name, "right") == "farm":
                     unitDataList(unit_name, None, None, None,
-                                   None, None, "farming", None)
+                                 None, None, "farming", None)
                     farmer_amount += 1
                 else:
                     unitDataList(unit_name, None, None, None,
-                                   None, None, "idle", None)
+                                 None, None, "idle", None)
                     farmer_amount -= 1
         food = 1 * farmer_amount
         sendStats(food, 0, 0)
@@ -350,23 +352,23 @@ def lumberjack(run_time):
             if unit_data[unit_name][3] == "lumberjack_" + player_num:
                 if getNextTo(unit_name, "up") == "tree":
                     unitDataList(unit_name, None, None, None,
-                                   None, None, "chopping", None)
+                                 None, None, "chopping", None)
                     lumberjack_amount += 1
                 if getNextTo(unit_name, "down") == "tree":
                     unitDataList(unit_name, None, None, None,
-                                   None, None, "chopping", None)
+                                 None, None, "chopping", None)
                     lumberjack_amount += 1
                 if getNextTo(unit_name, "left") == "tree":
                     unitDataList(unit_name, None, None, None,
-                                   None, None, "chopping", None)
+                                 None, None, "chopping", None)
                     lumberjack_amount += 1
                 if getNextTo(unit_name, "right") == "tree":
                     unitDataList(unit_name, None, None, None,
-                                   None, None, "chopping", None)
+                                 None, None, "chopping", None)
                     lumberjack_amount += 1
                 else:
                     unitDataList(unit_name, None, None, None,
-                                   None, None, "idle", None)
+                                 None, None, "idle", None)
                     lumberjack_amount -= 1
         wood = 1 * lumberjack_amount
         sendStats(0, wood, 0)
@@ -379,23 +381,23 @@ def miner(run_time):
             if unit_data[unit_name][3] == "miner_" + player_num:
                 if getNextTo(unit_name, "up") == "stone":
                     unitDataList(unit_name, None, None, None,
-                                   None, None, "mining", None)
+                                 None, None, "mining", None)
                     miner_amount += 1
                 if getNextTo(unit_name, "down") == "stone":
                     unitDataList(unit_name, None, None, None,
-                                   None, None, "mining", None)
+                                 None, None, "mining", None)
                     miner_amount += 1
                 if getNextTo(unit_name, "left") == "stone":
                     unitDataList(unit_name, None, None, None,
-                                   None, None, "mining", None)
+                                 None, None, "mining", None)
                     miner_amount += 1
                 if getNextTo(unit_name, "right") == "stone":
                     unitDataList(unit_name, None, None, None,
-                                   None, None, "mining", None)
+                                 None, None, "mining", None)
                     miner_amount += 1
                 else:
                     unitDataList(unit_name, None, None, None,
-                                   None, None, "idle", None)
+                                 None, None, "idle", None)
                     miner_amount -= 1
         stone = 1 * miner_amount
         sendStats(0, 0, stone)
@@ -406,23 +408,23 @@ def militia():
         if unit_data[unit_name][4] == "militia_" + player_num:
             if getNextTo(unit_name, "up").endswith(enemy_num):
                 unitDataList(unit_name, None, None, None,
-                               None, None, "fighting", None)
+                             None, None, "fighting", None)
                 unit_data[getNextTo(unit_name, "up")][1] -= 50
             elif getNextTo(unit_name, "down").endswith(enemy_num):
                 unitDataList(unit_name, None, None, None,
-                               None, None, "fighting", None)
+                             None, None, "fighting", None)
                 unit_data[getNextTo(unit_name, "down")][1] -= 50
             elif getNextTo(unit_name, "left").endswith(enemy_num):
                 unitDataList(unit_name, None, None, None,
-                               None, None, "fighting", None)
+                             None, None, "fighting", None)
                 unit_data[getNextTo(unit_name, "left")][1] -= 50
             elif getNextTo(unit_name, "right").endswith(enemy_num):
                 unitDataList(unit_name, None, None, None,
-                               None, None, "fighting", None)
+                             None, None, "fighting", None)
                 unit_data[getNextTo(unit_name, "right")][1] -= 50
             else:
                 unitDataList(unit_name, None, None, None,
-                               None, None, "idle", None)
+                             None, None, "idle", None)
 
 
 def threads():
@@ -511,7 +513,8 @@ if start.decode() == "start":
 
         elif usr_command[0] == "m":
             threading._start_new_thread(
-                moveUnit, (usr_command[1] + "_" + player_num, usr_command[2], usr_command[3]))
+                moveUnit, (usr_command[1] + "_" + player_num, usr_command[2],
+                           usr_command[3]))
 
         elif usr_command[0] == "map":
             if usr_command[1] == "stop":
