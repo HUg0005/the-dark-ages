@@ -55,6 +55,7 @@ while True:
     if data == "request clients":
         clients = json.dumps(client_list)
 
+    # Return client IP address and port to client
     if data == "getClient":
         clients = "getClientData" + " " + json.dumps(client_list)
         s.sendto(clients.encode(), addr)
