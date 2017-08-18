@@ -128,7 +128,7 @@ def unitDataList(unit_name, unit_symbol, unit_health, movement_speed,
         elif damage is not None:
             unit_data[unit_name][6] = damage
 
-    s.sendto("unitdata".encode(), getClient("map"))
+    s.sendto("unitData".encode(), getClient("map"))
     s.sendto(json.dumps(unit_data).encode(), getClient("map"))
 
 

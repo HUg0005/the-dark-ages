@@ -3515,7 +3515,7 @@ elif data[0] == "getPos":
 elif data[0] == "set":
     player_map[data[1]] = data[2]
 
-elif data[0] == "unitdata":
+elif data[0] == "unitData":
     unit_data_data, addr = s.recvfrom(1024)
     unit_data = dict(json.loads(unit_data_data.decode()))
 
