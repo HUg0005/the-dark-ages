@@ -3439,8 +3439,7 @@ def recvData(required_data):
 def getClient(clienttype, playernum):
     message = "request clients"
     s.sendto(message.encode(), server)
-    data, addr = s.recvfrom(1024)
-    clients = json.loads(data.decode())
+    clients = json.loads(recvData("client_list"))
     return tuple(clients[str(clienttype + playernum)])
 
 
