@@ -469,7 +469,7 @@ def threads():
 
 
 # Get server IP address and port
-server = (input("Server IP: "), input("Server Port: "))
+server = (input("Server IP: "), int(input("Server Port: ")))
 
 # Get player and ene number
 player_num = input("Player Number: ")
