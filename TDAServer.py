@@ -43,7 +43,7 @@ while True:
     rawdata, addr = s.recvfrom(1024)
     data = rawdata.decode()
     if data == "request clients":
-        clients = json.dumps(client_list)
+        clients = "client_list" + " " + json.dumps(client_list)
         s.sendto(clients.encode(), addr)
 
     elif data == "map1":
