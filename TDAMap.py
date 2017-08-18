@@ -2062,1379 +2062,1377 @@ def genmap(empty, tree, farm, water, stone, town_center):
 
 # Print the map
 def print_game_map(map):
-    while printmap == 1:
-        printmap_unit_data = unit_data.copy()
-        printmap_game_map = map.copy()
+    printmap_unit_data = unit_data.copy()
+    printmap_game_map = map.copy()
 
-        # Change map objects to repective colored symbol
-        for key in printmap_game_map:
-            if printmap_game_map[key] == "empty":
-                printmap_game_map[key] = " "
-            elif printmap_game_map[key] == "tree":
-                printmap_game_map[key] = colored("@", "green")
-            elif printmap_game_map[key] == "farm":
-                printmap_game_map[key] = colored(";", "yellow")
-            elif printmap_game_map[key] == "water":
-                printmap_game_map[key] = colored("~", "cyan")
-            elif printmap_game_map[key] == "stone":
-                printmap_game_map[key] = "o"
+    # Change map objects to repective colored symbol
+    for key in printmap_game_map:
+        if printmap_game_map[key] == "empty":
+            printmap_game_map[key] = " "
+        elif printmap_game_map[key] == "tree":
+            printmap_game_map[key] = colored("@", "green")
+        elif printmap_game_map[key] == "farm":
+            printmap_game_map[key] = colored(";", "yellow")
+        elif printmap_game_map[key] == "water":
+            printmap_game_map[key] = colored("~", "cyan")
+        elif printmap_game_map[key] == "stone":
+            printmap_game_map[key] = "o"
 
-        for unit_name in printmap_unit_data:
-            if printmap_unit_data[unit_name] != "deleted":
-                if printmap_unit_data[unit_name][5] == "militia_" + enemy_num \
-                    or printmap_unit_data[unit_name][5] == "archer_" \
-                    + enemy_num or printmap_unit_data[unit_name] == "knight_" \
-                    + enemy_num or \
-                        printmap_unit_data[unit_name][5] == "ram_" + enemy_num:
-                    printmap_game_map[list(printmap_game_map.keys())[list(
-                        printmap_game_map.values()).index(unit_name)]] = \
-                        colored(str(printmap_unit_data[unit_name][0]), "red")
-                    printmap_unit_data[unit_name] = "deleted"
-            else:
+    for unit_name in printmap_unit_data:
+        if printmap_unit_data[unit_name] != "deleted":
+            if printmap_unit_data[unit_name][5] == "militia_" + enemy_num \
+                or printmap_unit_data[unit_name][5] == "archer_" \
+                + enemy_num or printmap_unit_data[unit_name] == "knight_" \
+                + enemy_num or \
+                    printmap_unit_data[unit_name][5] == "ram_" + enemy_num:
                 printmap_game_map[list(printmap_game_map.keys())[list(
                     printmap_game_map.values()).index(unit_name)]] = \
-                    str(printmap_unit_data[unit_name][0])
+                    colored(str(printmap_unit_data[unit_name][0]), "red")
                 printmap_unit_data[unit_name] = "deleted"
+        else:
+            printmap_game_map[list(printmap_game_map.keys())[list(
+                printmap_game_map.values()).index(unit_name)]] = \
+                str(printmap_unit_data[unit_name][0])
+            printmap_unit_data[unit_name] = "deleted"
 
-        # Moved, destoryed units or buildings are changed to deleted to stop
-        # them from being reprinted.
-        # TODO:
-        # find a better way to do this. Use empty instead?
-        while "deleted" in printmap_unit_data.values():
-            printmap_unit_data.pop(list(printmap_unit_data.keys())[
-                list(printmap_unit_data.values()).index("deleted")])
+    # Moved, destoryed units or buildings are changed to deleted to stop
+    # them from being reprinted.
+    # TODO:
+    # find a better way to do this. Use empty instead?
+    while "deleted" in printmap_unit_data.values():
+        printmap_unit_data.pop(list(printmap_unit_data.keys())[
+            list(printmap_unit_data.values()).index("deleted")])
 
-        # Print map
-        print(" " + " " + "|" + "0" + "0" + "0" + "0" + "0" + "0" + "0" + "0" +
-              "0" + "1" + "1" + "1" + "1" + "1" + "1" + "1" + "1" + "1" +
-              "1" + "2" + "2" + "2" + "2" +
-              "2" + "2" + "2" + "2" + "2" + "2" + "3" + "3" + "3" + "3" +
-              "3" + "3" + "3" + "3" + "3" + "3" + "4" +
-              "4" + "4" + "4" + "4" + "4" + "4" + "4" + "4" + "4" + "5" +
-              "5" + "5" + "5" + "5" + "5" + "5" + "5" + "5" + "5" + "6" +
-              "6" + "6" + "6" + "6")
-        print(" " + " " + "|" + "1" + "2" + "3" + "4" + "5" + "6" + "7" + "8" +
-              "9" + "0" + "1" + "2" + "3" + "4" + "5" + "6" + "7" + "8" +
-              "9" + "0" + "1" + "2" + "3" +
-              "4" + "5" + "6" + "7" + "8" + "9" + "0" + "1" + "2" + "3" +
-              "4" + "5" + "6" + "7" + "8" + "9" + "0" +
-              "1" + "2" + "3" + "4" + "5" + "6" + "7" + "8" + "9" + "0" +
-              "1" + "2" + "3" + "4" + "5" + "6" + "7" + "8" + "9" + "0" +
-              "1" + "2" + "3" + "4")
-        print("-" + "-" + "|" +
-              "-------------------------------------------------------------" +
-              "---"
-              )
-        print("01" + "|" +
-              printmap_game_map["1,1"] + printmap_game_map["2,1"] +
-              printmap_game_map["3,1"] + printmap_game_map[
-                  "4,1"] +
-              printmap_game_map["5,1"] + printmap_game_map["6,1"] +
-              printmap_game_map["7,1"] + printmap_game_map["8,1"] +
-              printmap_game_map["9,1"] + printmap_game_map[
-                  "10,1"] +
-              printmap_game_map["11,1"] + printmap_game_map[
-                  "12,1"] + printmap_game_map["13,1"] + printmap_game_map[
-                  "14,1"] + printmap_game_map["15,1"] +
-              printmap_game_map["16,1"] + printmap_game_map["17,1"] +
-              printmap_game_map["18,1"] + printmap_game_map["19,1"] +
-              printmap_game_map["20,1"] + printmap_game_map[
-                  "21,1"] + printmap_game_map["22,1"] + printmap_game_map[
-                  "23,1"] + printmap_game_map["24,1"] + printmap_game_map[
-                  "25,1"] + printmap_game_map["26,1"] +
-              printmap_game_map["27,1"] + printmap_game_map["28,1"] +
-              printmap_game_map["29,1"] + printmap_game_map["30,1"] +
-              printmap_game_map["31,1"] + printmap_game_map[
-                  "32,1"] + printmap_game_map["33,1"] + printmap_game_map[
-                  "34,1"] + printmap_game_map["35,1"] + printmap_game_map[
-                  "36,1"] + printmap_game_map["37,1"] +
-              printmap_game_map["38,1"] + printmap_game_map["39,1"] +
-              printmap_game_map["40,1"] + printmap_game_map["41,1"] +
-              printmap_game_map["42,1"] + printmap_game_map[
-                  "43,1"] + printmap_game_map["44,1"] + printmap_game_map[
-                  "45,1"] + printmap_game_map["46,1"] + printmap_game_map[
-                  "47,1"] + printmap_game_map["48,1"] +
-              printmap_game_map["49,1"] + printmap_game_map["50,1"] +
-              printmap_game_map["51,1"] + printmap_game_map["52,1"] +
-              printmap_game_map["53,1"] +
-              printmap_game_map["54,1"] + printmap_game_map["55,1"] +
-              printmap_game_map["56,1"] + printmap_game_map[
-                  "57,1"] + printmap_game_map["58,1"] + printmap_game_map[
-                  "59,1"] + printmap_game_map["60,1"] + printmap_game_map[
-                  "61,1"] + printmap_game_map["62,1"] +
-              printmap_game_map["63,1"] + printmap_game_map["64,1"])
-        print(
-            "02" + "|" +
-            printmap_game_map["1,2"] + printmap_game_map["2,2"] +
-            printmap_game_map["3,2"] + printmap_game_map["4,2"] +
-            printmap_game_map["5,2"] + printmap_game_map["6,2"] +
-            printmap_game_map["7,2"] + printmap_game_map["8,2"] +
-            printmap_game_map["9,2"] + printmap_game_map["10,2"] +
-            printmap_game_map["11,2"] + printmap_game_map[
-                "12,2"] + printmap_game_map["13,2"] + printmap_game_map[
-                "14,2"] + printmap_game_map["15,2"] +
-            printmap_game_map["16,2"] + printmap_game_map["17,2"] +
-            printmap_game_map["18,2"] + printmap_game_map["19,2"] +
-            printmap_game_map["20,2"] +
-            printmap_game_map["21,2"] +
-            printmap_game_map["22,2"] + printmap_game_map[
-                "23,2"] + printmap_game_map["24,2"] + printmap_game_map[
-                "25,2"] + printmap_game_map["26,2"] +
-            printmap_game_map["27,2"] + printmap_game_map["28,2"] +
-            printmap_game_map["29,2"] + printmap_game_map["30,2"] +
-            printmap_game_map["31,2"] +
-            printmap_game_map["32,2"] +
-            printmap_game_map["33,2"] + printmap_game_map[
-                "34,2"] + printmap_game_map["35,2"] + printmap_game_map[
-                "36,2"] + printmap_game_map["37,2"] +
-            printmap_game_map["38,2"] + printmap_game_map["39,2"] +
-            printmap_game_map["40,2"] + printmap_game_map["41,2"] +
-            printmap_game_map["42,2"] +
-            printmap_game_map["43,2"] + printmap_game_map["44,2"] +
-            printmap_game_map[
-                "45,2"] + printmap_game_map["46,2"] + printmap_game_map[
-                "47,2"] + printmap_game_map["48,2"] +
-            printmap_game_map["49,2"] + printmap_game_map["50,2"] +
-            printmap_game_map["51,2"] + printmap_game_map["52,2"] +
-            printmap_game_map["53,2"] +
-            printmap_game_map["54,2"] + printmap_game_map["55,2"] +
-            printmap_game_map["56,2"] +
-            printmap_game_map["57,2"] +
-            printmap_game_map["58,2"] + printmap_game_map[
-                "59,2"] + printmap_game_map["60,2"] + printmap_game_map[
-                "61,2"] + printmap_game_map["62,2"] +
-            printmap_game_map["63,2"] + printmap_game_map["64,2"])
-        print(
-            "03" + "|" +
-            printmap_game_map["1,3"] + printmap_game_map["2,3"] +
-            printmap_game_map["3,3"] + printmap_game_map["4,3"] +
-            printmap_game_map["5,3"] + printmap_game_map["6,3"] +
-            printmap_game_map["7,3"] + printmap_game_map["8,3"] +
-            printmap_game_map["9,3"] + printmap_game_map["10,3"] +
-            printmap_game_map["11,3"] + printmap_game_map[
-                "12,3"] + printmap_game_map["13,3"] + printmap_game_map[
-                "14,3"] + printmap_game_map["15,3"] +
-            printmap_game_map["16,3"] + printmap_game_map["17,3"] +
-            printmap_game_map["18,3"] + printmap_game_map["19,3"] +
-            printmap_game_map["20,3"] +
-            printmap_game_map["21,3"] +
-            printmap_game_map["22,3"] + printmap_game_map[
-                "23,3"] + printmap_game_map["24,3"] + printmap_game_map[
-                "25,3"] + printmap_game_map["26,3"] +
-            printmap_game_map["27,3"] + printmap_game_map["28,3"] +
-            printmap_game_map["29,3"] + printmap_game_map["30,3"] +
-            printmap_game_map["31,3"] +
-            printmap_game_map["32,3"] +
-            printmap_game_map["33,3"] + printmap_game_map[
-                "34,3"] + printmap_game_map["35,3"] + printmap_game_map[
-                "36,3"] + printmap_game_map["37,3"] +
-            printmap_game_map["38,3"] + printmap_game_map["39,3"] +
-            printmap_game_map["40,3"] + printmap_game_map["41,3"] +
-            printmap_game_map["42,3"] +
-            printmap_game_map["43,3"] +
-            printmap_game_map["44,3"] + printmap_game_map[
-                "45,3"] + printmap_game_map["46,3"] + printmap_game_map[
-                "47,3"] + printmap_game_map["48,3"] +
-            printmap_game_map["49,3"] + printmap_game_map["50,3"] +
-            printmap_game_map["51,3"] + printmap_game_map["52,3"] +
-            printmap_game_map["53,3"] +
-            printmap_game_map["54,3"] + printmap_game_map["55,3"] +
-            printmap_game_map["56,3"] +
-            printmap_game_map["57,3"] +
-            printmap_game_map["58,3"] + printmap_game_map[
-                "59,3"] + printmap_game_map["60,3"] + printmap_game_map[
-                "61,3"] + printmap_game_map["62,3"] +
-            printmap_game_map["63,3"] + printmap_game_map["64,3"])
-        print(
-            "04" + "|" +
-            printmap_game_map["1,4"] + printmap_game_map["2,4"] +
-            printmap_game_map["3,4"] + printmap_game_map["4,4"] +
-            printmap_game_map["5,4"] + printmap_game_map["6,4"] +
-            printmap_game_map["7,4"] + printmap_game_map["8,4"] +
-            printmap_game_map["9,4"] + printmap_game_map["10,4"] +
-            printmap_game_map["11,4"] + printmap_game_map[
-                "12,4"] + printmap_game_map["13,4"] + printmap_game_map[
-                "14,4"] + printmap_game_map["15,4"] +
-            printmap_game_map["16,4"] + printmap_game_map["17,4"] +
-            printmap_game_map["18,4"] + printmap_game_map["19,4"] +
-            printmap_game_map["20,4"] +
-            printmap_game_map["21,4"] +
-            printmap_game_map["22,4"] + printmap_game_map[
-                "23,4"] + printmap_game_map["24,4"] + printmap_game_map[
-                "25,4"] + printmap_game_map["26,4"] +
-            printmap_game_map["27,4"] + printmap_game_map["28,4"] +
-            printmap_game_map["29,4"] + printmap_game_map["30,4"] +
-            printmap_game_map["31,4"] +
-            printmap_game_map["32,4"] +
-            printmap_game_map["33,4"] + printmap_game_map[
-                "34,4"] + printmap_game_map["35,4"] + printmap_game_map[
-                "36,4"] + printmap_game_map["37,4"] +
-            printmap_game_map["38,4"] + printmap_game_map["39,4"] +
-            printmap_game_map["40,4"] + printmap_game_map["41,4"] +
-            printmap_game_map["42,4"] +
-            printmap_game_map["43,4"] +
-            printmap_game_map["44,4"] + printmap_game_map[
-                "45,4"] + printmap_game_map["46,4"] + printmap_game_map[
-                "47,4"] + printmap_game_map["48,4"] +
-            printmap_game_map["49,4"] + printmap_game_map["50,4"] +
-            printmap_game_map["51,4"] + printmap_game_map["52,4"] +
-            printmap_game_map["53,4"] +
-            printmap_game_map["54,4"] + printmap_game_map["55,4"] +
-            printmap_game_map["56,4"] +
-            printmap_game_map["57,4"] +
-            printmap_game_map["58,4"] + printmap_game_map[
-                "59,4"] + printmap_game_map["60,4"] + printmap_game_map[
-                "61,4"] + printmap_game_map["62,4"] +
-            printmap_game_map["63,4"] + printmap_game_map["64,4"])
-        print(
-            "05" + "|" +
-            printmap_game_map["1,5"] + printmap_game_map["2,5"] +
-            printmap_game_map["3,5"] + printmap_game_map["4,5"] +
-            printmap_game_map["5,5"] + printmap_game_map["6,5"] +
-            printmap_game_map["7,5"] + printmap_game_map["8,5"] +
-            printmap_game_map["9,5"] + printmap_game_map["10,5"] +
-            printmap_game_map["11,5"] + printmap_game_map[
-                "12,5"] + printmap_game_map["13,5"] + printmap_game_map[
-                "14,5"] + printmap_game_map["15,5"] +
-            printmap_game_map["16,5"] + printmap_game_map["17,5"] +
-            printmap_game_map["18,5"] + printmap_game_map["19,5"] +
-            printmap_game_map["20,5"] +
-            printmap_game_map["21,5"] +
-            printmap_game_map["22,5"] + printmap_game_map[
-                "23,5"] + printmap_game_map["24,5"] + printmap_game_map[
-                "25,5"] + printmap_game_map["26,5"] +
-            printmap_game_map["27,5"] + printmap_game_map["28,5"] +
-            printmap_game_map["29,5"] + printmap_game_map["30,5"] +
-            printmap_game_map["31,5"] +
-            printmap_game_map["32,5"] +
-            printmap_game_map["33,5"] + printmap_game_map[
-                "34,5"] + printmap_game_map["35,5"] + printmap_game_map[
-                "36,5"] + printmap_game_map["37,5"] +
-            printmap_game_map["38,5"] + printmap_game_map["39,5"] +
-            printmap_game_map["40,5"] + printmap_game_map["41,5"] +
-            printmap_game_map["42,5"] +
-            printmap_game_map["43,5"] +
-            printmap_game_map["44,5"] + printmap_game_map[
-                "45,5"] + printmap_game_map["46,5"] + printmap_game_map[
-                "47,5"] + printmap_game_map["48,5"] +
-            printmap_game_map["49,5"] + printmap_game_map["50,5"] +
-            printmap_game_map["51,5"] + printmap_game_map["52,5"] +
-            printmap_game_map["53,5"] +
-            printmap_game_map["54,5"] + printmap_game_map["55,5"] +
-            printmap_game_map["56,5"] +
-            printmap_game_map["57,5"] +
-            printmap_game_map["58,5"] + printmap_game_map[
-                "59,5"] + printmap_game_map["60,5"] + printmap_game_map[
-                "61,5"] + printmap_game_map["62,5"] +
-            printmap_game_map["63,5"] + printmap_game_map["64,5"])
-        print(
-            "06" + "|" +
-            printmap_game_map["1,6"] + printmap_game_map["2,6"] +
-            printmap_game_map["3,6"] + printmap_game_map["4,6"] +
-            printmap_game_map["5,6"] + printmap_game_map["6,6"] +
-            printmap_game_map["7,6"] + printmap_game_map["8,6"] +
-            printmap_game_map["9,6"] + printmap_game_map["10,6"] +
-            printmap_game_map["11,6"] + printmap_game_map[
-                "12,6"] + printmap_game_map["13,6"] + printmap_game_map[
-                "14,6"] + printmap_game_map["15,6"] +
-            printmap_game_map["16,6"] + printmap_game_map["17,6"] +
-            printmap_game_map["18,6"] + printmap_game_map["19,6"] +
-            printmap_game_map["20,6"] +
-            printmap_game_map["21,6"] +
-            printmap_game_map["22,6"] + printmap_game_map[
-                "23,6"] + printmap_game_map["24,6"] + printmap_game_map[
-                "25,6"] + printmap_game_map["26,6"] +
-            printmap_game_map["27,6"] + printmap_game_map["28,6"] +
-            printmap_game_map["29,6"] + printmap_game_map["30,6"] +
-            printmap_game_map["31,6"] +
-            printmap_game_map["32,6"] +
-            printmap_game_map["33,6"] + printmap_game_map[
-                "34,6"] + printmap_game_map["35,6"] + printmap_game_map[
-                "36,6"] + printmap_game_map["37,6"] +
-            printmap_game_map["38,6"] + printmap_game_map["39,6"] +
-            printmap_game_map["40,6"] + printmap_game_map["41,6"] +
-            printmap_game_map["42,6"] +
-            printmap_game_map["43,6"] +
-            printmap_game_map["44,6"] + printmap_game_map[
-                "45,6"] + printmap_game_map["46,6"] + printmap_game_map[
-                "47,6"] + printmap_game_map["48,6"] +
-            printmap_game_map["49,6"] + printmap_game_map["50,6"] +
-            printmap_game_map["51,6"] + printmap_game_map["52,6"] +
-            printmap_game_map["53,6"] +
-            printmap_game_map["54,6"] + printmap_game_map["55,6"] +
-            printmap_game_map["56,6"] +
-            printmap_game_map["57,6"] +
-            printmap_game_map["58,6"] + printmap_game_map[
-                "59,6"] + printmap_game_map["60,6"] + printmap_game_map[
-                "61,6"] + printmap_game_map["62,6"] +
-            printmap_game_map["63,6"] + printmap_game_map["64,6"])
-        print(
-            "07" + "|" +
-            printmap_game_map["1,7"] + printmap_game_map["2,7"] +
-            printmap_game_map["3,7"] + printmap_game_map["4,7"] +
-            printmap_game_map["5,7"] + printmap_game_map["6,7"] +
-            printmap_game_map["7,7"] + printmap_game_map["8,7"] +
-            printmap_game_map["9,7"] + printmap_game_map["10,7"] +
-            printmap_game_map["11,7"] + printmap_game_map[
-                "12,7"] + printmap_game_map["13,7"] + printmap_game_map[
-                "14,7"] + printmap_game_map["15,7"] +
-            printmap_game_map["16,7"] + printmap_game_map["17,7"] +
-            printmap_game_map["18,7"] + printmap_game_map["19,7"] +
-            printmap_game_map["20,7"] +
-            printmap_game_map["21,7"] +
-            printmap_game_map["22,7"] + printmap_game_map[
-                "23,7"] + printmap_game_map["24,7"] + printmap_game_map[
-                "25,7"] + printmap_game_map["26,7"] +
-            printmap_game_map["27,7"] + printmap_game_map["28,7"] +
-            printmap_game_map["29,7"] + printmap_game_map["30,7"] +
-            printmap_game_map["31,7"] +
-            printmap_game_map["32,7"] +
-            printmap_game_map["33,7"] + printmap_game_map[
-                "34,7"] + printmap_game_map["35,7"] + printmap_game_map[
-                "36,7"] + printmap_game_map["37,7"] +
-            printmap_game_map["38,7"] + printmap_game_map["39,7"] +
-            printmap_game_map["40,7"] + printmap_game_map["41,7"] +
-            printmap_game_map["42,7"] +
-            printmap_game_map["43,7"] +
-            printmap_game_map["44,7"] + printmap_game_map[
-                "45,7"] + printmap_game_map["46,7"] + printmap_game_map[
-                "47,7"] + printmap_game_map["48,7"] +
-            printmap_game_map["49,7"] + printmap_game_map["50,7"] +
-            printmap_game_map["51,7"] + printmap_game_map["52,7"] +
-            printmap_game_map["53,7"] +
-            printmap_game_map["54,7"] + printmap_game_map["55,7"] +
-            printmap_game_map["56,7"] +
-            printmap_game_map["57,7"] +
-            printmap_game_map["58,7"] + printmap_game_map[
-                "59,7"] + printmap_game_map["60,7"] + printmap_game_map[
-                "61,7"] + printmap_game_map["62,7"] +
-            printmap_game_map["63,7"] + printmap_game_map["64,7"])
-        print(
-            "09" + "|" +
-            printmap_game_map["1,8"] + printmap_game_map["2,8"] +
-            printmap_game_map["3,8"] + printmap_game_map["4,8"] +
-            printmap_game_map["5,8"] + printmap_game_map["6,8"] +
-            printmap_game_map["7,8"] + printmap_game_map["8,8"] +
-            printmap_game_map["9,8"] + printmap_game_map["10,8"] +
-            printmap_game_map["11,8"] + printmap_game_map[
-                "12,8"] + printmap_game_map["13,8"] + printmap_game_map[
-                "14,8"] + printmap_game_map["15,8"] +
-            printmap_game_map["16,8"] + printmap_game_map["17,8"] +
-            printmap_game_map["18,8"] + printmap_game_map["19,8"] +
-            printmap_game_map["20,8"] +
-            printmap_game_map["21,8"] +
-            printmap_game_map["22,8"] + printmap_game_map[
-                "23,8"] + printmap_game_map["24,8"] + printmap_game_map[
-                "25,8"] + printmap_game_map["26,8"] +
-            printmap_game_map["27,8"] + printmap_game_map["28,8"] +
-            printmap_game_map["29,8"] + printmap_game_map["30,8"] +
-            printmap_game_map["31,8"] +
-            printmap_game_map["32,8"] +
-            printmap_game_map["33,8"] + printmap_game_map[
-                "34,8"] + printmap_game_map["35,8"] + printmap_game_map[
-                "36,8"] + printmap_game_map["37,8"] +
-            printmap_game_map["38,8"] + printmap_game_map["39,8"] +
-            printmap_game_map["40,8"] + printmap_game_map["41,8"] +
-            printmap_game_map["42,8"] +
-            printmap_game_map["43,8"] +
-            printmap_game_map["44,8"] + printmap_game_map[
-                "45,8"] + printmap_game_map["46,8"] + printmap_game_map[
-                "47,8"] + printmap_game_map["48,8"] +
-            printmap_game_map["49,8"] + printmap_game_map["50,8"] +
-            printmap_game_map["51,8"] + printmap_game_map["52,8"] +
-            printmap_game_map["53,8"] +
-            printmap_game_map["54,8"] + printmap_game_map["55,8"] +
-            printmap_game_map["56,8"] +
-            printmap_game_map["57,8"] +
-            printmap_game_map["58,8"] + printmap_game_map[
-                "59,8"] + printmap_game_map["60,8"] + printmap_game_map[
-                "61,8"] + printmap_game_map["62,8"] +
-            printmap_game_map["63,8"] + printmap_game_map["64,8"])
-        print(
-            "10" + "|" +
-            printmap_game_map["1,9"] + printmap_game_map["2,9"] +
-            printmap_game_map["3,9"] + printmap_game_map["4,9"] +
-            printmap_game_map["5,9"] + printmap_game_map["6,9"] +
-            printmap_game_map["7,9"] + printmap_game_map["8,9"] +
-            printmap_game_map["9,9"] + printmap_game_map["10,9"] +
-            printmap_game_map["11,9"] + printmap_game_map[
-                "12,9"] + printmap_game_map["13,9"] + printmap_game_map[
-                "14,9"] + printmap_game_map["15,9"] +
-            printmap_game_map["16,9"] + printmap_game_map["17,9"] +
-            printmap_game_map["18,9"] + printmap_game_map["19,9"] +
-            printmap_game_map["20,9"] +
-            printmap_game_map["21,9"] +
-            printmap_game_map["22,9"] + printmap_game_map[
-                "23,9"] + printmap_game_map["24,9"] + printmap_game_map[
-                "25,9"] + printmap_game_map["26,9"] +
-            printmap_game_map["27,9"] + printmap_game_map["28,9"] +
-            printmap_game_map["29,9"] + printmap_game_map["30,9"] +
-            printmap_game_map["31,9"] +
-            printmap_game_map["32,9"] +
-            printmap_game_map["33,9"] + printmap_game_map[
-                "34,9"] + printmap_game_map["35,9"] + printmap_game_map[
-                "36,9"] + printmap_game_map["37,9"] +
-            printmap_game_map["38,9"] + printmap_game_map["39,9"] +
-            printmap_game_map["40,9"] + printmap_game_map["41,9"] +
-            printmap_game_map["42,9"] +
-            printmap_game_map["43,9"] +
-            printmap_game_map["44,9"] + printmap_game_map[
-                "45,9"] + printmap_game_map["46,9"] + printmap_game_map[
-                "47,9"] + printmap_game_map["48,9"] +
-            printmap_game_map["49,9"] + printmap_game_map["50,9"] +
-            printmap_game_map["51,9"] + printmap_game_map["52,9"] +
-            printmap_game_map["53,9"] +
-            printmap_game_map["54,9"] + printmap_game_map["55,9"] +
-            printmap_game_map["56,9"] +
-            printmap_game_map["57,9"] +
-            printmap_game_map["58,9"] + printmap_game_map[
-                "59,9"] + printmap_game_map["60,9"] + printmap_game_map[
-                "61,9"] + printmap_game_map["62,9"] +
-            printmap_game_map["63,9"] + printmap_game_map["64,9"])
-        print(
-            "11" + "|" +
-            printmap_game_map["1,10"] + printmap_game_map["2,10"] +
-            printmap_game_map["3,10"] +
-            printmap_game_map["4,10"] +
-            printmap_game_map["5,10"] + printmap_game_map[
-                "6,10"] + printmap_game_map["7,10"] + printmap_game_map[
-                "8,10"] + printmap_game_map["9,10"] +
-            printmap_game_map["10,10"] + printmap_game_map["11,10"] +
-            printmap_game_map["12,10"] + printmap_game_map["13,10"] +
-            printmap_game_map["14,10"] + printmap_game_map[
-                "15,10"] + printmap_game_map["16,10"] +
-            printmap_game_map["17,10"] + printmap_game_map["18,10"] +
-            printmap_game_map["19,10"] + printmap_game_map[
-                "20,10"] + printmap_game_map["21,10"] +
-            printmap_game_map["22,10"] + printmap_game_map["23,10"] +
-            printmap_game_map["24,10"] + printmap_game_map[
-                "25,10"] + printmap_game_map["26,10"] +
-            printmap_game_map["27,10"] + printmap_game_map["28,10"] +
-            printmap_game_map["29,10"] + printmap_game_map[
-                "30,10"] + printmap_game_map["31,10"] +
-            printmap_game_map["32,10"] + printmap_game_map["33,10"] +
-            printmap_game_map["34,10"] + printmap_game_map[
-                "35,10"] + printmap_game_map["36,10"] +
-            printmap_game_map["37,10"] + printmap_game_map["38,10"] +
-            printmap_game_map["39,10"] + printmap_game_map[
-                "40,10"] + printmap_game_map["41,10"] +
-            printmap_game_map["42,10"] + printmap_game_map["43,10"] +
-            printmap_game_map["44,10"] + printmap_game_map[
-                "45,10"] + printmap_game_map["46,10"] +
-            printmap_game_map["47,10"] + printmap_game_map["48,10"] +
-            printmap_game_map["49,10"] + printmap_game_map[
-                "50,10"] + printmap_game_map["51,10"] +
-            printmap_game_map["52,10"] + printmap_game_map["53,10"] +
-            printmap_game_map["54,10"] + printmap_game_map["55,10"] +
-            printmap_game_map["56,10"] + printmap_game_map[
-                "57,10"] + printmap_game_map["58,10"] +
-            printmap_game_map["59,10"] + printmap_game_map["60,10"] +
-            printmap_game_map["61,10"] + printmap_game_map[
-                "62,10"] + printmap_game_map["63,10"] +
-            printmap_game_map["64,10"])
-        print(
-            "12" + "|" +
-            printmap_game_map["1,11"] + printmap_game_map["2,11"] +
-            printmap_game_map["3,11"] +
-            printmap_game_map["4,11"] +
-            printmap_game_map["5,11"] + printmap_game_map[
-                "6,11"] + printmap_game_map["7,11"] + printmap_game_map[
-                "8,11"] + printmap_game_map["9,11"] +
-            printmap_game_map["10,11"] + printmap_game_map["11,11"] +
-            printmap_game_map["12,11"] + printmap_game_map["13,11"] +
-            printmap_game_map["14,11"] + printmap_game_map[
-                "15,11"] + printmap_game_map["16,11"] +
-            printmap_game_map["17,11"] + printmap_game_map["18,11"] +
-            printmap_game_map["19,11"] + printmap_game_map[
-                "20,11"] + printmap_game_map["21,11"] +
-            printmap_game_map["22,11"] + printmap_game_map["23,11"] +
-            printmap_game_map["24,11"] + printmap_game_map[
-                "25,11"] + printmap_game_map["26,11"] +
-            printmap_game_map["27,11"] + printmap_game_map["28,11"] +
-            printmap_game_map["29,11"] + printmap_game_map[
-                "30,11"] + printmap_game_map["31,11"] +
-            printmap_game_map["32,11"] + printmap_game_map["33,11"] +
-            printmap_game_map["34,11"] + printmap_game_map[
-                "35,11"] + printmap_game_map["36,11"] +
-            printmap_game_map["37,11"] + printmap_game_map["38,11"] +
-            printmap_game_map["39,11"] + printmap_game_map[
-                "40,11"] + printmap_game_map["41,11"] +
-            printmap_game_map["42,11"] + printmap_game_map["43,11"] +
-            printmap_game_map["44,11"] + printmap_game_map[
-                "45,11"] + printmap_game_map["46,11"] +
-            printmap_game_map["47,11"] + printmap_game_map["48,11"] +
-            printmap_game_map["49,11"] + printmap_game_map[
-                "50,11"] + printmap_game_map["51,11"] +
-            printmap_game_map["52,11"] + printmap_game_map["53,11"] +
-            printmap_game_map["54,11"] + printmap_game_map["55,11"] +
-            printmap_game_map["56,11"] + printmap_game_map[
-                "57,11"] + printmap_game_map["58,11"] +
-            printmap_game_map["59,11"] + printmap_game_map["60,11"] +
-            printmap_game_map["61,11"] + printmap_game_map[
-                "62,11"] + printmap_game_map["63,11"] +
-            printmap_game_map["64,11"])
-        print(
-            "12" + "|" +
-            printmap_game_map["1,12"] + printmap_game_map["2,12"] +
-            printmap_game_map["3,12"] +
-            printmap_game_map["4,12"] +
-            printmap_game_map["5,12"] + printmap_game_map[
-                "6,12"] + printmap_game_map["7,12"] + printmap_game_map[
-                "8,12"] + printmap_game_map["9,12"] +
-            printmap_game_map["10,12"] + printmap_game_map["11,12"] +
-            printmap_game_map["12,12"] + printmap_game_map["13,12"] +
-            printmap_game_map["14,12"] + printmap_game_map[
-                "15,12"] + printmap_game_map["16,12"] +
-            printmap_game_map["17,12"] + printmap_game_map["18,12"] +
-            printmap_game_map["19,12"] + printmap_game_map[
-                "20,12"] + printmap_game_map["21,12"] +
-            printmap_game_map["22,12"] + printmap_game_map["23,12"] +
-            printmap_game_map["24,12"] + printmap_game_map[
-                "25,12"] + printmap_game_map["26,12"] +
-            printmap_game_map["27,12"] + printmap_game_map["28,12"] +
-            printmap_game_map["29,12"] + printmap_game_map[
-                "30,12"] + printmap_game_map["31,12"] +
-            printmap_game_map["32,12"] + printmap_game_map["33,12"] +
-            printmap_game_map["34,12"] + printmap_game_map[
-                "35,12"] + printmap_game_map["36,12"] +
-            printmap_game_map["37,12"] + printmap_game_map["38,12"] +
-            printmap_game_map["39,12"] + printmap_game_map[
-                "40,12"] + printmap_game_map["41,12"] +
-            printmap_game_map["42,12"] + printmap_game_map["43,12"] +
-            printmap_game_map["44,12"] + printmap_game_map[
-                "45,12"] + printmap_game_map["46,12"] +
-            printmap_game_map["47,12"] + printmap_game_map["48,12"] +
-            printmap_game_map["49,12"] + printmap_game_map[
-                "50,12"] + printmap_game_map["51,12"] +
-            printmap_game_map["52,12"] + printmap_game_map["53,12"] +
-            printmap_game_map["54,12"] + printmap_game_map["55,12"] +
-            printmap_game_map["56,12"] + printmap_game_map[
-                "57,12"] + printmap_game_map["58,12"] +
-            printmap_game_map["59,12"] + printmap_game_map["60,12"] +
-            printmap_game_map["61,12"] + printmap_game_map[
-                "62,12"] + printmap_game_map["63,12"] +
-            printmap_game_map["64,12"])
-        print(
-            "13" + "|" +
-            printmap_game_map["1,13"] + printmap_game_map["2,13"] +
-            printmap_game_map["3,13"] +
-            printmap_game_map["4,13"] +
-            printmap_game_map["5,13"] + printmap_game_map[
-                "6,13"] + printmap_game_map["7,13"] + printmap_game_map[
-                "8,13"] + printmap_game_map["9,13"] +
-            printmap_game_map["10,13"] + printmap_game_map["11,13"] +
-            printmap_game_map["12,13"] + printmap_game_map["13,13"] +
-            printmap_game_map["14,13"] + printmap_game_map[
-                "15,13"] + printmap_game_map["16,13"] +
-            printmap_game_map["17,13"] + printmap_game_map["18,13"] +
-            printmap_game_map["19,13"] + printmap_game_map[
-                "20,13"] + printmap_game_map["21,13"] +
-            printmap_game_map["22,13"] + printmap_game_map["23,13"] +
-            printmap_game_map["24,13"] + printmap_game_map[
-                "25,13"] + printmap_game_map["26,13"] +
-            printmap_game_map["27,13"] + printmap_game_map["28,13"] +
-            printmap_game_map["29,13"] + printmap_game_map[
-                "30,13"] + printmap_game_map["31,13"] +
-            printmap_game_map["32,13"] + printmap_game_map["33,13"] +
-            printmap_game_map["34,13"] + printmap_game_map[
-                "35,13"] + printmap_game_map["36,13"] +
-            printmap_game_map["37,13"] + printmap_game_map["38,13"] +
-            printmap_game_map["39,13"] + printmap_game_map[
-                "40,13"] + printmap_game_map["41,13"] +
-            printmap_game_map["42,13"] + printmap_game_map["43,13"] +
-            printmap_game_map["44,13"] + printmap_game_map[
-                "45,13"] + printmap_game_map["46,13"] +
-            printmap_game_map["47,13"] + printmap_game_map["48,13"] +
-            printmap_game_map["49,13"] + printmap_game_map[
-                "50,13"] + printmap_game_map["51,13"] +
-            printmap_game_map["52,13"] + printmap_game_map["53,13"] +
-            printmap_game_map["54,13"] + printmap_game_map["55,13"] +
-            printmap_game_map["56,13"] + printmap_game_map[
-                "57,13"] + printmap_game_map["58,13"] +
-            printmap_game_map["59,13"] + printmap_game_map["60,13"] +
-            printmap_game_map["61,13"] + printmap_game_map[
-                "62,13"] + printmap_game_map["63,13"] +
-            printmap_game_map["64,13"])
-        print(
-            "14" + "|" +
-            printmap_game_map["1,14"] + printmap_game_map["2,14"] +
-            printmap_game_map["3,14"] +
-            printmap_game_map["4,14"] +
-            printmap_game_map["5,14"] + printmap_game_map[
-                "6,14"] + printmap_game_map["7,14"] + printmap_game_map[
-                "8,14"] + printmap_game_map["9,14"] +
-            printmap_game_map["10,14"] + printmap_game_map["11,14"] +
-            printmap_game_map["12,14"] + printmap_game_map["13,14"] +
-            printmap_game_map["14,14"] + printmap_game_map[
-                "15,14"] + printmap_game_map["16,14"] +
-            printmap_game_map["17,14"] + printmap_game_map["18,14"] +
-            printmap_game_map["19,14"] + printmap_game_map[
-                "20,14"] + printmap_game_map["21,14"] +
-            printmap_game_map["22,14"] + printmap_game_map["23,14"] +
-            printmap_game_map["24,14"] + printmap_game_map[
-                "25,14"] + printmap_game_map["26,14"] +
-            printmap_game_map["27,14"] + printmap_game_map["28,14"] +
-            printmap_game_map["29,14"] + printmap_game_map[
-                "30,14"] + printmap_game_map["31,14"] +
-            printmap_game_map["32,14"] + printmap_game_map["33,14"] +
-            printmap_game_map["34,14"] + printmap_game_map[
-                "35,14"] + printmap_game_map["36,14"] +
-            printmap_game_map["37,14"] + printmap_game_map["38,14"] +
-            printmap_game_map["39,14"] + printmap_game_map[
-                "40,14"] + printmap_game_map["41,14"] +
-            printmap_game_map["42,14"] + printmap_game_map["43,14"] +
-            printmap_game_map["44,14"] + printmap_game_map[
-                "45,14"] + printmap_game_map["46,14"] +
-            printmap_game_map["47,14"] + printmap_game_map["48,14"] +
-            printmap_game_map["49,14"] + printmap_game_map[
-                "50,14"] + printmap_game_map["51,14"] +
-            printmap_game_map["52,14"] + printmap_game_map["53,14"] +
-            printmap_game_map["54,14"] + printmap_game_map["55,14"] +
-            printmap_game_map["56,14"] + printmap_game_map[
-                "57,14"] + printmap_game_map["58,14"] +
-            printmap_game_map["59,14"] + printmap_game_map["60,14"] +
-            printmap_game_map["61,14"] + printmap_game_map[
-                "62,14"] + printmap_game_map["63,14"] +
-            printmap_game_map["64,14"])
-        print(
-            "15" + "|" +
-            printmap_game_map["1,15"] + printmap_game_map["2,15"] +
-            printmap_game_map["3,15"] +
-            printmap_game_map["4,15"] +
-            printmap_game_map["5,15"] + printmap_game_map[
-                "6,15"] + printmap_game_map["7,15"] + printmap_game_map[
-                "8,15"] + printmap_game_map["9,15"] +
-            printmap_game_map["10,15"] + printmap_game_map["11,15"] +
-            printmap_game_map["12,15"] + printmap_game_map["13,15"] +
-            printmap_game_map["14,15"] + printmap_game_map[
-                "15,15"] + printmap_game_map["16,15"] +
-            printmap_game_map["17,15"] + printmap_game_map["18,15"] +
-            printmap_game_map["19,15"] + printmap_game_map[
-                "20,15"] + printmap_game_map["21,15"] +
-            printmap_game_map["22,15"] + printmap_game_map["23,15"] +
-            printmap_game_map["24,15"] + printmap_game_map[
-                "25,15"] + printmap_game_map["26,15"] +
-            printmap_game_map["27,15"] + printmap_game_map["28,15"] +
-            printmap_game_map["29,15"] + printmap_game_map[
-                "30,15"] + printmap_game_map["31,15"] +
-            printmap_game_map["32,15"] + printmap_game_map["33,15"] +
-            printmap_game_map["34,15"] + printmap_game_map[
-                "35,15"] + printmap_game_map["36,15"] +
-            printmap_game_map["37,15"] + printmap_game_map["38,15"] +
-            printmap_game_map["39,15"] + printmap_game_map[
-                "40,15"] + printmap_game_map["41,15"] +
-            printmap_game_map["42,15"] + printmap_game_map["43,15"] +
-            printmap_game_map["44,15"] + printmap_game_map[
-                "45,15"] + printmap_game_map["46,15"] +
-            printmap_game_map["47,15"] + printmap_game_map["48,15"] +
-            printmap_game_map["49,15"] + printmap_game_map[
-                "50,15"] + printmap_game_map["51,15"] +
-            printmap_game_map["52,15"] + printmap_game_map["53,15"] +
-            printmap_game_map["54,15"] + printmap_game_map["55,15"] +
-            printmap_game_map["56,15"] + printmap_game_map[
-                "57,15"] + printmap_game_map["58,15"] +
-            printmap_game_map["59,15"] + printmap_game_map["60,15"] +
-            printmap_game_map["61,15"] + printmap_game_map[
-                "62,15"] + printmap_game_map["63,15"] +
-            printmap_game_map["64,15"])
-        print(
-            "16" + "|" +
-            printmap_game_map["1,16"] + printmap_game_map["2,16"] +
-            printmap_game_map["3,16"] +
-            printmap_game_map["4,16"] +
-            printmap_game_map["5,16"] + printmap_game_map[
-                "6,16"] + printmap_game_map["7,16"] + printmap_game_map[
-                "8,16"] + printmap_game_map["9,16"] +
-            printmap_game_map["10,16"] + printmap_game_map["11,16"] +
-            printmap_game_map["12,16"] + printmap_game_map["13,16"] +
-            printmap_game_map["14,16"] + printmap_game_map[
-                "15,16"] + printmap_game_map["16,16"] +
-            printmap_game_map["17,16"] + printmap_game_map["18,16"] +
-            printmap_game_map["19,16"] + printmap_game_map[
-                "20,16"] + printmap_game_map["21,16"] +
-            printmap_game_map["22,16"] + printmap_game_map["23,16"] +
-            printmap_game_map["24,16"] + printmap_game_map[
-                "25,16"] + printmap_game_map["26,16"] +
-            printmap_game_map["27,16"] + printmap_game_map["28,16"] +
-            printmap_game_map["29,16"] + printmap_game_map[
-                "30,16"] + printmap_game_map["31,16"] +
-            printmap_game_map["32,16"] + printmap_game_map["33,16"] +
-            printmap_game_map["34,16"] + printmap_game_map[
-                "35,16"] + printmap_game_map["36,16"] +
-            printmap_game_map["37,16"] + printmap_game_map["38,16"] +
-            printmap_game_map["39,16"] + printmap_game_map[
-                "40,16"] + printmap_game_map["41,16"] +
-            printmap_game_map["42,16"] + printmap_game_map["43,16"] +
-            printmap_game_map["44,16"] + printmap_game_map[
-                "45,16"] + printmap_game_map["46,16"] +
-            printmap_game_map["47,16"] + printmap_game_map["48,16"] +
-            printmap_game_map["49,16"] + printmap_game_map[
-                "50,16"] + printmap_game_map["51,16"] +
-            printmap_game_map["52,16"] + printmap_game_map["53,16"] +
-            printmap_game_map["54,16"] + printmap_game_map["55,16"] +
-            printmap_game_map["56,16"] + printmap_game_map[
-                "57,16"] + printmap_game_map["58,16"] +
-            printmap_game_map["59,16"] + printmap_game_map["60,16"] +
-            printmap_game_map["61,16"] + printmap_game_map[
-                "62,16"] + printmap_game_map["63,16"] +
-            printmap_game_map["64,16"])
-        print(
-            "17" + "|" +
-            printmap_game_map["1,17"] + printmap_game_map["2,17"] +
-            printmap_game_map["3,17"] +
-            printmap_game_map["4,17"] +
-            printmap_game_map["5,17"] + printmap_game_map[
-                "6,17"] + printmap_game_map["7,17"] + printmap_game_map[
-                "8,17"] + printmap_game_map["9,17"] +
-            printmap_game_map["10,17"] + printmap_game_map["11,17"] +
-            printmap_game_map["12,17"] + printmap_game_map["13,17"] +
-            printmap_game_map["14,17"] + printmap_game_map[
-                "15,17"] + printmap_game_map["16,17"] +
-            printmap_game_map["17,17"] + printmap_game_map["18,17"] +
-            printmap_game_map["19,17"] + printmap_game_map[
-                "20,17"] + printmap_game_map["21,17"] +
-            printmap_game_map["22,17"] + printmap_game_map["23,17"] +
-            printmap_game_map["24,17"] + printmap_game_map[
-                "25,17"] + printmap_game_map["26,17"] +
-            printmap_game_map["27,17"] + printmap_game_map["28,17"] +
-            printmap_game_map["29,17"] + printmap_game_map[
-                "30,17"] + printmap_game_map["31,17"] +
-            printmap_game_map["32,17"] + printmap_game_map["33,17"] +
-            printmap_game_map["34,17"] + printmap_game_map[
-                "35,17"] + printmap_game_map["36,17"] +
-            printmap_game_map["37,17"] + printmap_game_map["38,17"] +
-            printmap_game_map["39,17"] + printmap_game_map[
-                "40,17"] + printmap_game_map["41,17"] +
-            printmap_game_map["42,17"] + printmap_game_map["43,17"] +
-            printmap_game_map["44,17"] + printmap_game_map[
-                "45,17"] + printmap_game_map["46,17"] +
-            printmap_game_map["47,17"] + printmap_game_map["48,17"] +
-            printmap_game_map["49,17"] + printmap_game_map[
-                "50,17"] + printmap_game_map["51,17"] +
-            printmap_game_map["52,17"] + printmap_game_map["53,17"] +
-            printmap_game_map["54,17"] + printmap_game_map["55,17"] +
-            printmap_game_map["56,17"] + printmap_game_map[
-                "57,17"] + printmap_game_map["58,17"] +
-            printmap_game_map["59,17"] + printmap_game_map["60,17"] +
-            printmap_game_map["61,17"] + printmap_game_map[
-                "62,17"] + printmap_game_map["63,17"] +
-            printmap_game_map["64,17"])
-        print(
-            "18" + "|" +
-            printmap_game_map["1,18"] + printmap_game_map["2,18"] +
-            printmap_game_map["3,18"] +
-            printmap_game_map["4,18"] +
-            printmap_game_map["5,18"] + printmap_game_map[
-                "6,18"] + printmap_game_map["7,18"] + printmap_game_map[
-                "8,18"] + printmap_game_map["9,18"] +
-            printmap_game_map["10,18"] + printmap_game_map["11,18"] +
-            printmap_game_map["12,18"] + printmap_game_map["13,18"] +
-            printmap_game_map["14,18"] + printmap_game_map[
-                "15,18"] + printmap_game_map["16,18"] +
-            printmap_game_map["17,18"] + printmap_game_map["18,18"] +
-            printmap_game_map["19,18"] + printmap_game_map[
-                "20,18"] + printmap_game_map["21,18"] +
-            printmap_game_map["22,18"] + printmap_game_map["23,18"] +
-            printmap_game_map["24,18"] + printmap_game_map[
-                "25,18"] + printmap_game_map["26,18"] +
-            printmap_game_map["27,18"] + printmap_game_map["28,18"] +
-            printmap_game_map["29,18"] + printmap_game_map[
-                "30,18"] + printmap_game_map["31,18"] +
-            printmap_game_map["32,18"] + printmap_game_map["33,18"] +
-            printmap_game_map["34,18"] + printmap_game_map[
-                "35,18"] + printmap_game_map["36,18"] +
-            printmap_game_map["37,18"] + printmap_game_map["38,18"] +
-            printmap_game_map["39,18"] + printmap_game_map[
-                "40,18"] + printmap_game_map["41,18"] +
-            printmap_game_map["42,18"] + printmap_game_map["43,18"] +
-            printmap_game_map["44,18"] + printmap_game_map[
-                "45,18"] + printmap_game_map["46,18"] +
-            printmap_game_map["47,18"] + printmap_game_map["48,18"] +
-            printmap_game_map["49,18"] + printmap_game_map[
-                "50,18"] + printmap_game_map["51,18"] +
-            printmap_game_map["52,18"] + printmap_game_map["53,18"] +
-            printmap_game_map["54,18"] + printmap_game_map["55,18"] +
-            printmap_game_map["56,18"] + printmap_game_map[
-                "57,18"] + printmap_game_map["58,18"] +
-            printmap_game_map["59,18"] + printmap_game_map["60,18"] +
-            printmap_game_map["61,18"] + printmap_game_map[
-                "62,18"] + printmap_game_map["63,18"] +
-            printmap_game_map["64,18"])
-        print(
-            "19" + "|" +
-            printmap_game_map["1,19"] + printmap_game_map["2,19"] +
-            printmap_game_map["3,19"] +
-            printmap_game_map["4,19"] +
-            printmap_game_map["5,19"] + printmap_game_map[
-                "6,19"] + printmap_game_map["7,19"] + printmap_game_map[
-                "8,19"] + printmap_game_map["9,19"] +
-            printmap_game_map["10,19"] + printmap_game_map["11,19"] +
-            printmap_game_map["12,19"] + printmap_game_map["13,19"] +
-            printmap_game_map["14,19"] + printmap_game_map[
-                "15,19"] + printmap_game_map["16,19"] +
-            printmap_game_map["17,19"] + printmap_game_map["18,19"] +
-            printmap_game_map["19,19"] + printmap_game_map[
-                "20,19"] + printmap_game_map["21,19"] +
-            printmap_game_map["22,19"] + printmap_game_map["23,19"] +
-            printmap_game_map["24,19"] + printmap_game_map[
-                "25,19"] + printmap_game_map["26,19"] +
-            printmap_game_map["27,19"] + printmap_game_map["28,19"] +
-            printmap_game_map["29,19"] + printmap_game_map[
-                "30,19"] + printmap_game_map["31,19"] +
-            printmap_game_map["32,19"] + printmap_game_map["33,19"] +
-            printmap_game_map["34,19"] + printmap_game_map[
-                "35,19"] + printmap_game_map["36,19"] +
-            printmap_game_map["37,19"] + printmap_game_map["38,19"] +
-            printmap_game_map["39,19"] + printmap_game_map[
-                "40,19"] + printmap_game_map["41,19"] +
-            printmap_game_map["42,19"] + printmap_game_map["43,19"] +
-            printmap_game_map["44,19"] + printmap_game_map[
-                "45,19"] + printmap_game_map["46,19"] +
-            printmap_game_map["47,19"] + printmap_game_map["48,19"] +
-            printmap_game_map["49,19"] + printmap_game_map[
-                "50,19"] + printmap_game_map["51,19"] +
-            printmap_game_map["52,19"] + printmap_game_map["53,19"] +
-            printmap_game_map["54,19"] + printmap_game_map["55,19"] +
-            printmap_game_map["56,19"] + printmap_game_map[
-                "57,19"] + printmap_game_map["58,19"] +
-            printmap_game_map["59,19"] + printmap_game_map["60,19"] +
-            printmap_game_map["61,19"] + printmap_game_map[
-                "62,19"] + printmap_game_map["63,19"] +
-            printmap_game_map["64,19"])
-        print(
-            "20" + "|" +
-            printmap_game_map["1,20"] + printmap_game_map["2,20"] +
-            printmap_game_map["3,20"] +
-            printmap_game_map["4,20"] +
-            printmap_game_map["5,20"] + printmap_game_map[
-                "6,20"] + printmap_game_map["7,20"] + printmap_game_map[
-                "8,20"] + printmap_game_map["9,20"] +
-            printmap_game_map["10,20"] + printmap_game_map["11,20"] +
-            printmap_game_map["12,20"] + printmap_game_map["13,20"] +
-            printmap_game_map["14,20"] + printmap_game_map[
-                "15,20"] + printmap_game_map["16,20"] +
-            printmap_game_map["17,20"] + printmap_game_map["18,20"] +
-            printmap_game_map["19,20"] + printmap_game_map[
-                "20,20"] + printmap_game_map["21,20"] +
-            printmap_game_map["22,20"] + printmap_game_map["23,20"] +
-            printmap_game_map["24,20"] + printmap_game_map[
-                "25,20"] + printmap_game_map["26,20"] +
-            printmap_game_map["27,20"] + printmap_game_map["28,20"] +
-            printmap_game_map["29,20"] + printmap_game_map[
-                "30,20"] + printmap_game_map["31,20"] +
-            printmap_game_map["32,20"] + printmap_game_map["33,20"] +
-            printmap_game_map["34,20"] + printmap_game_map[
-                "35,20"] + printmap_game_map["36,20"] +
-            printmap_game_map["37,20"] + printmap_game_map["38,20"] +
-            printmap_game_map["39,20"] + printmap_game_map[
-                "40,20"] + printmap_game_map["41,20"] +
-            printmap_game_map["42,20"] + printmap_game_map["43,20"] +
-            printmap_game_map["44,20"] + printmap_game_map[
-                "45,20"] + printmap_game_map["46,20"] +
-            printmap_game_map["47,20"] + printmap_game_map["48,20"] +
-            printmap_game_map["49,20"] + printmap_game_map[
-                "50,20"] + printmap_game_map["51,20"] +
-            printmap_game_map["52,20"] + printmap_game_map["53,20"] +
-            printmap_game_map["54,20"] + printmap_game_map["55,20"] +
-            printmap_game_map["56,20"] + printmap_game_map[
-                "57,20"] + printmap_game_map["58,20"] +
-            printmap_game_map["59,20"] + printmap_game_map["60,20"] +
-            printmap_game_map["61,20"] + printmap_game_map[
-                "62,20"] + printmap_game_map["63,20"] +
-            printmap_game_map["64,20"])
-        print(
-            "21" + "|" +
-            printmap_game_map["1,21"] + printmap_game_map["2,21"] +
-            printmap_game_map["3,21"] +
-            printmap_game_map["4,21"] +
-            printmap_game_map["5,21"] + printmap_game_map[
-                "6,21"] + printmap_game_map["7,21"] + printmap_game_map[
-                "8,21"] + printmap_game_map["9,21"] +
-            printmap_game_map["10,21"] + printmap_game_map["11,21"] +
-            printmap_game_map["12,21"] + printmap_game_map["13,21"] +
-            printmap_game_map["14,21"] + printmap_game_map[
-                "15,21"] + printmap_game_map["16,21"] +
-            printmap_game_map["17,21"] + printmap_game_map["18,21"] +
-            printmap_game_map["19,21"] + printmap_game_map[
-                "20,21"] + printmap_game_map["21,21"] +
-            printmap_game_map["22,21"] + printmap_game_map["23,21"] +
-            printmap_game_map["24,21"] + printmap_game_map[
-                "25,21"] + printmap_game_map["26,21"] +
-            printmap_game_map["27,21"] + printmap_game_map["28,21"] +
-            printmap_game_map["29,21"] + printmap_game_map[
-                "30,21"] + printmap_game_map["31,21"] +
-            printmap_game_map["32,21"] + printmap_game_map["33,21"] +
-            printmap_game_map["34,21"] + printmap_game_map[
-                "35,21"] + printmap_game_map["36,21"] +
-            printmap_game_map["37,21"] + printmap_game_map["38,21"] +
-            printmap_game_map["39,21"] + printmap_game_map[
-                "40,21"] + printmap_game_map["41,21"] +
-            printmap_game_map["42,21"] + printmap_game_map["43,21"] +
-            printmap_game_map["44,21"] + printmap_game_map[
-                "45,21"] + printmap_game_map["46,21"] +
-            printmap_game_map["47,21"] + printmap_game_map["48,21"] +
-            printmap_game_map["49,21"] + printmap_game_map[
-                "50,21"] + printmap_game_map["51,21"] +
-            printmap_game_map["52,21"] + printmap_game_map["53,21"] +
-            printmap_game_map["54,21"] + printmap_game_map["55,21"] +
-            printmap_game_map["56,21"] + printmap_game_map[
-                "57,21"] + printmap_game_map["58,21"] +
-            printmap_game_map["59,21"] + printmap_game_map["60,21"] +
-            printmap_game_map["61,21"] + printmap_game_map[
-                "62,21"] + printmap_game_map["63,21"] +
-            printmap_game_map["64,21"])
-        print(
-            "22" + "|" +
-            printmap_game_map["1,22"] + printmap_game_map["2,22"] +
-            printmap_game_map["3,22"] +
-            printmap_game_map["4,22"] +
-            printmap_game_map["5,22"] + printmap_game_map[
-                "6,22"] + printmap_game_map["7,22"] + printmap_game_map[
-                "8,22"] + printmap_game_map["9,22"] +
-            printmap_game_map["10,22"] + printmap_game_map["11,22"] +
-            printmap_game_map["12,22"] + printmap_game_map["13,22"] +
-            printmap_game_map["14,22"] + printmap_game_map[
-                "15,22"] + printmap_game_map["16,22"] +
-            printmap_game_map["17,22"] + printmap_game_map["18,22"] +
-            printmap_game_map["19,22"] + printmap_game_map[
-                "20,22"] + printmap_game_map["21,22"] +
-            printmap_game_map["22,22"] + printmap_game_map["23,22"] +
-            printmap_game_map["24,22"] + printmap_game_map[
-                "25,22"] + printmap_game_map["26,22"] +
-            printmap_game_map["27,22"] + printmap_game_map["28,22"] +
-            printmap_game_map["29,22"] + printmap_game_map[
-                "30,22"] + printmap_game_map["31,22"] +
-            printmap_game_map["32,22"] + printmap_game_map["33,22"] +
-            printmap_game_map["34,22"] + printmap_game_map[
-                "35,22"] + printmap_game_map["36,22"] +
-            printmap_game_map["37,22"] + printmap_game_map["38,22"] +
-            printmap_game_map["39,22"] + printmap_game_map[
-                "40,22"] + printmap_game_map["41,22"] +
-            printmap_game_map["42,22"] + printmap_game_map["43,22"] +
-            printmap_game_map["44,22"] + printmap_game_map[
-                "45,22"] + printmap_game_map["46,22"] +
-            printmap_game_map["47,22"] + printmap_game_map["48,22"] +
-            printmap_game_map["49,22"] + printmap_game_map[
-                "50,22"] + printmap_game_map["51,22"] +
-            printmap_game_map["52,22"] + printmap_game_map["53,22"] +
-            printmap_game_map["54,22"] + printmap_game_map["55,22"] +
-            printmap_game_map["56,22"] + printmap_game_map[
-                "57,22"] + printmap_game_map["58,22"] +
-            printmap_game_map["59,22"] + printmap_game_map["60,22"] +
-            printmap_game_map["61,22"] + printmap_game_map[
-                "62,22"] + printmap_game_map["63,22"] +
-            printmap_game_map["64,22"])
-        print(
-            "23" + "|" +
-            printmap_game_map["1,23"] + printmap_game_map["2,23"] +
-            printmap_game_map["3,23"] +
-            printmap_game_map["4,23"] +
-            printmap_game_map["5,23"] + printmap_game_map[
-                "6,23"] + printmap_game_map["7,23"] + printmap_game_map[
-                "8,23"] + printmap_game_map["9,23"] +
-            printmap_game_map["10,23"] + printmap_game_map["11,23"] +
-            printmap_game_map["12,23"] + printmap_game_map["13,23"] +
-            printmap_game_map["14,23"] + printmap_game_map[
-                "15,23"] + printmap_game_map["16,23"] +
-            printmap_game_map["17,23"] + printmap_game_map["18,23"] +
-            printmap_game_map["19,23"] + printmap_game_map[
-                "20,23"] + printmap_game_map["21,23"] +
-            printmap_game_map["22,23"] + printmap_game_map["23,23"] +
-            printmap_game_map["24,23"] + printmap_game_map[
-                "25,23"] + printmap_game_map["26,23"] +
-            printmap_game_map["27,23"] + printmap_game_map["28,23"] +
-            printmap_game_map["29,23"] + printmap_game_map[
-                "30,23"] + printmap_game_map["31,23"] +
-            printmap_game_map["32,23"] + printmap_game_map["33,23"] +
-            printmap_game_map["34,23"] + printmap_game_map[
-                "35,23"] + printmap_game_map["36,23"] +
-            printmap_game_map["37,23"] + printmap_game_map["38,23"] +
-            printmap_game_map["39,23"] + printmap_game_map[
-                "40,23"] + printmap_game_map["41,23"] +
-            printmap_game_map["42,23"] + printmap_game_map["43,23"] +
-            printmap_game_map["44,23"] + printmap_game_map[
-                "45,23"] + printmap_game_map["46,23"] +
-            printmap_game_map["47,23"] + printmap_game_map["48,23"] +
-            printmap_game_map["49,23"] + printmap_game_map[
-                "50,23"] + printmap_game_map["51,23"] +
-            printmap_game_map["52,23"] + printmap_game_map["53,23"] +
-            printmap_game_map["54,23"] + printmap_game_map["55,23"] +
-            printmap_game_map["56,23"] + printmap_game_map[
-                "57,23"] + printmap_game_map["58,23"] +
-            printmap_game_map["59,23"] + printmap_game_map["60,23"] +
-            printmap_game_map["61,23"] + printmap_game_map[
-                "62,23"] + printmap_game_map["63,23"] +
-            printmap_game_map["64,23"])
-        print(
-            "24" + "|" +
-            printmap_game_map["1,24"] + printmap_game_map["2,24"] +
-            printmap_game_map["3,24"] +
-            printmap_game_map["4,24"] +
-            printmap_game_map["5,24"] + printmap_game_map[
-                "6,24"] + printmap_game_map["7,24"] + printmap_game_map[
-                "8,24"] + printmap_game_map["9,24"] +
-            printmap_game_map["10,24"] + printmap_game_map["11,24"] +
-            printmap_game_map["12,24"] + printmap_game_map["13,24"] +
-            printmap_game_map["14,24"] + printmap_game_map[
-                "15,24"] + printmap_game_map["16,24"] +
-            printmap_game_map["17,24"] + printmap_game_map["18,24"] +
-            printmap_game_map["19,24"] + printmap_game_map[
-                "20,24"] + printmap_game_map["21,24"] +
-            printmap_game_map["22,24"] + printmap_game_map["23,24"] +
-            printmap_game_map["24,24"] + printmap_game_map[
-                "25,24"] + printmap_game_map["26,24"] +
-            printmap_game_map["27,24"] + printmap_game_map["28,24"] +
-            printmap_game_map["29,24"] + printmap_game_map[
-                "30,24"] + printmap_game_map["31,24"] +
-            printmap_game_map["32,24"] + printmap_game_map["33,24"] +
-            printmap_game_map["34,24"] + printmap_game_map[
-                "35,24"] + printmap_game_map["36,24"] +
-            printmap_game_map["37,24"] + printmap_game_map["38,24"] +
-            printmap_game_map["39,24"] + printmap_game_map[
-                "40,24"] + printmap_game_map["41,24"] +
-            printmap_game_map["42,24"] + printmap_game_map["43,24"] +
-            printmap_game_map["44,24"] + printmap_game_map[
-                "45,24"] + printmap_game_map["46,24"] +
-            printmap_game_map["47,24"] + printmap_game_map["48,24"] +
-            printmap_game_map["49,24"] + printmap_game_map[
-                "50,24"] + printmap_game_map["51,24"] +
-            printmap_game_map["52,24"] + printmap_game_map["53,24"] +
-            printmap_game_map["54,24"] + printmap_game_map["55,24"] +
-            printmap_game_map["56,24"] + printmap_game_map[
-                "57,24"] + printmap_game_map["58,24"] +
-            printmap_game_map["59,24"] + printmap_game_map["60,24"] +
-            printmap_game_map["61,24"] + printmap_game_map[
-                "62,24"] + printmap_game_map["63,24"] +
-            printmap_game_map["64,24"])
-        print(
-            "25" + "|" +
-            printmap_game_map["1,25"] + printmap_game_map["2,25"] +
-            printmap_game_map["3,25"] +
-            printmap_game_map["4,25"] +
-            printmap_game_map["5,25"] + printmap_game_map[
-                "6,25"] + printmap_game_map["7,25"] + printmap_game_map[
-                "8,25"] + printmap_game_map["9,25"] +
-            printmap_game_map["10,25"] + printmap_game_map["11,25"] +
-            printmap_game_map["12,25"] + printmap_game_map["13,25"] +
-            printmap_game_map["14,25"] + printmap_game_map[
-                "15,25"] + printmap_game_map["16,25"] +
-            printmap_game_map["17,25"] + printmap_game_map["18,25"] +
-            printmap_game_map["19,25"] + printmap_game_map[
-                "20,25"] + printmap_game_map["21,25"] +
-            printmap_game_map["22,25"] + printmap_game_map["23,25"] +
-            printmap_game_map["24,25"] + printmap_game_map[
-                "25,25"] + printmap_game_map["26,25"] +
-            printmap_game_map["27,25"] + printmap_game_map["28,25"] +
-            printmap_game_map["29,25"] + printmap_game_map[
-                "30,25"] + printmap_game_map["31,25"] +
-            printmap_game_map["32,25"] + printmap_game_map["33,25"] +
-            printmap_game_map["34,25"] + printmap_game_map[
-                "35,25"] + printmap_game_map["36,25"] +
-            printmap_game_map["37,25"] + printmap_game_map["38,25"] +
-            printmap_game_map["39,25"] + printmap_game_map[
-                "40,25"] + printmap_game_map["41,25"] +
-            printmap_game_map["42,25"] + printmap_game_map["43,25"] +
-            printmap_game_map["44,25"] + printmap_game_map[
-                "45,25"] + printmap_game_map["46,25"] +
-            printmap_game_map["47,25"] + printmap_game_map["48,25"] +
-            printmap_game_map["49,25"] + printmap_game_map[
-                "50,25"] + printmap_game_map["51,25"] +
-            printmap_game_map["52,25"] + printmap_game_map["53,25"] +
-            printmap_game_map["54,25"] + printmap_game_map["55,25"] +
-            printmap_game_map["56,25"] + printmap_game_map[
-                "57,25"] + printmap_game_map["58,25"] +
-            printmap_game_map["59,25"] + printmap_game_map["60,25"] +
-            printmap_game_map["61,25"] + printmap_game_map[
-                "62,25"] + printmap_game_map["63,25"] +
-            printmap_game_map["64,25"])
-        print(
-            "26" + "|" +
-            printmap_game_map["1,26"] + printmap_game_map["2,26"] +
-            printmap_game_map["3,26"] +
-            printmap_game_map["4,26"] +
-            printmap_game_map["5,26"] + printmap_game_map[
-                "6,26"] + printmap_game_map["7,26"] + printmap_game_map[
-                "8,26"] + printmap_game_map["9,26"] +
-            printmap_game_map["10,26"] + printmap_game_map["11,26"] +
-            printmap_game_map["12,26"] + printmap_game_map["13,26"] +
-            printmap_game_map["14,26"] + printmap_game_map[
-                "15,26"] + printmap_game_map["16,26"] +
-            printmap_game_map["17,26"] + printmap_game_map["18,26"] +
-            printmap_game_map["19,26"] + printmap_game_map[
-                "20,26"] + printmap_game_map["21,26"] +
-            printmap_game_map["22,26"] + printmap_game_map["23,26"] +
-            printmap_game_map["24,26"] + printmap_game_map[
-                "25,26"] + printmap_game_map["26,26"] +
-            printmap_game_map["27,26"] + printmap_game_map["28,26"] +
-            printmap_game_map["29,26"] + printmap_game_map[
-                "30,26"] + printmap_game_map["31,26"] +
-            printmap_game_map["32,26"] + printmap_game_map["33,26"] +
-            printmap_game_map["34,26"] + printmap_game_map[
-                "35,26"] + printmap_game_map["36,26"] +
-            printmap_game_map["37,26"] + printmap_game_map["38,26"] +
-            printmap_game_map["39,26"] + printmap_game_map[
-                "40,26"] + printmap_game_map["41,26"] +
-            printmap_game_map["42,26"] + printmap_game_map["43,26"] +
-            printmap_game_map["44,26"] + printmap_game_map[
-                "45,26"] + printmap_game_map["46,26"] +
-            printmap_game_map["47,26"] + printmap_game_map["48,26"] +
-            printmap_game_map["49,26"] + printmap_game_map[
-                "50,26"] + printmap_game_map["51,26"] +
-            printmap_game_map["52,26"] + printmap_game_map["53,26"] +
-            printmap_game_map["54,26"] + printmap_game_map["55,26"] +
-            printmap_game_map["56,26"] + printmap_game_map[
-                "57,26"] + printmap_game_map["58,26"] +
-            printmap_game_map["59,26"] + printmap_game_map["60,26"] +
-            printmap_game_map["61,26"] + printmap_game_map[
-                "62,26"] + printmap_game_map["63,26"] +
-            printmap_game_map["64,26"])
-        print(
-            "27" + "|" +
-            printmap_game_map["1,27"] + printmap_game_map["2,27"] +
-            printmap_game_map["3,27"] +
-            printmap_game_map["4,27"] +
-            printmap_game_map["5,27"] + printmap_game_map[
-                "6,27"] + printmap_game_map["7,27"] + printmap_game_map[
-                "8,27"] + printmap_game_map["9,27"] +
-            printmap_game_map["10,27"] + printmap_game_map["11,27"] +
-            printmap_game_map["12,27"] + printmap_game_map["13,27"] +
-            printmap_game_map["14,27"] + printmap_game_map[
-                "15,27"] + printmap_game_map["16,27"] +
-            printmap_game_map["17,27"] + printmap_game_map["18,27"] +
-            printmap_game_map["19,27"] + printmap_game_map[
-                "20,27"] + printmap_game_map["21,27"] +
-            printmap_game_map["22,27"] + printmap_game_map["23,27"] +
-            printmap_game_map["24,27"] + printmap_game_map[
-                "25,27"] + printmap_game_map["26,27"] +
-            printmap_game_map["27,27"] + printmap_game_map["28,27"] +
-            printmap_game_map["29,27"] + printmap_game_map[
-                "30,27"] + printmap_game_map["31,27"] +
-            printmap_game_map["32,27"] + printmap_game_map["33,27"] +
-            printmap_game_map["34,27"] + printmap_game_map[
-                "35,27"] + printmap_game_map["36,27"] +
-            printmap_game_map["37,27"] + printmap_game_map["38,27"] +
-            printmap_game_map["39,27"] + printmap_game_map[
-                "40,27"] + printmap_game_map["41,27"] +
-            printmap_game_map["42,27"] + printmap_game_map["43,27"] +
-            printmap_game_map["44,27"] + printmap_game_map[
-                "45,27"] + printmap_game_map["46,27"] +
-            printmap_game_map["47,27"] + printmap_game_map["48,27"] +
-            printmap_game_map["49,27"] + printmap_game_map[
-                "50,27"] + printmap_game_map["51,27"] +
-            printmap_game_map["52,27"] + printmap_game_map["53,27"] +
-            printmap_game_map["54,27"] + printmap_game_map["55,27"] +
-            printmap_game_map["56,27"] + printmap_game_map[
-                "57,27"] + printmap_game_map["58,27"] +
-            printmap_game_map["59,27"] + printmap_game_map["60,27"] +
-            printmap_game_map["61,27"] + printmap_game_map[
-                "62,27"] + printmap_game_map["63,27"] +
-            printmap_game_map["64,27"])
-        print(
-            "28" + "|" +
-            printmap_game_map["1,28"] + printmap_game_map["2,28"] +
-            printmap_game_map["3,28"] +
-            printmap_game_map["4,28"] +
-            printmap_game_map["5,28"] + printmap_game_map[
-                "6,28"] + printmap_game_map["7,28"] + printmap_game_map[
-                "8,28"] + printmap_game_map["9,28"] +
-            printmap_game_map["10,28"] + printmap_game_map["11,28"] +
-            printmap_game_map["12,28"] + printmap_game_map["13,28"] +
-            printmap_game_map["14,28"] + printmap_game_map[
-                "15,28"] + printmap_game_map["16,28"] +
-            printmap_game_map["17,28"] + printmap_game_map["18,28"] +
-            printmap_game_map["19,28"] + printmap_game_map[
-                "20,28"] + printmap_game_map["21,28"] +
-            printmap_game_map["22,28"] + printmap_game_map["23,28"] +
-            printmap_game_map["24,28"] + printmap_game_map[
-                "25,28"] + printmap_game_map["26,28"] +
-            printmap_game_map["27,28"] + printmap_game_map["28,28"] +
-            printmap_game_map["29,28"] + printmap_game_map[
-                "30,28"] + printmap_game_map["31,28"] +
-            printmap_game_map["32,28"] + printmap_game_map["33,28"] +
-            printmap_game_map["34,28"] + printmap_game_map[
-                "35,28"] + printmap_game_map["36,28"] +
-            printmap_game_map["37,28"] + printmap_game_map["38,28"] +
-            printmap_game_map["39,28"] + printmap_game_map[
-                "40,28"] + printmap_game_map["41,28"] +
-            printmap_game_map["42,28"] + printmap_game_map["43,28"] +
-            printmap_game_map["44,28"] + printmap_game_map[
-                "45,28"] + printmap_game_map["46,28"] +
-            printmap_game_map["47,28"] + printmap_game_map["48,28"] +
-            printmap_game_map["49,28"] + printmap_game_map[
-                "50,28"] + printmap_game_map["51,28"] +
-            printmap_game_map["52,28"] + printmap_game_map["53,28"] +
-            printmap_game_map["54,28"] + printmap_game_map["55,28"] +
-            printmap_game_map["56,28"] + printmap_game_map[
-                "57,28"] + printmap_game_map["58,28"] +
-            printmap_game_map["59,28"] + printmap_game_map["60,28"] +
-            printmap_game_map["61,28"] + printmap_game_map[
-                "62,28"] + printmap_game_map["63,28"] +
-            printmap_game_map["64,28"])
-        print(
-            "29" + "|" +
-            printmap_game_map["1,29"] + printmap_game_map["2,29"] +
-            printmap_game_map["3,29"] +
-            printmap_game_map["4,29"] +
-            printmap_game_map["5,29"] + printmap_game_map[
-                "6,29"] + printmap_game_map["7,29"] + printmap_game_map[
-                "8,29"] + printmap_game_map["9,29"] +
-            printmap_game_map["10,29"] + printmap_game_map["11,29"] +
-            printmap_game_map["12,29"] + printmap_game_map["13,29"] +
-            printmap_game_map["14,29"] + printmap_game_map[
-                "15,29"] + printmap_game_map["16,29"] +
-            printmap_game_map["17,29"] + printmap_game_map["18,29"] +
-            printmap_game_map["19,29"] + printmap_game_map[
-                "20,29"] + printmap_game_map["21,29"] +
-            printmap_game_map["22,29"] + printmap_game_map["23,29"] +
-            printmap_game_map["24,29"] + printmap_game_map[
-                "25,29"] + printmap_game_map["26,29"] +
-            printmap_game_map["27,29"] + printmap_game_map["28,29"] +
-            printmap_game_map["29,29"] + printmap_game_map[
-                "30,29"] + printmap_game_map["31,29"] +
-            printmap_game_map["32,29"] + printmap_game_map["33,29"] +
-            printmap_game_map["34,29"] + printmap_game_map[
-                "35,29"] + printmap_game_map["36,29"] +
-            printmap_game_map["37,29"] + printmap_game_map["38,29"] +
-            printmap_game_map["39,29"] + printmap_game_map[
-                "40,29"] + printmap_game_map["41,29"] +
-            printmap_game_map["42,29"] + printmap_game_map["43,29"] +
-            printmap_game_map["44,29"] + printmap_game_map[
-                "45,29"] + printmap_game_map["46,29"] +
-            printmap_game_map["47,29"] + printmap_game_map["48,29"] +
-            printmap_game_map["49,29"] + printmap_game_map[
-                "50,29"] + printmap_game_map["51,29"] +
-            printmap_game_map["52,29"] + printmap_game_map["53,29"] +
-            printmap_game_map["54,29"] + printmap_game_map["55,29"] +
-            printmap_game_map["56,29"] + printmap_game_map[
-                "57,29"] + printmap_game_map["58,29"] +
-            printmap_game_map["59,29"] + printmap_game_map["60,29"] +
-            printmap_game_map["61,29"] + printmap_game_map[
-                "62,29"] + printmap_game_map["63,29"] +
-            printmap_game_map["64,29"])
-        print(
-            "30" + "|" +
-            printmap_game_map["1,30"] + printmap_game_map["2,30"] +
-            printmap_game_map["3,30"] +
-            printmap_game_map["4,30"] +
-            printmap_game_map["5,30"] + printmap_game_map[
-                "6,30"] + printmap_game_map["7,30"] + printmap_game_map[
-                "8,30"] + printmap_game_map["9,30"] +
-            printmap_game_map["10,30"] + printmap_game_map["11,30"] +
-            printmap_game_map["12,30"] + printmap_game_map["13,30"] +
-            printmap_game_map["14,30"] + printmap_game_map[
-                "15,30"] + printmap_game_map["16,30"] +
-            printmap_game_map["17,30"] + printmap_game_map["18,30"] +
-            printmap_game_map["19,30"] + printmap_game_map[
-                "20,30"] + printmap_game_map["21,30"] +
-            printmap_game_map["22,30"] + printmap_game_map["23,30"] +
-            printmap_game_map["24,30"] + printmap_game_map[
-                "25,30"] + printmap_game_map["26,30"] +
-            printmap_game_map["27,30"] + printmap_game_map["28,30"] +
-            printmap_game_map["29,30"] + printmap_game_map[
-                "30,30"] + printmap_game_map["31,30"] +
-            printmap_game_map["32,30"] + printmap_game_map["33,30"] +
-            printmap_game_map["34,30"] + printmap_game_map[
-                "35,30"] + printmap_game_map["36,30"] +
-            printmap_game_map["37,30"] + printmap_game_map["38,30"] +
-            printmap_game_map["39,30"] + printmap_game_map[
-                "40,30"] + printmap_game_map["41,30"] +
-            printmap_game_map["42,30"] + printmap_game_map["43,30"] +
-            printmap_game_map["44,30"] + printmap_game_map[
-                "45,30"] + printmap_game_map["46,30"] +
-            printmap_game_map["47,30"] + printmap_game_map["48,30"] +
-            printmap_game_map["49,30"] + printmap_game_map[
-                "50,30"] + printmap_game_map["51,30"] +
-            printmap_game_map["52,30"] + printmap_game_map["53,30"] +
-            printmap_game_map["54,30"] + printmap_game_map["55,30"] +
-            printmap_game_map["56,30"] + printmap_game_map[
-                "57,30"] + printmap_game_map["58,30"] +
-            printmap_game_map["59,30"] + printmap_game_map["60,30"] +
-            printmap_game_map["61,30"] + printmap_game_map[
-                "62,30"] + printmap_game_map["63,30"] +
-            printmap_game_map["64,30"])
-        print(
-            "31" + "|" +
-            printmap_game_map["1,31"] + printmap_game_map["2,31"] +
-            printmap_game_map["3,31"] +
-            printmap_game_map["4,31"] +
-            printmap_game_map["5,31"] + printmap_game_map[
-                "6,31"] + printmap_game_map["7,31"] + printmap_game_map[
-                "8,31"] + printmap_game_map["9,31"] +
-            printmap_game_map["10,31"] + printmap_game_map["11,31"] +
-            printmap_game_map["12,31"] + printmap_game_map["13,31"] +
-            printmap_game_map["14,31"] + printmap_game_map[
-                "15,31"] + printmap_game_map["16,31"] +
-            printmap_game_map["17,31"] + printmap_game_map["18,31"] +
-            printmap_game_map["19,31"] + printmap_game_map[
-                "20,31"] + printmap_game_map["21,31"] +
-            printmap_game_map["22,31"] + printmap_game_map["23,31"] +
-            printmap_game_map["24,31"] + printmap_game_map[
-                "25,31"] + printmap_game_map["26,31"] +
-            printmap_game_map["27,31"] + printmap_game_map["28,31"] +
-            printmap_game_map["29,31"] + printmap_game_map[
-                "30,31"] + printmap_game_map["31,31"] +
-            printmap_game_map["32,31"] + printmap_game_map["33,31"] +
-            printmap_game_map["34,31"] + printmap_game_map[
-                "35,31"] + printmap_game_map["36,31"] +
-            printmap_game_map["37,31"] + printmap_game_map["38,31"] +
-            printmap_game_map["39,31"] + printmap_game_map[
-                "40,31"] + printmap_game_map["41,31"] +
-            printmap_game_map["42,31"] + printmap_game_map["43,31"] +
-            printmap_game_map["44,31"] + printmap_game_map[
-                "45,31"] + printmap_game_map["46,31"] +
-            printmap_game_map["47,31"] + printmap_game_map["48,31"] +
-            printmap_game_map["49,31"] + printmap_game_map[
-                "50,31"] + printmap_game_map["51,31"] +
-            printmap_game_map["52,31"] + printmap_game_map["53,31"] +
-            printmap_game_map["54,31"] + printmap_game_map["55,31"] +
-            printmap_game_map["56,31"] + printmap_game_map[
-                "57,31"] + printmap_game_map["58,31"] +
-            printmap_game_map["59,31"] + printmap_game_map["60,31"] +
-            printmap_game_map["61,31"] + printmap_game_map[
-                "62,31"] + printmap_game_map["63,31"] +
-            printmap_game_map["64,31"])
-        print(
-            "32" + "|" +
-            printmap_game_map["1,32"] + printmap_game_map["2,32"] +
-            printmap_game_map["3,32"] +
-            printmap_game_map["4,32"] +
-            printmap_game_map["5,32"] + printmap_game_map[
-                "6,32"] + printmap_game_map["7,32"] + printmap_game_map[
-                "8,32"] + printmap_game_map["9,32"] +
-            printmap_game_map["10,32"] + printmap_game_map["11,32"] +
-            printmap_game_map["12,32"] + printmap_game_map["13,32"] +
-            printmap_game_map["14,32"] + printmap_game_map[
-                "15,32"] + printmap_game_map["16,32"] +
-            printmap_game_map["17,32"] + printmap_game_map["18,32"] +
-            printmap_game_map["19,32"] + printmap_game_map[
-                "20,32"] + printmap_game_map["21,32"] +
-            printmap_game_map["22,32"] + printmap_game_map["23,32"] +
-            printmap_game_map["24,32"] + printmap_game_map[
-                "25,32"] + printmap_game_map["26,32"] +
-            printmap_game_map["27,32"] + printmap_game_map["28,32"] +
-            printmap_game_map["29,32"] + printmap_game_map[
-                "30,32"] + printmap_game_map["31,32"] +
-            printmap_game_map["32,32"] + printmap_game_map["33,32"] +
-            printmap_game_map["34,32"] + printmap_game_map[
-                "35,32"] + printmap_game_map["36,32"] +
-            printmap_game_map["37,32"] + printmap_game_map["38,32"] +
-            printmap_game_map["39,32"] + printmap_game_map[
-                "40,32"] + printmap_game_map["41,32"] +
-            printmap_game_map["42,32"] + printmap_game_map["43,32"] +
-            printmap_game_map["44,32"] + printmap_game_map[
-                "45,32"] + printmap_game_map["46,32"] +
-            printmap_game_map["47,32"] + printmap_game_map["48,32"] +
-            printmap_game_map["49,32"] + printmap_game_map[
-                "50,32"] + printmap_game_map["51,32"] +
-            printmap_game_map["52,32"] + printmap_game_map["53,32"] +
-            printmap_game_map["54,32"] + printmap_game_map["55,32"] +
-            printmap_game_map["56,32"] + printmap_game_map[
-                "57,32"] + printmap_game_map["58,32"] +
-            printmap_game_map["59,32"] + printmap_game_map["60,32"] +
-            printmap_game_map["61,32"] + printmap_game_map[
-                "62,32"] + printmap_game_map["63,32"] +
-            printmap_game_map["64,32"])
-    time.sleep(1)
+    # Print map
+    print(" " + " " + "|" + "0" + "0" + "0" + "0" + "0" + "0" + "0" + "0" +
+          "0" + "1" + "1" + "1" + "1" + "1" + "1" + "1" + "1" + "1" +
+          "1" + "2" + "2" + "2" + "2" +
+          "2" + "2" + "2" + "2" + "2" + "2" + "3" + "3" + "3" + "3" +
+          "3" + "3" + "3" + "3" + "3" + "3" + "4" +
+          "4" + "4" + "4" + "4" + "4" + "4" + "4" + "4" + "4" + "5" +
+          "5" + "5" + "5" + "5" + "5" + "5" + "5" + "5" + "5" + "6" +
+          "6" + "6" + "6" + "6")
+    print(" " + " " + "|" + "1" + "2" + "3" + "4" + "5" + "6" + "7" + "8" +
+          "9" + "0" + "1" + "2" + "3" + "4" + "5" + "6" + "7" + "8" +
+          "9" + "0" + "1" + "2" + "3" +
+          "4" + "5" + "6" + "7" + "8" + "9" + "0" + "1" + "2" + "3" +
+          "4" + "5" + "6" + "7" + "8" + "9" + "0" +
+          "1" + "2" + "3" + "4" + "5" + "6" + "7" + "8" + "9" + "0" +
+          "1" + "2" + "3" + "4" + "5" + "6" + "7" + "8" + "9" + "0" +
+          "1" + "2" + "3" + "4")
+    print("-" + "-" + "|" +
+          "-------------------------------------------------------------" +
+          "---"
+          )
+    print("01" + "|" +
+          printmap_game_map["1,1"] + printmap_game_map["2,1"] +
+          printmap_game_map["3,1"] + printmap_game_map[
+              "4,1"] +
+          printmap_game_map["5,1"] + printmap_game_map["6,1"] +
+          printmap_game_map["7,1"] + printmap_game_map["8,1"] +
+          printmap_game_map["9,1"] + printmap_game_map[
+              "10,1"] +
+          printmap_game_map["11,1"] + printmap_game_map[
+              "12,1"] + printmap_game_map["13,1"] + printmap_game_map[
+              "14,1"] + printmap_game_map["15,1"] +
+          printmap_game_map["16,1"] + printmap_game_map["17,1"] +
+          printmap_game_map["18,1"] + printmap_game_map["19,1"] +
+          printmap_game_map["20,1"] + printmap_game_map[
+              "21,1"] + printmap_game_map["22,1"] + printmap_game_map[
+              "23,1"] + printmap_game_map["24,1"] + printmap_game_map[
+              "25,1"] + printmap_game_map["26,1"] +
+          printmap_game_map["27,1"] + printmap_game_map["28,1"] +
+          printmap_game_map["29,1"] + printmap_game_map["30,1"] +
+          printmap_game_map["31,1"] + printmap_game_map[
+              "32,1"] + printmap_game_map["33,1"] + printmap_game_map[
+              "34,1"] + printmap_game_map["35,1"] + printmap_game_map[
+              "36,1"] + printmap_game_map["37,1"] +
+          printmap_game_map["38,1"] + printmap_game_map["39,1"] +
+          printmap_game_map["40,1"] + printmap_game_map["41,1"] +
+          printmap_game_map["42,1"] + printmap_game_map[
+              "43,1"] + printmap_game_map["44,1"] + printmap_game_map[
+              "45,1"] + printmap_game_map["46,1"] + printmap_game_map[
+              "47,1"] + printmap_game_map["48,1"] +
+          printmap_game_map["49,1"] + printmap_game_map["50,1"] +
+          printmap_game_map["51,1"] + printmap_game_map["52,1"] +
+          printmap_game_map["53,1"] +
+          printmap_game_map["54,1"] + printmap_game_map["55,1"] +
+          printmap_game_map["56,1"] + printmap_game_map[
+              "57,1"] + printmap_game_map["58,1"] + printmap_game_map[
+              "59,1"] + printmap_game_map["60,1"] + printmap_game_map[
+              "61,1"] + printmap_game_map["62,1"] +
+          printmap_game_map["63,1"] + printmap_game_map["64,1"])
+    print(
+        "02" + "|" +
+        printmap_game_map["1,2"] + printmap_game_map["2,2"] +
+        printmap_game_map["3,2"] + printmap_game_map["4,2"] +
+        printmap_game_map["5,2"] + printmap_game_map["6,2"] +
+        printmap_game_map["7,2"] + printmap_game_map["8,2"] +
+        printmap_game_map["9,2"] + printmap_game_map["10,2"] +
+        printmap_game_map["11,2"] + printmap_game_map[
+            "12,2"] + printmap_game_map["13,2"] + printmap_game_map[
+            "14,2"] + printmap_game_map["15,2"] +
+        printmap_game_map["16,2"] + printmap_game_map["17,2"] +
+        printmap_game_map["18,2"] + printmap_game_map["19,2"] +
+        printmap_game_map["20,2"] +
+        printmap_game_map["21,2"] +
+        printmap_game_map["22,2"] + printmap_game_map[
+            "23,2"] + printmap_game_map["24,2"] + printmap_game_map[
+            "25,2"] + printmap_game_map["26,2"] +
+        printmap_game_map["27,2"] + printmap_game_map["28,2"] +
+        printmap_game_map["29,2"] + printmap_game_map["30,2"] +
+        printmap_game_map["31,2"] +
+        printmap_game_map["32,2"] +
+        printmap_game_map["33,2"] + printmap_game_map[
+            "34,2"] + printmap_game_map["35,2"] + printmap_game_map[
+            "36,2"] + printmap_game_map["37,2"] +
+        printmap_game_map["38,2"] + printmap_game_map["39,2"] +
+        printmap_game_map["40,2"] + printmap_game_map["41,2"] +
+        printmap_game_map["42,2"] +
+        printmap_game_map["43,2"] + printmap_game_map["44,2"] +
+        printmap_game_map[
+            "45,2"] + printmap_game_map["46,2"] + printmap_game_map[
+            "47,2"] + printmap_game_map["48,2"] +
+        printmap_game_map["49,2"] + printmap_game_map["50,2"] +
+        printmap_game_map["51,2"] + printmap_game_map["52,2"] +
+        printmap_game_map["53,2"] +
+        printmap_game_map["54,2"] + printmap_game_map["55,2"] +
+        printmap_game_map["56,2"] +
+        printmap_game_map["57,2"] +
+        printmap_game_map["58,2"] + printmap_game_map[
+            "59,2"] + printmap_game_map["60,2"] + printmap_game_map[
+            "61,2"] + printmap_game_map["62,2"] +
+        printmap_game_map["63,2"] + printmap_game_map["64,2"])
+    print(
+        "03" + "|" +
+        printmap_game_map["1,3"] + printmap_game_map["2,3"] +
+        printmap_game_map["3,3"] + printmap_game_map["4,3"] +
+        printmap_game_map["5,3"] + printmap_game_map["6,3"] +
+        printmap_game_map["7,3"] + printmap_game_map["8,3"] +
+        printmap_game_map["9,3"] + printmap_game_map["10,3"] +
+        printmap_game_map["11,3"] + printmap_game_map[
+            "12,3"] + printmap_game_map["13,3"] + printmap_game_map[
+            "14,3"] + printmap_game_map["15,3"] +
+        printmap_game_map["16,3"] + printmap_game_map["17,3"] +
+        printmap_game_map["18,3"] + printmap_game_map["19,3"] +
+        printmap_game_map["20,3"] +
+        printmap_game_map["21,3"] +
+        printmap_game_map["22,3"] + printmap_game_map[
+            "23,3"] + printmap_game_map["24,3"] + printmap_game_map[
+            "25,3"] + printmap_game_map["26,3"] +
+        printmap_game_map["27,3"] + printmap_game_map["28,3"] +
+        printmap_game_map["29,3"] + printmap_game_map["30,3"] +
+        printmap_game_map["31,3"] +
+        printmap_game_map["32,3"] +
+        printmap_game_map["33,3"] + printmap_game_map[
+            "34,3"] + printmap_game_map["35,3"] + printmap_game_map[
+            "36,3"] + printmap_game_map["37,3"] +
+        printmap_game_map["38,3"] + printmap_game_map["39,3"] +
+        printmap_game_map["40,3"] + printmap_game_map["41,3"] +
+        printmap_game_map["42,3"] +
+        printmap_game_map["43,3"] +
+        printmap_game_map["44,3"] + printmap_game_map[
+            "45,3"] + printmap_game_map["46,3"] + printmap_game_map[
+            "47,3"] + printmap_game_map["48,3"] +
+        printmap_game_map["49,3"] + printmap_game_map["50,3"] +
+        printmap_game_map["51,3"] + printmap_game_map["52,3"] +
+        printmap_game_map["53,3"] +
+        printmap_game_map["54,3"] + printmap_game_map["55,3"] +
+        printmap_game_map["56,3"] +
+        printmap_game_map["57,3"] +
+        printmap_game_map["58,3"] + printmap_game_map[
+            "59,3"] + printmap_game_map["60,3"] + printmap_game_map[
+            "61,3"] + printmap_game_map["62,3"] +
+        printmap_game_map["63,3"] + printmap_game_map["64,3"])
+    print(
+        "04" + "|" +
+        printmap_game_map["1,4"] + printmap_game_map["2,4"] +
+        printmap_game_map["3,4"] + printmap_game_map["4,4"] +
+        printmap_game_map["5,4"] + printmap_game_map["6,4"] +
+        printmap_game_map["7,4"] + printmap_game_map["8,4"] +
+        printmap_game_map["9,4"] + printmap_game_map["10,4"] +
+        printmap_game_map["11,4"] + printmap_game_map[
+            "12,4"] + printmap_game_map["13,4"] + printmap_game_map[
+            "14,4"] + printmap_game_map["15,4"] +
+        printmap_game_map["16,4"] + printmap_game_map["17,4"] +
+        printmap_game_map["18,4"] + printmap_game_map["19,4"] +
+        printmap_game_map["20,4"] +
+        printmap_game_map["21,4"] +
+        printmap_game_map["22,4"] + printmap_game_map[
+            "23,4"] + printmap_game_map["24,4"] + printmap_game_map[
+            "25,4"] + printmap_game_map["26,4"] +
+        printmap_game_map["27,4"] + printmap_game_map["28,4"] +
+        printmap_game_map["29,4"] + printmap_game_map["30,4"] +
+        printmap_game_map["31,4"] +
+        printmap_game_map["32,4"] +
+        printmap_game_map["33,4"] + printmap_game_map[
+            "34,4"] + printmap_game_map["35,4"] + printmap_game_map[
+            "36,4"] + printmap_game_map["37,4"] +
+        printmap_game_map["38,4"] + printmap_game_map["39,4"] +
+        printmap_game_map["40,4"] + printmap_game_map["41,4"] +
+        printmap_game_map["42,4"] +
+        printmap_game_map["43,4"] +
+        printmap_game_map["44,4"] + printmap_game_map[
+            "45,4"] + printmap_game_map["46,4"] + printmap_game_map[
+            "47,4"] + printmap_game_map["48,4"] +
+        printmap_game_map["49,4"] + printmap_game_map["50,4"] +
+        printmap_game_map["51,4"] + printmap_game_map["52,4"] +
+        printmap_game_map["53,4"] +
+        printmap_game_map["54,4"] + printmap_game_map["55,4"] +
+        printmap_game_map["56,4"] +
+        printmap_game_map["57,4"] +
+        printmap_game_map["58,4"] + printmap_game_map[
+            "59,4"] + printmap_game_map["60,4"] + printmap_game_map[
+            "61,4"] + printmap_game_map["62,4"] +
+        printmap_game_map["63,4"] + printmap_game_map["64,4"])
+    print(
+        "05" + "|" +
+        printmap_game_map["1,5"] + printmap_game_map["2,5"] +
+        printmap_game_map["3,5"] + printmap_game_map["4,5"] +
+        printmap_game_map["5,5"] + printmap_game_map["6,5"] +
+        printmap_game_map["7,5"] + printmap_game_map["8,5"] +
+        printmap_game_map["9,5"] + printmap_game_map["10,5"] +
+        printmap_game_map["11,5"] + printmap_game_map[
+            "12,5"] + printmap_game_map["13,5"] + printmap_game_map[
+            "14,5"] + printmap_game_map["15,5"] +
+        printmap_game_map["16,5"] + printmap_game_map["17,5"] +
+        printmap_game_map["18,5"] + printmap_game_map["19,5"] +
+        printmap_game_map["20,5"] +
+        printmap_game_map["21,5"] +
+        printmap_game_map["22,5"] + printmap_game_map[
+            "23,5"] + printmap_game_map["24,5"] + printmap_game_map[
+            "25,5"] + printmap_game_map["26,5"] +
+        printmap_game_map["27,5"] + printmap_game_map["28,5"] +
+        printmap_game_map["29,5"] + printmap_game_map["30,5"] +
+        printmap_game_map["31,5"] +
+        printmap_game_map["32,5"] +
+        printmap_game_map["33,5"] + printmap_game_map[
+            "34,5"] + printmap_game_map["35,5"] + printmap_game_map[
+            "36,5"] + printmap_game_map["37,5"] +
+        printmap_game_map["38,5"] + printmap_game_map["39,5"] +
+        printmap_game_map["40,5"] + printmap_game_map["41,5"] +
+        printmap_game_map["42,5"] +
+        printmap_game_map["43,5"] +
+        printmap_game_map["44,5"] + printmap_game_map[
+            "45,5"] + printmap_game_map["46,5"] + printmap_game_map[
+            "47,5"] + printmap_game_map["48,5"] +
+        printmap_game_map["49,5"] + printmap_game_map["50,5"] +
+        printmap_game_map["51,5"] + printmap_game_map["52,5"] +
+        printmap_game_map["53,5"] +
+        printmap_game_map["54,5"] + printmap_game_map["55,5"] +
+        printmap_game_map["56,5"] +
+        printmap_game_map["57,5"] +
+        printmap_game_map["58,5"] + printmap_game_map[
+            "59,5"] + printmap_game_map["60,5"] + printmap_game_map[
+            "61,5"] + printmap_game_map["62,5"] +
+        printmap_game_map["63,5"] + printmap_game_map["64,5"])
+    print(
+        "06" + "|" +
+        printmap_game_map["1,6"] + printmap_game_map["2,6"] +
+        printmap_game_map["3,6"] + printmap_game_map["4,6"] +
+        printmap_game_map["5,6"] + printmap_game_map["6,6"] +
+        printmap_game_map["7,6"] + printmap_game_map["8,6"] +
+        printmap_game_map["9,6"] + printmap_game_map["10,6"] +
+        printmap_game_map["11,6"] + printmap_game_map[
+            "12,6"] + printmap_game_map["13,6"] + printmap_game_map[
+            "14,6"] + printmap_game_map["15,6"] +
+        printmap_game_map["16,6"] + printmap_game_map["17,6"] +
+        printmap_game_map["18,6"] + printmap_game_map["19,6"] +
+        printmap_game_map["20,6"] +
+        printmap_game_map["21,6"] +
+        printmap_game_map["22,6"] + printmap_game_map[
+            "23,6"] + printmap_game_map["24,6"] + printmap_game_map[
+            "25,6"] + printmap_game_map["26,6"] +
+        printmap_game_map["27,6"] + printmap_game_map["28,6"] +
+        printmap_game_map["29,6"] + printmap_game_map["30,6"] +
+        printmap_game_map["31,6"] +
+        printmap_game_map["32,6"] +
+        printmap_game_map["33,6"] + printmap_game_map[
+            "34,6"] + printmap_game_map["35,6"] + printmap_game_map[
+            "36,6"] + printmap_game_map["37,6"] +
+        printmap_game_map["38,6"] + printmap_game_map["39,6"] +
+        printmap_game_map["40,6"] + printmap_game_map["41,6"] +
+        printmap_game_map["42,6"] +
+        printmap_game_map["43,6"] +
+        printmap_game_map["44,6"] + printmap_game_map[
+            "45,6"] + printmap_game_map["46,6"] + printmap_game_map[
+            "47,6"] + printmap_game_map["48,6"] +
+        printmap_game_map["49,6"] + printmap_game_map["50,6"] +
+        printmap_game_map["51,6"] + printmap_game_map["52,6"] +
+        printmap_game_map["53,6"] +
+        printmap_game_map["54,6"] + printmap_game_map["55,6"] +
+        printmap_game_map["56,6"] +
+        printmap_game_map["57,6"] +
+        printmap_game_map["58,6"] + printmap_game_map[
+            "59,6"] + printmap_game_map["60,6"] + printmap_game_map[
+            "61,6"] + printmap_game_map["62,6"] +
+        printmap_game_map["63,6"] + printmap_game_map["64,6"])
+    print(
+        "07" + "|" +
+        printmap_game_map["1,7"] + printmap_game_map["2,7"] +
+        printmap_game_map["3,7"] + printmap_game_map["4,7"] +
+        printmap_game_map["5,7"] + printmap_game_map["6,7"] +
+        printmap_game_map["7,7"] + printmap_game_map["8,7"] +
+        printmap_game_map["9,7"] + printmap_game_map["10,7"] +
+        printmap_game_map["11,7"] + printmap_game_map[
+            "12,7"] + printmap_game_map["13,7"] + printmap_game_map[
+            "14,7"] + printmap_game_map["15,7"] +
+        printmap_game_map["16,7"] + printmap_game_map["17,7"] +
+        printmap_game_map["18,7"] + printmap_game_map["19,7"] +
+        printmap_game_map["20,7"] +
+        printmap_game_map["21,7"] +
+        printmap_game_map["22,7"] + printmap_game_map[
+            "23,7"] + printmap_game_map["24,7"] + printmap_game_map[
+            "25,7"] + printmap_game_map["26,7"] +
+        printmap_game_map["27,7"] + printmap_game_map["28,7"] +
+        printmap_game_map["29,7"] + printmap_game_map["30,7"] +
+        printmap_game_map["31,7"] +
+        printmap_game_map["32,7"] +
+        printmap_game_map["33,7"] + printmap_game_map[
+            "34,7"] + printmap_game_map["35,7"] + printmap_game_map[
+            "36,7"] + printmap_game_map["37,7"] +
+        printmap_game_map["38,7"] + printmap_game_map["39,7"] +
+        printmap_game_map["40,7"] + printmap_game_map["41,7"] +
+        printmap_game_map["42,7"] +
+        printmap_game_map["43,7"] +
+        printmap_game_map["44,7"] + printmap_game_map[
+            "45,7"] + printmap_game_map["46,7"] + printmap_game_map[
+            "47,7"] + printmap_game_map["48,7"] +
+        printmap_game_map["49,7"] + printmap_game_map["50,7"] +
+        printmap_game_map["51,7"] + printmap_game_map["52,7"] +
+        printmap_game_map["53,7"] +
+        printmap_game_map["54,7"] + printmap_game_map["55,7"] +
+        printmap_game_map["56,7"] +
+        printmap_game_map["57,7"] +
+        printmap_game_map["58,7"] + printmap_game_map[
+            "59,7"] + printmap_game_map["60,7"] + printmap_game_map[
+            "61,7"] + printmap_game_map["62,7"] +
+        printmap_game_map["63,7"] + printmap_game_map["64,7"])
+    print(
+        "09" + "|" +
+        printmap_game_map["1,8"] + printmap_game_map["2,8"] +
+        printmap_game_map["3,8"] + printmap_game_map["4,8"] +
+        printmap_game_map["5,8"] + printmap_game_map["6,8"] +
+        printmap_game_map["7,8"] + printmap_game_map["8,8"] +
+        printmap_game_map["9,8"] + printmap_game_map["10,8"] +
+        printmap_game_map["11,8"] + printmap_game_map[
+            "12,8"] + printmap_game_map["13,8"] + printmap_game_map[
+            "14,8"] + printmap_game_map["15,8"] +
+        printmap_game_map["16,8"] + printmap_game_map["17,8"] +
+        printmap_game_map["18,8"] + printmap_game_map["19,8"] +
+        printmap_game_map["20,8"] +
+        printmap_game_map["21,8"] +
+        printmap_game_map["22,8"] + printmap_game_map[
+            "23,8"] + printmap_game_map["24,8"] + printmap_game_map[
+            "25,8"] + printmap_game_map["26,8"] +
+        printmap_game_map["27,8"] + printmap_game_map["28,8"] +
+        printmap_game_map["29,8"] + printmap_game_map["30,8"] +
+        printmap_game_map["31,8"] +
+        printmap_game_map["32,8"] +
+        printmap_game_map["33,8"] + printmap_game_map[
+            "34,8"] + printmap_game_map["35,8"] + printmap_game_map[
+            "36,8"] + printmap_game_map["37,8"] +
+        printmap_game_map["38,8"] + printmap_game_map["39,8"] +
+        printmap_game_map["40,8"] + printmap_game_map["41,8"] +
+        printmap_game_map["42,8"] +
+        printmap_game_map["43,8"] +
+        printmap_game_map["44,8"] + printmap_game_map[
+            "45,8"] + printmap_game_map["46,8"] + printmap_game_map[
+            "47,8"] + printmap_game_map["48,8"] +
+        printmap_game_map["49,8"] + printmap_game_map["50,8"] +
+        printmap_game_map["51,8"] + printmap_game_map["52,8"] +
+        printmap_game_map["53,8"] +
+        printmap_game_map["54,8"] + printmap_game_map["55,8"] +
+        printmap_game_map["56,8"] +
+        printmap_game_map["57,8"] +
+        printmap_game_map["58,8"] + printmap_game_map[
+            "59,8"] + printmap_game_map["60,8"] + printmap_game_map[
+            "61,8"] + printmap_game_map["62,8"] +
+        printmap_game_map["63,8"] + printmap_game_map["64,8"])
+    print(
+        "10" + "|" +
+        printmap_game_map["1,9"] + printmap_game_map["2,9"] +
+        printmap_game_map["3,9"] + printmap_game_map["4,9"] +
+        printmap_game_map["5,9"] + printmap_game_map["6,9"] +
+        printmap_game_map["7,9"] + printmap_game_map["8,9"] +
+        printmap_game_map["9,9"] + printmap_game_map["10,9"] +
+        printmap_game_map["11,9"] + printmap_game_map[
+            "12,9"] + printmap_game_map["13,9"] + printmap_game_map[
+            "14,9"] + printmap_game_map["15,9"] +
+        printmap_game_map["16,9"] + printmap_game_map["17,9"] +
+        printmap_game_map["18,9"] + printmap_game_map["19,9"] +
+        printmap_game_map["20,9"] +
+        printmap_game_map["21,9"] +
+        printmap_game_map["22,9"] + printmap_game_map[
+            "23,9"] + printmap_game_map["24,9"] + printmap_game_map[
+            "25,9"] + printmap_game_map["26,9"] +
+        printmap_game_map["27,9"] + printmap_game_map["28,9"] +
+        printmap_game_map["29,9"] + printmap_game_map["30,9"] +
+        printmap_game_map["31,9"] +
+        printmap_game_map["32,9"] +
+        printmap_game_map["33,9"] + printmap_game_map[
+            "34,9"] + printmap_game_map["35,9"] + printmap_game_map[
+            "36,9"] + printmap_game_map["37,9"] +
+        printmap_game_map["38,9"] + printmap_game_map["39,9"] +
+        printmap_game_map["40,9"] + printmap_game_map["41,9"] +
+        printmap_game_map["42,9"] +
+        printmap_game_map["43,9"] +
+        printmap_game_map["44,9"] + printmap_game_map[
+            "45,9"] + printmap_game_map["46,9"] + printmap_game_map[
+            "47,9"] + printmap_game_map["48,9"] +
+        printmap_game_map["49,9"] + printmap_game_map["50,9"] +
+        printmap_game_map["51,9"] + printmap_game_map["52,9"] +
+        printmap_game_map["53,9"] +
+        printmap_game_map["54,9"] + printmap_game_map["55,9"] +
+        printmap_game_map["56,9"] +
+        printmap_game_map["57,9"] +
+        printmap_game_map["58,9"] + printmap_game_map[
+            "59,9"] + printmap_game_map["60,9"] + printmap_game_map[
+            "61,9"] + printmap_game_map["62,9"] +
+        printmap_game_map["63,9"] + printmap_game_map["64,9"])
+    print(
+        "11" + "|" +
+        printmap_game_map["1,10"] + printmap_game_map["2,10"] +
+        printmap_game_map["3,10"] +
+        printmap_game_map["4,10"] +
+        printmap_game_map["5,10"] + printmap_game_map[
+            "6,10"] + printmap_game_map["7,10"] + printmap_game_map[
+            "8,10"] + printmap_game_map["9,10"] +
+        printmap_game_map["10,10"] + printmap_game_map["11,10"] +
+        printmap_game_map["12,10"] + printmap_game_map["13,10"] +
+        printmap_game_map["14,10"] + printmap_game_map[
+            "15,10"] + printmap_game_map["16,10"] +
+        printmap_game_map["17,10"] + printmap_game_map["18,10"] +
+        printmap_game_map["19,10"] + printmap_game_map[
+            "20,10"] + printmap_game_map["21,10"] +
+        printmap_game_map["22,10"] + printmap_game_map["23,10"] +
+        printmap_game_map["24,10"] + printmap_game_map[
+            "25,10"] + printmap_game_map["26,10"] +
+        printmap_game_map["27,10"] + printmap_game_map["28,10"] +
+        printmap_game_map["29,10"] + printmap_game_map[
+            "30,10"] + printmap_game_map["31,10"] +
+        printmap_game_map["32,10"] + printmap_game_map["33,10"] +
+        printmap_game_map["34,10"] + printmap_game_map[
+            "35,10"] + printmap_game_map["36,10"] +
+        printmap_game_map["37,10"] + printmap_game_map["38,10"] +
+        printmap_game_map["39,10"] + printmap_game_map[
+            "40,10"] + printmap_game_map["41,10"] +
+        printmap_game_map["42,10"] + printmap_game_map["43,10"] +
+        printmap_game_map["44,10"] + printmap_game_map[
+            "45,10"] + printmap_game_map["46,10"] +
+        printmap_game_map["47,10"] + printmap_game_map["48,10"] +
+        printmap_game_map["49,10"] + printmap_game_map[
+            "50,10"] + printmap_game_map["51,10"] +
+        printmap_game_map["52,10"] + printmap_game_map["53,10"] +
+        printmap_game_map["54,10"] + printmap_game_map["55,10"] +
+        printmap_game_map["56,10"] + printmap_game_map[
+            "57,10"] + printmap_game_map["58,10"] +
+        printmap_game_map["59,10"] + printmap_game_map["60,10"] +
+        printmap_game_map["61,10"] + printmap_game_map[
+            "62,10"] + printmap_game_map["63,10"] +
+        printmap_game_map["64,10"])
+    print(
+        "12" + "|" +
+        printmap_game_map["1,11"] + printmap_game_map["2,11"] +
+        printmap_game_map["3,11"] +
+        printmap_game_map["4,11"] +
+        printmap_game_map["5,11"] + printmap_game_map[
+            "6,11"] + printmap_game_map["7,11"] + printmap_game_map[
+            "8,11"] + printmap_game_map["9,11"] +
+        printmap_game_map["10,11"] + printmap_game_map["11,11"] +
+        printmap_game_map["12,11"] + printmap_game_map["13,11"] +
+        printmap_game_map["14,11"] + printmap_game_map[
+            "15,11"] + printmap_game_map["16,11"] +
+        printmap_game_map["17,11"] + printmap_game_map["18,11"] +
+        printmap_game_map["19,11"] + printmap_game_map[
+            "20,11"] + printmap_game_map["21,11"] +
+        printmap_game_map["22,11"] + printmap_game_map["23,11"] +
+        printmap_game_map["24,11"] + printmap_game_map[
+            "25,11"] + printmap_game_map["26,11"] +
+        printmap_game_map["27,11"] + printmap_game_map["28,11"] +
+        printmap_game_map["29,11"] + printmap_game_map[
+            "30,11"] + printmap_game_map["31,11"] +
+        printmap_game_map["32,11"] + printmap_game_map["33,11"] +
+        printmap_game_map["34,11"] + printmap_game_map[
+            "35,11"] + printmap_game_map["36,11"] +
+        printmap_game_map["37,11"] + printmap_game_map["38,11"] +
+        printmap_game_map["39,11"] + printmap_game_map[
+            "40,11"] + printmap_game_map["41,11"] +
+        printmap_game_map["42,11"] + printmap_game_map["43,11"] +
+        printmap_game_map["44,11"] + printmap_game_map[
+            "45,11"] + printmap_game_map["46,11"] +
+        printmap_game_map["47,11"] + printmap_game_map["48,11"] +
+        printmap_game_map["49,11"] + printmap_game_map[
+            "50,11"] + printmap_game_map["51,11"] +
+        printmap_game_map["52,11"] + printmap_game_map["53,11"] +
+        printmap_game_map["54,11"] + printmap_game_map["55,11"] +
+        printmap_game_map["56,11"] + printmap_game_map[
+            "57,11"] + printmap_game_map["58,11"] +
+        printmap_game_map["59,11"] + printmap_game_map["60,11"] +
+        printmap_game_map["61,11"] + printmap_game_map[
+            "62,11"] + printmap_game_map["63,11"] +
+        printmap_game_map["64,11"])
+    print(
+        "12" + "|" +
+        printmap_game_map["1,12"] + printmap_game_map["2,12"] +
+        printmap_game_map["3,12"] +
+        printmap_game_map["4,12"] +
+        printmap_game_map["5,12"] + printmap_game_map[
+            "6,12"] + printmap_game_map["7,12"] + printmap_game_map[
+            "8,12"] + printmap_game_map["9,12"] +
+        printmap_game_map["10,12"] + printmap_game_map["11,12"] +
+        printmap_game_map["12,12"] + printmap_game_map["13,12"] +
+        printmap_game_map["14,12"] + printmap_game_map[
+            "15,12"] + printmap_game_map["16,12"] +
+        printmap_game_map["17,12"] + printmap_game_map["18,12"] +
+        printmap_game_map["19,12"] + printmap_game_map[
+            "20,12"] + printmap_game_map["21,12"] +
+        printmap_game_map["22,12"] + printmap_game_map["23,12"] +
+        printmap_game_map["24,12"] + printmap_game_map[
+            "25,12"] + printmap_game_map["26,12"] +
+        printmap_game_map["27,12"] + printmap_game_map["28,12"] +
+        printmap_game_map["29,12"] + printmap_game_map[
+            "30,12"] + printmap_game_map["31,12"] +
+        printmap_game_map["32,12"] + printmap_game_map["33,12"] +
+        printmap_game_map["34,12"] + printmap_game_map[
+            "35,12"] + printmap_game_map["36,12"] +
+        printmap_game_map["37,12"] + printmap_game_map["38,12"] +
+        printmap_game_map["39,12"] + printmap_game_map[
+            "40,12"] + printmap_game_map["41,12"] +
+        printmap_game_map["42,12"] + printmap_game_map["43,12"] +
+        printmap_game_map["44,12"] + printmap_game_map[
+            "45,12"] + printmap_game_map["46,12"] +
+        printmap_game_map["47,12"] + printmap_game_map["48,12"] +
+        printmap_game_map["49,12"] + printmap_game_map[
+            "50,12"] + printmap_game_map["51,12"] +
+        printmap_game_map["52,12"] + printmap_game_map["53,12"] +
+        printmap_game_map["54,12"] + printmap_game_map["55,12"] +
+        printmap_game_map["56,12"] + printmap_game_map[
+            "57,12"] + printmap_game_map["58,12"] +
+        printmap_game_map["59,12"] + printmap_game_map["60,12"] +
+        printmap_game_map["61,12"] + printmap_game_map[
+            "62,12"] + printmap_game_map["63,12"] +
+        printmap_game_map["64,12"])
+    print(
+        "13" + "|" +
+        printmap_game_map["1,13"] + printmap_game_map["2,13"] +
+        printmap_game_map["3,13"] +
+        printmap_game_map["4,13"] +
+        printmap_game_map["5,13"] + printmap_game_map[
+            "6,13"] + printmap_game_map["7,13"] + printmap_game_map[
+            "8,13"] + printmap_game_map["9,13"] +
+        printmap_game_map["10,13"] + printmap_game_map["11,13"] +
+        printmap_game_map["12,13"] + printmap_game_map["13,13"] +
+        printmap_game_map["14,13"] + printmap_game_map[
+            "15,13"] + printmap_game_map["16,13"] +
+        printmap_game_map["17,13"] + printmap_game_map["18,13"] +
+        printmap_game_map["19,13"] + printmap_game_map[
+            "20,13"] + printmap_game_map["21,13"] +
+        printmap_game_map["22,13"] + printmap_game_map["23,13"] +
+        printmap_game_map["24,13"] + printmap_game_map[
+            "25,13"] + printmap_game_map["26,13"] +
+        printmap_game_map["27,13"] + printmap_game_map["28,13"] +
+        printmap_game_map["29,13"] + printmap_game_map[
+            "30,13"] + printmap_game_map["31,13"] +
+        printmap_game_map["32,13"] + printmap_game_map["33,13"] +
+        printmap_game_map["34,13"] + printmap_game_map[
+            "35,13"] + printmap_game_map["36,13"] +
+        printmap_game_map["37,13"] + printmap_game_map["38,13"] +
+        printmap_game_map["39,13"] + printmap_game_map[
+            "40,13"] + printmap_game_map["41,13"] +
+        printmap_game_map["42,13"] + printmap_game_map["43,13"] +
+        printmap_game_map["44,13"] + printmap_game_map[
+            "45,13"] + printmap_game_map["46,13"] +
+        printmap_game_map["47,13"] + printmap_game_map["48,13"] +
+        printmap_game_map["49,13"] + printmap_game_map[
+            "50,13"] + printmap_game_map["51,13"] +
+        printmap_game_map["52,13"] + printmap_game_map["53,13"] +
+        printmap_game_map["54,13"] + printmap_game_map["55,13"] +
+        printmap_game_map["56,13"] + printmap_game_map[
+            "57,13"] + printmap_game_map["58,13"] +
+        printmap_game_map["59,13"] + printmap_game_map["60,13"] +
+        printmap_game_map["61,13"] + printmap_game_map[
+            "62,13"] + printmap_game_map["63,13"] +
+        printmap_game_map["64,13"])
+    print(
+        "14" + "|" +
+        printmap_game_map["1,14"] + printmap_game_map["2,14"] +
+        printmap_game_map["3,14"] +
+        printmap_game_map["4,14"] +
+        printmap_game_map["5,14"] + printmap_game_map[
+            "6,14"] + printmap_game_map["7,14"] + printmap_game_map[
+            "8,14"] + printmap_game_map["9,14"] +
+        printmap_game_map["10,14"] + printmap_game_map["11,14"] +
+        printmap_game_map["12,14"] + printmap_game_map["13,14"] +
+        printmap_game_map["14,14"] + printmap_game_map[
+            "15,14"] + printmap_game_map["16,14"] +
+        printmap_game_map["17,14"] + printmap_game_map["18,14"] +
+        printmap_game_map["19,14"] + printmap_game_map[
+            "20,14"] + printmap_game_map["21,14"] +
+        printmap_game_map["22,14"] + printmap_game_map["23,14"] +
+        printmap_game_map["24,14"] + printmap_game_map[
+            "25,14"] + printmap_game_map["26,14"] +
+        printmap_game_map["27,14"] + printmap_game_map["28,14"] +
+        printmap_game_map["29,14"] + printmap_game_map[
+            "30,14"] + printmap_game_map["31,14"] +
+        printmap_game_map["32,14"] + printmap_game_map["33,14"] +
+        printmap_game_map["34,14"] + printmap_game_map[
+            "35,14"] + printmap_game_map["36,14"] +
+        printmap_game_map["37,14"] + printmap_game_map["38,14"] +
+        printmap_game_map["39,14"] + printmap_game_map[
+            "40,14"] + printmap_game_map["41,14"] +
+        printmap_game_map["42,14"] + printmap_game_map["43,14"] +
+        printmap_game_map["44,14"] + printmap_game_map[
+            "45,14"] + printmap_game_map["46,14"] +
+        printmap_game_map["47,14"] + printmap_game_map["48,14"] +
+        printmap_game_map["49,14"] + printmap_game_map[
+            "50,14"] + printmap_game_map["51,14"] +
+        printmap_game_map["52,14"] + printmap_game_map["53,14"] +
+        printmap_game_map["54,14"] + printmap_game_map["55,14"] +
+        printmap_game_map["56,14"] + printmap_game_map[
+            "57,14"] + printmap_game_map["58,14"] +
+        printmap_game_map["59,14"] + printmap_game_map["60,14"] +
+        printmap_game_map["61,14"] + printmap_game_map[
+            "62,14"] + printmap_game_map["63,14"] +
+        printmap_game_map["64,14"])
+    print(
+        "15" + "|" +
+        printmap_game_map["1,15"] + printmap_game_map["2,15"] +
+        printmap_game_map["3,15"] +
+        printmap_game_map["4,15"] +
+        printmap_game_map["5,15"] + printmap_game_map[
+            "6,15"] + printmap_game_map["7,15"] + printmap_game_map[
+            "8,15"] + printmap_game_map["9,15"] +
+        printmap_game_map["10,15"] + printmap_game_map["11,15"] +
+        printmap_game_map["12,15"] + printmap_game_map["13,15"] +
+        printmap_game_map["14,15"] + printmap_game_map[
+            "15,15"] + printmap_game_map["16,15"] +
+        printmap_game_map["17,15"] + printmap_game_map["18,15"] +
+        printmap_game_map["19,15"] + printmap_game_map[
+            "20,15"] + printmap_game_map["21,15"] +
+        printmap_game_map["22,15"] + printmap_game_map["23,15"] +
+        printmap_game_map["24,15"] + printmap_game_map[
+            "25,15"] + printmap_game_map["26,15"] +
+        printmap_game_map["27,15"] + printmap_game_map["28,15"] +
+        printmap_game_map["29,15"] + printmap_game_map[
+            "30,15"] + printmap_game_map["31,15"] +
+        printmap_game_map["32,15"] + printmap_game_map["33,15"] +
+        printmap_game_map["34,15"] + printmap_game_map[
+            "35,15"] + printmap_game_map["36,15"] +
+        printmap_game_map["37,15"] + printmap_game_map["38,15"] +
+        printmap_game_map["39,15"] + printmap_game_map[
+            "40,15"] + printmap_game_map["41,15"] +
+        printmap_game_map["42,15"] + printmap_game_map["43,15"] +
+        printmap_game_map["44,15"] + printmap_game_map[
+            "45,15"] + printmap_game_map["46,15"] +
+        printmap_game_map["47,15"] + printmap_game_map["48,15"] +
+        printmap_game_map["49,15"] + printmap_game_map[
+            "50,15"] + printmap_game_map["51,15"] +
+        printmap_game_map["52,15"] + printmap_game_map["53,15"] +
+        printmap_game_map["54,15"] + printmap_game_map["55,15"] +
+        printmap_game_map["56,15"] + printmap_game_map[
+            "57,15"] + printmap_game_map["58,15"] +
+        printmap_game_map["59,15"] + printmap_game_map["60,15"] +
+        printmap_game_map["61,15"] + printmap_game_map[
+            "62,15"] + printmap_game_map["63,15"] +
+        printmap_game_map["64,15"])
+    print(
+        "16" + "|" +
+        printmap_game_map["1,16"] + printmap_game_map["2,16"] +
+        printmap_game_map["3,16"] +
+        printmap_game_map["4,16"] +
+        printmap_game_map["5,16"] + printmap_game_map[
+            "6,16"] + printmap_game_map["7,16"] + printmap_game_map[
+            "8,16"] + printmap_game_map["9,16"] +
+        printmap_game_map["10,16"] + printmap_game_map["11,16"] +
+        printmap_game_map["12,16"] + printmap_game_map["13,16"] +
+        printmap_game_map["14,16"] + printmap_game_map[
+            "15,16"] + printmap_game_map["16,16"] +
+        printmap_game_map["17,16"] + printmap_game_map["18,16"] +
+        printmap_game_map["19,16"] + printmap_game_map[
+            "20,16"] + printmap_game_map["21,16"] +
+        printmap_game_map["22,16"] + printmap_game_map["23,16"] +
+        printmap_game_map["24,16"] + printmap_game_map[
+            "25,16"] + printmap_game_map["26,16"] +
+        printmap_game_map["27,16"] + printmap_game_map["28,16"] +
+        printmap_game_map["29,16"] + printmap_game_map[
+            "30,16"] + printmap_game_map["31,16"] +
+        printmap_game_map["32,16"] + printmap_game_map["33,16"] +
+        printmap_game_map["34,16"] + printmap_game_map[
+            "35,16"] + printmap_game_map["36,16"] +
+        printmap_game_map["37,16"] + printmap_game_map["38,16"] +
+        printmap_game_map["39,16"] + printmap_game_map[
+            "40,16"] + printmap_game_map["41,16"] +
+        printmap_game_map["42,16"] + printmap_game_map["43,16"] +
+        printmap_game_map["44,16"] + printmap_game_map[
+            "45,16"] + printmap_game_map["46,16"] +
+        printmap_game_map["47,16"] + printmap_game_map["48,16"] +
+        printmap_game_map["49,16"] + printmap_game_map[
+            "50,16"] + printmap_game_map["51,16"] +
+        printmap_game_map["52,16"] + printmap_game_map["53,16"] +
+        printmap_game_map["54,16"] + printmap_game_map["55,16"] +
+        printmap_game_map["56,16"] + printmap_game_map[
+            "57,16"] + printmap_game_map["58,16"] +
+        printmap_game_map["59,16"] + printmap_game_map["60,16"] +
+        printmap_game_map["61,16"] + printmap_game_map[
+            "62,16"] + printmap_game_map["63,16"] +
+        printmap_game_map["64,16"])
+    print(
+        "17" + "|" +
+        printmap_game_map["1,17"] + printmap_game_map["2,17"] +
+        printmap_game_map["3,17"] +
+        printmap_game_map["4,17"] +
+        printmap_game_map["5,17"] + printmap_game_map[
+            "6,17"] + printmap_game_map["7,17"] + printmap_game_map[
+            "8,17"] + printmap_game_map["9,17"] +
+        printmap_game_map["10,17"] + printmap_game_map["11,17"] +
+        printmap_game_map["12,17"] + printmap_game_map["13,17"] +
+        printmap_game_map["14,17"] + printmap_game_map[
+            "15,17"] + printmap_game_map["16,17"] +
+        printmap_game_map["17,17"] + printmap_game_map["18,17"] +
+        printmap_game_map["19,17"] + printmap_game_map[
+            "20,17"] + printmap_game_map["21,17"] +
+        printmap_game_map["22,17"] + printmap_game_map["23,17"] +
+        printmap_game_map["24,17"] + printmap_game_map[
+            "25,17"] + printmap_game_map["26,17"] +
+        printmap_game_map["27,17"] + printmap_game_map["28,17"] +
+        printmap_game_map["29,17"] + printmap_game_map[
+            "30,17"] + printmap_game_map["31,17"] +
+        printmap_game_map["32,17"] + printmap_game_map["33,17"] +
+        printmap_game_map["34,17"] + printmap_game_map[
+            "35,17"] + printmap_game_map["36,17"] +
+        printmap_game_map["37,17"] + printmap_game_map["38,17"] +
+        printmap_game_map["39,17"] + printmap_game_map[
+            "40,17"] + printmap_game_map["41,17"] +
+        printmap_game_map["42,17"] + printmap_game_map["43,17"] +
+        printmap_game_map["44,17"] + printmap_game_map[
+            "45,17"] + printmap_game_map["46,17"] +
+        printmap_game_map["47,17"] + printmap_game_map["48,17"] +
+        printmap_game_map["49,17"] + printmap_game_map[
+            "50,17"] + printmap_game_map["51,17"] +
+        printmap_game_map["52,17"] + printmap_game_map["53,17"] +
+        printmap_game_map["54,17"] + printmap_game_map["55,17"] +
+        printmap_game_map["56,17"] + printmap_game_map[
+            "57,17"] + printmap_game_map["58,17"] +
+        printmap_game_map["59,17"] + printmap_game_map["60,17"] +
+        printmap_game_map["61,17"] + printmap_game_map[
+            "62,17"] + printmap_game_map["63,17"] +
+        printmap_game_map["64,17"])
+    print(
+        "18" + "|" +
+        printmap_game_map["1,18"] + printmap_game_map["2,18"] +
+        printmap_game_map["3,18"] +
+        printmap_game_map["4,18"] +
+        printmap_game_map["5,18"] + printmap_game_map[
+            "6,18"] + printmap_game_map["7,18"] + printmap_game_map[
+            "8,18"] + printmap_game_map["9,18"] +
+        printmap_game_map["10,18"] + printmap_game_map["11,18"] +
+        printmap_game_map["12,18"] + printmap_game_map["13,18"] +
+        printmap_game_map["14,18"] + printmap_game_map[
+            "15,18"] + printmap_game_map["16,18"] +
+        printmap_game_map["17,18"] + printmap_game_map["18,18"] +
+        printmap_game_map["19,18"] + printmap_game_map[
+            "20,18"] + printmap_game_map["21,18"] +
+        printmap_game_map["22,18"] + printmap_game_map["23,18"] +
+        printmap_game_map["24,18"] + printmap_game_map[
+            "25,18"] + printmap_game_map["26,18"] +
+        printmap_game_map["27,18"] + printmap_game_map["28,18"] +
+        printmap_game_map["29,18"] + printmap_game_map[
+            "30,18"] + printmap_game_map["31,18"] +
+        printmap_game_map["32,18"] + printmap_game_map["33,18"] +
+        printmap_game_map["34,18"] + printmap_game_map[
+            "35,18"] + printmap_game_map["36,18"] +
+        printmap_game_map["37,18"] + printmap_game_map["38,18"] +
+        printmap_game_map["39,18"] + printmap_game_map[
+            "40,18"] + printmap_game_map["41,18"] +
+        printmap_game_map["42,18"] + printmap_game_map["43,18"] +
+        printmap_game_map["44,18"] + printmap_game_map[
+            "45,18"] + printmap_game_map["46,18"] +
+        printmap_game_map["47,18"] + printmap_game_map["48,18"] +
+        printmap_game_map["49,18"] + printmap_game_map[
+            "50,18"] + printmap_game_map["51,18"] +
+        printmap_game_map["52,18"] + printmap_game_map["53,18"] +
+        printmap_game_map["54,18"] + printmap_game_map["55,18"] +
+        printmap_game_map["56,18"] + printmap_game_map[
+            "57,18"] + printmap_game_map["58,18"] +
+        printmap_game_map["59,18"] + printmap_game_map["60,18"] +
+        printmap_game_map["61,18"] + printmap_game_map[
+            "62,18"] + printmap_game_map["63,18"] +
+        printmap_game_map["64,18"])
+    print(
+        "19" + "|" +
+        printmap_game_map["1,19"] + printmap_game_map["2,19"] +
+        printmap_game_map["3,19"] +
+        printmap_game_map["4,19"] +
+        printmap_game_map["5,19"] + printmap_game_map[
+            "6,19"] + printmap_game_map["7,19"] + printmap_game_map[
+            "8,19"] + printmap_game_map["9,19"] +
+        printmap_game_map["10,19"] + printmap_game_map["11,19"] +
+        printmap_game_map["12,19"] + printmap_game_map["13,19"] +
+        printmap_game_map["14,19"] + printmap_game_map[
+            "15,19"] + printmap_game_map["16,19"] +
+        printmap_game_map["17,19"] + printmap_game_map["18,19"] +
+        printmap_game_map["19,19"] + printmap_game_map[
+            "20,19"] + printmap_game_map["21,19"] +
+        printmap_game_map["22,19"] + printmap_game_map["23,19"] +
+        printmap_game_map["24,19"] + printmap_game_map[
+            "25,19"] + printmap_game_map["26,19"] +
+        printmap_game_map["27,19"] + printmap_game_map["28,19"] +
+        printmap_game_map["29,19"] + printmap_game_map[
+            "30,19"] + printmap_game_map["31,19"] +
+        printmap_game_map["32,19"] + printmap_game_map["33,19"] +
+        printmap_game_map["34,19"] + printmap_game_map[
+            "35,19"] + printmap_game_map["36,19"] +
+        printmap_game_map["37,19"] + printmap_game_map["38,19"] +
+        printmap_game_map["39,19"] + printmap_game_map[
+            "40,19"] + printmap_game_map["41,19"] +
+        printmap_game_map["42,19"] + printmap_game_map["43,19"] +
+        printmap_game_map["44,19"] + printmap_game_map[
+            "45,19"] + printmap_game_map["46,19"] +
+        printmap_game_map["47,19"] + printmap_game_map["48,19"] +
+        printmap_game_map["49,19"] + printmap_game_map[
+            "50,19"] + printmap_game_map["51,19"] +
+        printmap_game_map["52,19"] + printmap_game_map["53,19"] +
+        printmap_game_map["54,19"] + printmap_game_map["55,19"] +
+        printmap_game_map["56,19"] + printmap_game_map[
+            "57,19"] + printmap_game_map["58,19"] +
+        printmap_game_map["59,19"] + printmap_game_map["60,19"] +
+        printmap_game_map["61,19"] + printmap_game_map[
+            "62,19"] + printmap_game_map["63,19"] +
+        printmap_game_map["64,19"])
+    print(
+        "20" + "|" +
+        printmap_game_map["1,20"] + printmap_game_map["2,20"] +
+        printmap_game_map["3,20"] +
+        printmap_game_map["4,20"] +
+        printmap_game_map["5,20"] + printmap_game_map[
+            "6,20"] + printmap_game_map["7,20"] + printmap_game_map[
+            "8,20"] + printmap_game_map["9,20"] +
+        printmap_game_map["10,20"] + printmap_game_map["11,20"] +
+        printmap_game_map["12,20"] + printmap_game_map["13,20"] +
+        printmap_game_map["14,20"] + printmap_game_map[
+            "15,20"] + printmap_game_map["16,20"] +
+        printmap_game_map["17,20"] + printmap_game_map["18,20"] +
+        printmap_game_map["19,20"] + printmap_game_map[
+            "20,20"] + printmap_game_map["21,20"] +
+        printmap_game_map["22,20"] + printmap_game_map["23,20"] +
+        printmap_game_map["24,20"] + printmap_game_map[
+            "25,20"] + printmap_game_map["26,20"] +
+        printmap_game_map["27,20"] + printmap_game_map["28,20"] +
+        printmap_game_map["29,20"] + printmap_game_map[
+            "30,20"] + printmap_game_map["31,20"] +
+        printmap_game_map["32,20"] + printmap_game_map["33,20"] +
+        printmap_game_map["34,20"] + printmap_game_map[
+            "35,20"] + printmap_game_map["36,20"] +
+        printmap_game_map["37,20"] + printmap_game_map["38,20"] +
+        printmap_game_map["39,20"] + printmap_game_map[
+            "40,20"] + printmap_game_map["41,20"] +
+        printmap_game_map["42,20"] + printmap_game_map["43,20"] +
+        printmap_game_map["44,20"] + printmap_game_map[
+            "45,20"] + printmap_game_map["46,20"] +
+        printmap_game_map["47,20"] + printmap_game_map["48,20"] +
+        printmap_game_map["49,20"] + printmap_game_map[
+            "50,20"] + printmap_game_map["51,20"] +
+        printmap_game_map["52,20"] + printmap_game_map["53,20"] +
+        printmap_game_map["54,20"] + printmap_game_map["55,20"] +
+        printmap_game_map["56,20"] + printmap_game_map[
+            "57,20"] + printmap_game_map["58,20"] +
+        printmap_game_map["59,20"] + printmap_game_map["60,20"] +
+        printmap_game_map["61,20"] + printmap_game_map[
+            "62,20"] + printmap_game_map["63,20"] +
+        printmap_game_map["64,20"])
+    print(
+        "21" + "|" +
+        printmap_game_map["1,21"] + printmap_game_map["2,21"] +
+        printmap_game_map["3,21"] +
+        printmap_game_map["4,21"] +
+        printmap_game_map["5,21"] + printmap_game_map[
+            "6,21"] + printmap_game_map["7,21"] + printmap_game_map[
+            "8,21"] + printmap_game_map["9,21"] +
+        printmap_game_map["10,21"] + printmap_game_map["11,21"] +
+        printmap_game_map["12,21"] + printmap_game_map["13,21"] +
+        printmap_game_map["14,21"] + printmap_game_map[
+            "15,21"] + printmap_game_map["16,21"] +
+        printmap_game_map["17,21"] + printmap_game_map["18,21"] +
+        printmap_game_map["19,21"] + printmap_game_map[
+            "20,21"] + printmap_game_map["21,21"] +
+        printmap_game_map["22,21"] + printmap_game_map["23,21"] +
+        printmap_game_map["24,21"] + printmap_game_map[
+            "25,21"] + printmap_game_map["26,21"] +
+        printmap_game_map["27,21"] + printmap_game_map["28,21"] +
+        printmap_game_map["29,21"] + printmap_game_map[
+            "30,21"] + printmap_game_map["31,21"] +
+        printmap_game_map["32,21"] + printmap_game_map["33,21"] +
+        printmap_game_map["34,21"] + printmap_game_map[
+            "35,21"] + printmap_game_map["36,21"] +
+        printmap_game_map["37,21"] + printmap_game_map["38,21"] +
+        printmap_game_map["39,21"] + printmap_game_map[
+            "40,21"] + printmap_game_map["41,21"] +
+        printmap_game_map["42,21"] + printmap_game_map["43,21"] +
+        printmap_game_map["44,21"] + printmap_game_map[
+            "45,21"] + printmap_game_map["46,21"] +
+        printmap_game_map["47,21"] + printmap_game_map["48,21"] +
+        printmap_game_map["49,21"] + printmap_game_map[
+            "50,21"] + printmap_game_map["51,21"] +
+        printmap_game_map["52,21"] + printmap_game_map["53,21"] +
+        printmap_game_map["54,21"] + printmap_game_map["55,21"] +
+        printmap_game_map["56,21"] + printmap_game_map[
+            "57,21"] + printmap_game_map["58,21"] +
+        printmap_game_map["59,21"] + printmap_game_map["60,21"] +
+        printmap_game_map["61,21"] + printmap_game_map[
+            "62,21"] + printmap_game_map["63,21"] +
+        printmap_game_map["64,21"])
+    print(
+        "22" + "|" +
+        printmap_game_map["1,22"] + printmap_game_map["2,22"] +
+        printmap_game_map["3,22"] +
+        printmap_game_map["4,22"] +
+        printmap_game_map["5,22"] + printmap_game_map[
+            "6,22"] + printmap_game_map["7,22"] + printmap_game_map[
+            "8,22"] + printmap_game_map["9,22"] +
+        printmap_game_map["10,22"] + printmap_game_map["11,22"] +
+        printmap_game_map["12,22"] + printmap_game_map["13,22"] +
+        printmap_game_map["14,22"] + printmap_game_map[
+            "15,22"] + printmap_game_map["16,22"] +
+        printmap_game_map["17,22"] + printmap_game_map["18,22"] +
+        printmap_game_map["19,22"] + printmap_game_map[
+            "20,22"] + printmap_game_map["21,22"] +
+        printmap_game_map["22,22"] + printmap_game_map["23,22"] +
+        printmap_game_map["24,22"] + printmap_game_map[
+            "25,22"] + printmap_game_map["26,22"] +
+        printmap_game_map["27,22"] + printmap_game_map["28,22"] +
+        printmap_game_map["29,22"] + printmap_game_map[
+            "30,22"] + printmap_game_map["31,22"] +
+        printmap_game_map["32,22"] + printmap_game_map["33,22"] +
+        printmap_game_map["34,22"] + printmap_game_map[
+            "35,22"] + printmap_game_map["36,22"] +
+        printmap_game_map["37,22"] + printmap_game_map["38,22"] +
+        printmap_game_map["39,22"] + printmap_game_map[
+            "40,22"] + printmap_game_map["41,22"] +
+        printmap_game_map["42,22"] + printmap_game_map["43,22"] +
+        printmap_game_map["44,22"] + printmap_game_map[
+            "45,22"] + printmap_game_map["46,22"] +
+        printmap_game_map["47,22"] + printmap_game_map["48,22"] +
+        printmap_game_map["49,22"] + printmap_game_map[
+            "50,22"] + printmap_game_map["51,22"] +
+        printmap_game_map["52,22"] + printmap_game_map["53,22"] +
+        printmap_game_map["54,22"] + printmap_game_map["55,22"] +
+        printmap_game_map["56,22"] + printmap_game_map[
+            "57,22"] + printmap_game_map["58,22"] +
+        printmap_game_map["59,22"] + printmap_game_map["60,22"] +
+        printmap_game_map["61,22"] + printmap_game_map[
+            "62,22"] + printmap_game_map["63,22"] +
+        printmap_game_map["64,22"])
+    print(
+        "23" + "|" +
+        printmap_game_map["1,23"] + printmap_game_map["2,23"] +
+        printmap_game_map["3,23"] +
+        printmap_game_map["4,23"] +
+        printmap_game_map["5,23"] + printmap_game_map[
+            "6,23"] + printmap_game_map["7,23"] + printmap_game_map[
+            "8,23"] + printmap_game_map["9,23"] +
+        printmap_game_map["10,23"] + printmap_game_map["11,23"] +
+        printmap_game_map["12,23"] + printmap_game_map["13,23"] +
+        printmap_game_map["14,23"] + printmap_game_map[
+            "15,23"] + printmap_game_map["16,23"] +
+        printmap_game_map["17,23"] + printmap_game_map["18,23"] +
+        printmap_game_map["19,23"] + printmap_game_map[
+            "20,23"] + printmap_game_map["21,23"] +
+        printmap_game_map["22,23"] + printmap_game_map["23,23"] +
+        printmap_game_map["24,23"] + printmap_game_map[
+            "25,23"] + printmap_game_map["26,23"] +
+        printmap_game_map["27,23"] + printmap_game_map["28,23"] +
+        printmap_game_map["29,23"] + printmap_game_map[
+            "30,23"] + printmap_game_map["31,23"] +
+        printmap_game_map["32,23"] + printmap_game_map["33,23"] +
+        printmap_game_map["34,23"] + printmap_game_map[
+            "35,23"] + printmap_game_map["36,23"] +
+        printmap_game_map["37,23"] + printmap_game_map["38,23"] +
+        printmap_game_map["39,23"] + printmap_game_map[
+            "40,23"] + printmap_game_map["41,23"] +
+        printmap_game_map["42,23"] + printmap_game_map["43,23"] +
+        printmap_game_map["44,23"] + printmap_game_map[
+            "45,23"] + printmap_game_map["46,23"] +
+        printmap_game_map["47,23"] + printmap_game_map["48,23"] +
+        printmap_game_map["49,23"] + printmap_game_map[
+            "50,23"] + printmap_game_map["51,23"] +
+        printmap_game_map["52,23"] + printmap_game_map["53,23"] +
+        printmap_game_map["54,23"] + printmap_game_map["55,23"] +
+        printmap_game_map["56,23"] + printmap_game_map[
+            "57,23"] + printmap_game_map["58,23"] +
+        printmap_game_map["59,23"] + printmap_game_map["60,23"] +
+        printmap_game_map["61,23"] + printmap_game_map[
+            "62,23"] + printmap_game_map["63,23"] +
+        printmap_game_map["64,23"])
+    print(
+        "24" + "|" +
+        printmap_game_map["1,24"] + printmap_game_map["2,24"] +
+        printmap_game_map["3,24"] +
+        printmap_game_map["4,24"] +
+        printmap_game_map["5,24"] + printmap_game_map[
+            "6,24"] + printmap_game_map["7,24"] + printmap_game_map[
+            "8,24"] + printmap_game_map["9,24"] +
+        printmap_game_map["10,24"] + printmap_game_map["11,24"] +
+        printmap_game_map["12,24"] + printmap_game_map["13,24"] +
+        printmap_game_map["14,24"] + printmap_game_map[
+            "15,24"] + printmap_game_map["16,24"] +
+        printmap_game_map["17,24"] + printmap_game_map["18,24"] +
+        printmap_game_map["19,24"] + printmap_game_map[
+            "20,24"] + printmap_game_map["21,24"] +
+        printmap_game_map["22,24"] + printmap_game_map["23,24"] +
+        printmap_game_map["24,24"] + printmap_game_map[
+            "25,24"] + printmap_game_map["26,24"] +
+        printmap_game_map["27,24"] + printmap_game_map["28,24"] +
+        printmap_game_map["29,24"] + printmap_game_map[
+            "30,24"] + printmap_game_map["31,24"] +
+        printmap_game_map["32,24"] + printmap_game_map["33,24"] +
+        printmap_game_map["34,24"] + printmap_game_map[
+            "35,24"] + printmap_game_map["36,24"] +
+        printmap_game_map["37,24"] + printmap_game_map["38,24"] +
+        printmap_game_map["39,24"] + printmap_game_map[
+            "40,24"] + printmap_game_map["41,24"] +
+        printmap_game_map["42,24"] + printmap_game_map["43,24"] +
+        printmap_game_map["44,24"] + printmap_game_map[
+            "45,24"] + printmap_game_map["46,24"] +
+        printmap_game_map["47,24"] + printmap_game_map["48,24"] +
+        printmap_game_map["49,24"] + printmap_game_map[
+            "50,24"] + printmap_game_map["51,24"] +
+        printmap_game_map["52,24"] + printmap_game_map["53,24"] +
+        printmap_game_map["54,24"] + printmap_game_map["55,24"] +
+        printmap_game_map["56,24"] + printmap_game_map[
+            "57,24"] + printmap_game_map["58,24"] +
+        printmap_game_map["59,24"] + printmap_game_map["60,24"] +
+        printmap_game_map["61,24"] + printmap_game_map[
+            "62,24"] + printmap_game_map["63,24"] +
+        printmap_game_map["64,24"])
+    print(
+        "25" + "|" +
+        printmap_game_map["1,25"] + printmap_game_map["2,25"] +
+        printmap_game_map["3,25"] +
+        printmap_game_map["4,25"] +
+        printmap_game_map["5,25"] + printmap_game_map[
+            "6,25"] + printmap_game_map["7,25"] + printmap_game_map[
+            "8,25"] + printmap_game_map["9,25"] +
+        printmap_game_map["10,25"] + printmap_game_map["11,25"] +
+        printmap_game_map["12,25"] + printmap_game_map["13,25"] +
+        printmap_game_map["14,25"] + printmap_game_map[
+            "15,25"] + printmap_game_map["16,25"] +
+        printmap_game_map["17,25"] + printmap_game_map["18,25"] +
+        printmap_game_map["19,25"] + printmap_game_map[
+            "20,25"] + printmap_game_map["21,25"] +
+        printmap_game_map["22,25"] + printmap_game_map["23,25"] +
+        printmap_game_map["24,25"] + printmap_game_map[
+            "25,25"] + printmap_game_map["26,25"] +
+        printmap_game_map["27,25"] + printmap_game_map["28,25"] +
+        printmap_game_map["29,25"] + printmap_game_map[
+            "30,25"] + printmap_game_map["31,25"] +
+        printmap_game_map["32,25"] + printmap_game_map["33,25"] +
+        printmap_game_map["34,25"] + printmap_game_map[
+            "35,25"] + printmap_game_map["36,25"] +
+        printmap_game_map["37,25"] + printmap_game_map["38,25"] +
+        printmap_game_map["39,25"] + printmap_game_map[
+            "40,25"] + printmap_game_map["41,25"] +
+        printmap_game_map["42,25"] + printmap_game_map["43,25"] +
+        printmap_game_map["44,25"] + printmap_game_map[
+            "45,25"] + printmap_game_map["46,25"] +
+        printmap_game_map["47,25"] + printmap_game_map["48,25"] +
+        printmap_game_map["49,25"] + printmap_game_map[
+            "50,25"] + printmap_game_map["51,25"] +
+        printmap_game_map["52,25"] + printmap_game_map["53,25"] +
+        printmap_game_map["54,25"] + printmap_game_map["55,25"] +
+        printmap_game_map["56,25"] + printmap_game_map[
+            "57,25"] + printmap_game_map["58,25"] +
+        printmap_game_map["59,25"] + printmap_game_map["60,25"] +
+        printmap_game_map["61,25"] + printmap_game_map[
+            "62,25"] + printmap_game_map["63,25"] +
+        printmap_game_map["64,25"])
+    print(
+        "26" + "|" +
+        printmap_game_map["1,26"] + printmap_game_map["2,26"] +
+        printmap_game_map["3,26"] +
+        printmap_game_map["4,26"] +
+        printmap_game_map["5,26"] + printmap_game_map[
+            "6,26"] + printmap_game_map["7,26"] + printmap_game_map[
+            "8,26"] + printmap_game_map["9,26"] +
+        printmap_game_map["10,26"] + printmap_game_map["11,26"] +
+        printmap_game_map["12,26"] + printmap_game_map["13,26"] +
+        printmap_game_map["14,26"] + printmap_game_map[
+            "15,26"] + printmap_game_map["16,26"] +
+        printmap_game_map["17,26"] + printmap_game_map["18,26"] +
+        printmap_game_map["19,26"] + printmap_game_map[
+            "20,26"] + printmap_game_map["21,26"] +
+        printmap_game_map["22,26"] + printmap_game_map["23,26"] +
+        printmap_game_map["24,26"] + printmap_game_map[
+            "25,26"] + printmap_game_map["26,26"] +
+        printmap_game_map["27,26"] + printmap_game_map["28,26"] +
+        printmap_game_map["29,26"] + printmap_game_map[
+            "30,26"] + printmap_game_map["31,26"] +
+        printmap_game_map["32,26"] + printmap_game_map["33,26"] +
+        printmap_game_map["34,26"] + printmap_game_map[
+            "35,26"] + printmap_game_map["36,26"] +
+        printmap_game_map["37,26"] + printmap_game_map["38,26"] +
+        printmap_game_map["39,26"] + printmap_game_map[
+            "40,26"] + printmap_game_map["41,26"] +
+        printmap_game_map["42,26"] + printmap_game_map["43,26"] +
+        printmap_game_map["44,26"] + printmap_game_map[
+            "45,26"] + printmap_game_map["46,26"] +
+        printmap_game_map["47,26"] + printmap_game_map["48,26"] +
+        printmap_game_map["49,26"] + printmap_game_map[
+            "50,26"] + printmap_game_map["51,26"] +
+        printmap_game_map["52,26"] + printmap_game_map["53,26"] +
+        printmap_game_map["54,26"] + printmap_game_map["55,26"] +
+        printmap_game_map["56,26"] + printmap_game_map[
+            "57,26"] + printmap_game_map["58,26"] +
+        printmap_game_map["59,26"] + printmap_game_map["60,26"] +
+        printmap_game_map["61,26"] + printmap_game_map[
+            "62,26"] + printmap_game_map["63,26"] +
+        printmap_game_map["64,26"])
+    print(
+        "27" + "|" +
+        printmap_game_map["1,27"] + printmap_game_map["2,27"] +
+        printmap_game_map["3,27"] +
+        printmap_game_map["4,27"] +
+        printmap_game_map["5,27"] + printmap_game_map[
+            "6,27"] + printmap_game_map["7,27"] + printmap_game_map[
+            "8,27"] + printmap_game_map["9,27"] +
+        printmap_game_map["10,27"] + printmap_game_map["11,27"] +
+        printmap_game_map["12,27"] + printmap_game_map["13,27"] +
+        printmap_game_map["14,27"] + printmap_game_map[
+            "15,27"] + printmap_game_map["16,27"] +
+        printmap_game_map["17,27"] + printmap_game_map["18,27"] +
+        printmap_game_map["19,27"] + printmap_game_map[
+            "20,27"] + printmap_game_map["21,27"] +
+        printmap_game_map["22,27"] + printmap_game_map["23,27"] +
+        printmap_game_map["24,27"] + printmap_game_map[
+            "25,27"] + printmap_game_map["26,27"] +
+        printmap_game_map["27,27"] + printmap_game_map["28,27"] +
+        printmap_game_map["29,27"] + printmap_game_map[
+            "30,27"] + printmap_game_map["31,27"] +
+        printmap_game_map["32,27"] + printmap_game_map["33,27"] +
+        printmap_game_map["34,27"] + printmap_game_map[
+            "35,27"] + printmap_game_map["36,27"] +
+        printmap_game_map["37,27"] + printmap_game_map["38,27"] +
+        printmap_game_map["39,27"] + printmap_game_map[
+            "40,27"] + printmap_game_map["41,27"] +
+        printmap_game_map["42,27"] + printmap_game_map["43,27"] +
+        printmap_game_map["44,27"] + printmap_game_map[
+            "45,27"] + printmap_game_map["46,27"] +
+        printmap_game_map["47,27"] + printmap_game_map["48,27"] +
+        printmap_game_map["49,27"] + printmap_game_map[
+            "50,27"] + printmap_game_map["51,27"] +
+        printmap_game_map["52,27"] + printmap_game_map["53,27"] +
+        printmap_game_map["54,27"] + printmap_game_map["55,27"] +
+        printmap_game_map["56,27"] + printmap_game_map[
+            "57,27"] + printmap_game_map["58,27"] +
+        printmap_game_map["59,27"] + printmap_game_map["60,27"] +
+        printmap_game_map["61,27"] + printmap_game_map[
+            "62,27"] + printmap_game_map["63,27"] +
+        printmap_game_map["64,27"])
+    print(
+        "28" + "|" +
+        printmap_game_map["1,28"] + printmap_game_map["2,28"] +
+        printmap_game_map["3,28"] +
+        printmap_game_map["4,28"] +
+        printmap_game_map["5,28"] + printmap_game_map[
+            "6,28"] + printmap_game_map["7,28"] + printmap_game_map[
+            "8,28"] + printmap_game_map["9,28"] +
+        printmap_game_map["10,28"] + printmap_game_map["11,28"] +
+        printmap_game_map["12,28"] + printmap_game_map["13,28"] +
+        printmap_game_map["14,28"] + printmap_game_map[
+            "15,28"] + printmap_game_map["16,28"] +
+        printmap_game_map["17,28"] + printmap_game_map["18,28"] +
+        printmap_game_map["19,28"] + printmap_game_map[
+            "20,28"] + printmap_game_map["21,28"] +
+        printmap_game_map["22,28"] + printmap_game_map["23,28"] +
+        printmap_game_map["24,28"] + printmap_game_map[
+            "25,28"] + printmap_game_map["26,28"] +
+        printmap_game_map["27,28"] + printmap_game_map["28,28"] +
+        printmap_game_map["29,28"] + printmap_game_map[
+            "30,28"] + printmap_game_map["31,28"] +
+        printmap_game_map["32,28"] + printmap_game_map["33,28"] +
+        printmap_game_map["34,28"] + printmap_game_map[
+            "35,28"] + printmap_game_map["36,28"] +
+        printmap_game_map["37,28"] + printmap_game_map["38,28"] +
+        printmap_game_map["39,28"] + printmap_game_map[
+            "40,28"] + printmap_game_map["41,28"] +
+        printmap_game_map["42,28"] + printmap_game_map["43,28"] +
+        printmap_game_map["44,28"] + printmap_game_map[
+            "45,28"] + printmap_game_map["46,28"] +
+        printmap_game_map["47,28"] + printmap_game_map["48,28"] +
+        printmap_game_map["49,28"] + printmap_game_map[
+            "50,28"] + printmap_game_map["51,28"] +
+        printmap_game_map["52,28"] + printmap_game_map["53,28"] +
+        printmap_game_map["54,28"] + printmap_game_map["55,28"] +
+        printmap_game_map["56,28"] + printmap_game_map[
+            "57,28"] + printmap_game_map["58,28"] +
+        printmap_game_map["59,28"] + printmap_game_map["60,28"] +
+        printmap_game_map["61,28"] + printmap_game_map[
+            "62,28"] + printmap_game_map["63,28"] +
+        printmap_game_map["64,28"])
+    print(
+        "29" + "|" +
+        printmap_game_map["1,29"] + printmap_game_map["2,29"] +
+        printmap_game_map["3,29"] +
+        printmap_game_map["4,29"] +
+        printmap_game_map["5,29"] + printmap_game_map[
+            "6,29"] + printmap_game_map["7,29"] + printmap_game_map[
+            "8,29"] + printmap_game_map["9,29"] +
+        printmap_game_map["10,29"] + printmap_game_map["11,29"] +
+        printmap_game_map["12,29"] + printmap_game_map["13,29"] +
+        printmap_game_map["14,29"] + printmap_game_map[
+            "15,29"] + printmap_game_map["16,29"] +
+        printmap_game_map["17,29"] + printmap_game_map["18,29"] +
+        printmap_game_map["19,29"] + printmap_game_map[
+            "20,29"] + printmap_game_map["21,29"] +
+        printmap_game_map["22,29"] + printmap_game_map["23,29"] +
+        printmap_game_map["24,29"] + printmap_game_map[
+            "25,29"] + printmap_game_map["26,29"] +
+        printmap_game_map["27,29"] + printmap_game_map["28,29"] +
+        printmap_game_map["29,29"] + printmap_game_map[
+            "30,29"] + printmap_game_map["31,29"] +
+        printmap_game_map["32,29"] + printmap_game_map["33,29"] +
+        printmap_game_map["34,29"] + printmap_game_map[
+            "35,29"] + printmap_game_map["36,29"] +
+        printmap_game_map["37,29"] + printmap_game_map["38,29"] +
+        printmap_game_map["39,29"] + printmap_game_map[
+            "40,29"] + printmap_game_map["41,29"] +
+        printmap_game_map["42,29"] + printmap_game_map["43,29"] +
+        printmap_game_map["44,29"] + printmap_game_map[
+            "45,29"] + printmap_game_map["46,29"] +
+        printmap_game_map["47,29"] + printmap_game_map["48,29"] +
+        printmap_game_map["49,29"] + printmap_game_map[
+            "50,29"] + printmap_game_map["51,29"] +
+        printmap_game_map["52,29"] + printmap_game_map["53,29"] +
+        printmap_game_map["54,29"] + printmap_game_map["55,29"] +
+        printmap_game_map["56,29"] + printmap_game_map[
+            "57,29"] + printmap_game_map["58,29"] +
+        printmap_game_map["59,29"] + printmap_game_map["60,29"] +
+        printmap_game_map["61,29"] + printmap_game_map[
+            "62,29"] + printmap_game_map["63,29"] +
+        printmap_game_map["64,29"])
+    print(
+        "30" + "|" +
+        printmap_game_map["1,30"] + printmap_game_map["2,30"] +
+        printmap_game_map["3,30"] +
+        printmap_game_map["4,30"] +
+        printmap_game_map["5,30"] + printmap_game_map[
+            "6,30"] + printmap_game_map["7,30"] + printmap_game_map[
+            "8,30"] + printmap_game_map["9,30"] +
+        printmap_game_map["10,30"] + printmap_game_map["11,30"] +
+        printmap_game_map["12,30"] + printmap_game_map["13,30"] +
+        printmap_game_map["14,30"] + printmap_game_map[
+            "15,30"] + printmap_game_map["16,30"] +
+        printmap_game_map["17,30"] + printmap_game_map["18,30"] +
+        printmap_game_map["19,30"] + printmap_game_map[
+            "20,30"] + printmap_game_map["21,30"] +
+        printmap_game_map["22,30"] + printmap_game_map["23,30"] +
+        printmap_game_map["24,30"] + printmap_game_map[
+            "25,30"] + printmap_game_map["26,30"] +
+        printmap_game_map["27,30"] + printmap_game_map["28,30"] +
+        printmap_game_map["29,30"] + printmap_game_map[
+            "30,30"] + printmap_game_map["31,30"] +
+        printmap_game_map["32,30"] + printmap_game_map["33,30"] +
+        printmap_game_map["34,30"] + printmap_game_map[
+            "35,30"] + printmap_game_map["36,30"] +
+        printmap_game_map["37,30"] + printmap_game_map["38,30"] +
+        printmap_game_map["39,30"] + printmap_game_map[
+            "40,30"] + printmap_game_map["41,30"] +
+        printmap_game_map["42,30"] + printmap_game_map["43,30"] +
+        printmap_game_map["44,30"] + printmap_game_map[
+            "45,30"] + printmap_game_map["46,30"] +
+        printmap_game_map["47,30"] + printmap_game_map["48,30"] +
+        printmap_game_map["49,30"] + printmap_game_map[
+            "50,30"] + printmap_game_map["51,30"] +
+        printmap_game_map["52,30"] + printmap_game_map["53,30"] +
+        printmap_game_map["54,30"] + printmap_game_map["55,30"] +
+        printmap_game_map["56,30"] + printmap_game_map[
+            "57,30"] + printmap_game_map["58,30"] +
+        printmap_game_map["59,30"] + printmap_game_map["60,30"] +
+        printmap_game_map["61,30"] + printmap_game_map[
+            "62,30"] + printmap_game_map["63,30"] +
+        printmap_game_map["64,30"])
+    print(
+        "31" + "|" +
+        printmap_game_map["1,31"] + printmap_game_map["2,31"] +
+        printmap_game_map["3,31"] +
+        printmap_game_map["4,31"] +
+        printmap_game_map["5,31"] + printmap_game_map[
+            "6,31"] + printmap_game_map["7,31"] + printmap_game_map[
+            "8,31"] + printmap_game_map["9,31"] +
+        printmap_game_map["10,31"] + printmap_game_map["11,31"] +
+        printmap_game_map["12,31"] + printmap_game_map["13,31"] +
+        printmap_game_map["14,31"] + printmap_game_map[
+            "15,31"] + printmap_game_map["16,31"] +
+        printmap_game_map["17,31"] + printmap_game_map["18,31"] +
+        printmap_game_map["19,31"] + printmap_game_map[
+            "20,31"] + printmap_game_map["21,31"] +
+        printmap_game_map["22,31"] + printmap_game_map["23,31"] +
+        printmap_game_map["24,31"] + printmap_game_map[
+            "25,31"] + printmap_game_map["26,31"] +
+        printmap_game_map["27,31"] + printmap_game_map["28,31"] +
+        printmap_game_map["29,31"] + printmap_game_map[
+            "30,31"] + printmap_game_map["31,31"] +
+        printmap_game_map["32,31"] + printmap_game_map["33,31"] +
+        printmap_game_map["34,31"] + printmap_game_map[
+            "35,31"] + printmap_game_map["36,31"] +
+        printmap_game_map["37,31"] + printmap_game_map["38,31"] +
+        printmap_game_map["39,31"] + printmap_game_map[
+            "40,31"] + printmap_game_map["41,31"] +
+        printmap_game_map["42,31"] + printmap_game_map["43,31"] +
+        printmap_game_map["44,31"] + printmap_game_map[
+            "45,31"] + printmap_game_map["46,31"] +
+        printmap_game_map["47,31"] + printmap_game_map["48,31"] +
+        printmap_game_map["49,31"] + printmap_game_map[
+            "50,31"] + printmap_game_map["51,31"] +
+        printmap_game_map["52,31"] + printmap_game_map["53,31"] +
+        printmap_game_map["54,31"] + printmap_game_map["55,31"] +
+        printmap_game_map["56,31"] + printmap_game_map[
+            "57,31"] + printmap_game_map["58,31"] +
+        printmap_game_map["59,31"] + printmap_game_map["60,31"] +
+        printmap_game_map["61,31"] + printmap_game_map[
+            "62,31"] + printmap_game_map["63,31"] +
+        printmap_game_map["64,31"])
+    print(
+        "32" + "|" +
+        printmap_game_map["1,32"] + printmap_game_map["2,32"] +
+        printmap_game_map["3,32"] +
+        printmap_game_map["4,32"] +
+        printmap_game_map["5,32"] + printmap_game_map[
+            "6,32"] + printmap_game_map["7,32"] + printmap_game_map[
+            "8,32"] + printmap_game_map["9,32"] +
+        printmap_game_map["10,32"] + printmap_game_map["11,32"] +
+        printmap_game_map["12,32"] + printmap_game_map["13,32"] +
+        printmap_game_map["14,32"] + printmap_game_map[
+            "15,32"] + printmap_game_map["16,32"] +
+        printmap_game_map["17,32"] + printmap_game_map["18,32"] +
+        printmap_game_map["19,32"] + printmap_game_map[
+            "20,32"] + printmap_game_map["21,32"] +
+        printmap_game_map["22,32"] + printmap_game_map["23,32"] +
+        printmap_game_map["24,32"] + printmap_game_map[
+            "25,32"] + printmap_game_map["26,32"] +
+        printmap_game_map["27,32"] + printmap_game_map["28,32"] +
+        printmap_game_map["29,32"] + printmap_game_map[
+            "30,32"] + printmap_game_map["31,32"] +
+        printmap_game_map["32,32"] + printmap_game_map["33,32"] +
+        printmap_game_map["34,32"] + printmap_game_map[
+            "35,32"] + printmap_game_map["36,32"] +
+        printmap_game_map["37,32"] + printmap_game_map["38,32"] +
+        printmap_game_map["39,32"] + printmap_game_map[
+            "40,32"] + printmap_game_map["41,32"] +
+        printmap_game_map["42,32"] + printmap_game_map["43,32"] +
+        printmap_game_map["44,32"] + printmap_game_map[
+            "45,32"] + printmap_game_map["46,32"] +
+        printmap_game_map["47,32"] + printmap_game_map["48,32"] +
+        printmap_game_map["49,32"] + printmap_game_map[
+            "50,32"] + printmap_game_map["51,32"] +
+        printmap_game_map["52,32"] + printmap_game_map["53,32"] +
+        printmap_game_map["54,32"] + printmap_game_map["55,32"] +
+        printmap_game_map["56,32"] + printmap_game_map[
+            "57,32"] + printmap_game_map["58,32"] +
+        printmap_game_map["59,32"] + printmap_game_map["60,32"] +
+        printmap_game_map["61,32"] + printmap_game_map[
+            "62,32"] + printmap_game_map["63,32"] +
+        printmap_game_map["64,32"])
 
 
 # Retrive a client's port and IP address from the server
@@ -3486,9 +3484,6 @@ server = (input("Server IP: "), int(input("Server Port: ")))
 player_num = input("Player Number: ")
 enemy_num = getEnemyNumber()
 
-# start printmap
-printmap = 1
-
 # TOFIX
 current_map = "player"
 
@@ -3517,50 +3512,47 @@ print("Waiting for game to start...")
 # Wait for "start" to be sent from server before starting print_game_map
 start, addr = s.recvfrom(1024)
 if start.decode() == "start":
-    threading._start_new_thread(print_game_map, (player_map, ))
 
-# Collect data from other clients
-while True:
-    data = (s.recvfrom(1024)).decode()
+    # Print the map at the start of the game
+    print_game_map(player_map)
+    
+    # Collect data from other clients
+    while True:
+        data = (s.recvfrom(1024)).decode()
 
-    # Return what is at a specific coordinate to a client
-    if data[0] == "checkcoords":
-        coords_message = checkCoords(data[1])
-        s.sendto(coords_message.encode(), addr)
+        # Return what is at a specific coordinate to a client
+        if data[0] == "checkcoords":
+            coords_message = checkCoords(data[1])
+            s.sendto(coords_message.encode(), addr)
 
-    # Return whether a unit or building exists to a client
-    elif data[0] == "checkexist":
-        exists_message = checkExists(data[1])
-        s.sendto(exists_message.encode(), addr)
+        # Return whether a unit or building exists to a client
+        elif data[0] == "checkexist":
+            exists_message = checkExists(data[1])
+            s.sendto(exists_message.encode(), addr)
 
-    # Return the position of a unit to a client
-    elif data[0] == "getpos":
-        pos_message = getPos(data[1])
-        s.sendto(pos_message.encode(), addr)
+        # Return the position of a unit to a client
+        elif data[0] == "getpos":
+            pos_message = getPos(data[1])
+            s.sendto(pos_message.encode(), addr)
 
-    if data[0] == "checkCoords":
-        coords_message = "checkCoordsData" + " " + checkCoords(data[1])
-        s.sendto(coords_message.encode(), addr)
+        if data[0] == "checkCoords":
+            coords_message = "checkCoordsData" + " " + checkCoords(data[1])
+            s.sendto(coords_message.encode(), addr)
 
-    elif data[0] == "checkExist":
-        exists_message = "checkExistData" + " " + checkExists(data[1])
-        s.sendto(exists_message.encode(), addr)
+        elif data[0] == "checkExist":
+            exists_message = "checkExistData" + " " + checkExists(data[1])
+            s.sendto(exists_message.encode(), addr)
 
-    elif data[0] == "getPos":
-        pos_message = "getPosData" + " " + (data[1])
-        s.sendto(pos_message.encode(), addr)
+        elif data[0] == "getPos":
+            pos_message = "getPosData" + " " + (data[1])
+            s.sendto(pos_message.encode(), addr)
 
-    # Set a map coord to a unit or building
-    elif data[0] == "set":
-        player_map[data[1]] = data[2]
+        # Set a map coord to a unit or building
+        elif data[0] == "set":
+            player_map[data[1]] = data[2]
+            print_game_map(player_map)
 
-    # Get a units data from a client
-    elif data[0] == "unitData":
-        unit_data_data, addr = s.recvfrom(1024)
-        unit_data = dict(json.loads(unit_data_data.decode()))
-
-    # TODO
-    elif data[0] == "stop":
-        printmap = 0
-    elif data[0] == "start":
-        printmap = 1
+        # Get a units data from a client
+        elif data[0] == "unitData":
+            unit_data_data, addr = s.recvfrom(1024)
+            unit_data = dict(json.loads(unit_data_data.decode()))
