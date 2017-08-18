@@ -5,6 +5,7 @@ import threading
 from termcolor import colored
 
 
+# Create dictonary with map data
 def genmap(empty, tree, farm, water, stone, town_center):
     default_map = {
         "1,1": empty,
@@ -2059,11 +2060,13 @@ def genmap(empty, tree, farm, water, stone, town_center):
     return default_map
 
 
+# Print the map
 def print_game_map(map):
     while printmap == 1:
         printmap_unit_data = unit_data.copy()
         printmap_game_map = map.copy()
 
+        # Change map objects to repective colored symbol
         for key in printmap_game_map:
             if printmap_game_map[key] == "empty":
                 printmap_game_map[key] = " "
@@ -2093,6 +2096,10 @@ def print_game_map(map):
                     str(printmap_unit_data[unit_name][0])
                 printmap_unit_data[unit_name] = "deleted"
 
+        # Moved, destoryed units or buildings are changed to deleted to stop
+        # them from being reprinted.
+        # TODO:
+        # find a better way to do this. Use empty instead?
         while "deleted" in printmap_unit_data.values():
             printmap_unit_data.pop(list(printmap_unit_data.keys())[
                 list(printmap_unit_data.values()).index("deleted")])
@@ -3430,6 +3437,7 @@ def print_game_map(map):
     time.sleep(1)
 
 
+# Retrive a client's port and IP address from the server
 def getClient(clienttype, playernum):
     message = "request clients"
     s.sendto(message.encode(), server)
@@ -3438,10 +3446,12 @@ def getClient(clienttype, playernum):
     return tuple(clients[str(clienttype + playernum)])
 
 
+# Retrive what is at a specific coordinate
 def checkCoords(coords):
     return player_map[coords]
 
 
+# Check whether a unit or building exists on the map
 def checkExists(unit):
     if unit in player_map.values():
         return "yes"
@@ -3449,11 +3459,13 @@ def checkExists(unit):
         return "no"
 
 
+# Get the coords of a specific unit or building
 def getPos(unit_name):
     return list(player_map.keys())[list(player_map.values()).index(
         unit_name)]
 
 
+# Return the enemy's player number
 def getEnemyNumber():
     if player_num == "1":
         return "2"
@@ -3461,12 +3473,17 @@ def getEnemyNumber():
         return "1"
 
 
-host = input("Server IP: ")
-port = int(input("Server Port: "))
+# Get the server IP address and port
+server = (input("Server IP: "), int(input("Server Port: ")))
+
+# Get the player and enemy's number
 player_num = input("Player Number: ")
 enemy_num = getEnemyNumber()
-server = (host, port)
+
+# start printmap
 printmap = 1
+
+# TOFIX
 current_map = "player"
 
 # Connect to Server
@@ -3478,43 +3495,54 @@ try:
 except:
     print("Cannot find server!")
 
-# Gen Map
+# Generate Map
 player_map = genmap("empty", "tree", "farm", "water", "stone",
                     "town_center")
+
+# Create dictonary that contains the current data for a unit or building
 unit_data = {
     "town_center": ["X", 1000, 0, 0,
                     "town_center_" + player_num, "None", "None"
                     ]
 }
-print(player_map)
+
 print("Waiting for game to start...")
+
+# Wait for "start" to be sent from server before starting print_game_map
 start, addr = s.recvfrom(1024)
 if start.decode() == "start":
     threading._start_new_thread(print_game_map, (player_map, ))
 
+# Collect data from other clients
 while True:
     data = (s.recvfrom(1024)).decode()
 
-if data[0] == "checkcoords":
-    coords_message = checkCoords(data[1])
-    s.sendto(coords_message.encode(), addr)
+    # Return what is at a specific coordinate to a client
+    if data[0] == "checkcoords":
+        coords_message = checkCoords(data[1])
+        s.sendto(coords_message.encode(), addr)
 
-elif data[0] == "checkexist":
-    exists_message = checkExists(data[1])
-    s.sendto(exists_message.encode(), addr)
+    # Return whether a unit or building exists to a client
+    elif data[0] == "checkexist":
+        exists_message = checkExists(data[1])
+        s.sendto(exists_message.encode(), addr)
 
-elif data[0] == "getpos":
-    pos_message = getPos(data[1])
-    s.sendto(pos_message.encode(), addr)
+    # Return the position of a unit to a client
+    elif data[0] == "getpos":
+        pos_message = getPos(data[1])
+        s.sendto(pos_message.encode(), addr)
 
-elif data[0] == "set":
-    player_map[data[1]] = data[2]
+    # Set a map coord to a unit or building
+    elif data[0] == "set":
+        player_map[data[1]] = data[2]
 
-elif data[0] == "unitdata":
-    unit_data_data, addr = s.recvfrom(1024)
-    unit_data = dict(json.loads(unit_data_data.decode()))
+    # Get a units data from a client
+    elif data[0] == "unitdata":
+        unit_data_data, addr = s.recvfrom(1024)
+        unit_data = dict(json.loads(unit_data_data.decode()))
 
-elif data[0] == "stop":
-    printmap = 0
-elif data[0] == "start":
-    printmap = 1
+    # TODO
+    elif data[0] == "stop":
+        printmap = 0
+    elif data[0] == "start":
+        printmap = 1

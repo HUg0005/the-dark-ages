@@ -5,6 +5,7 @@ import threading
 from termcolor import colored
 
 
+# Return a client's IP address and port
 def getClient(client_type):
     request_message = "request clients"
     s.sendto(request_message.encode(), server)
@@ -13,6 +14,7 @@ def getClient(client_type):
     return tuple(clients_list[str(client_type) + str(player_num)])
 
 
+# Return the stats of a unit or building
 def getStats(stats):
     stats_message = "getstats" + " " + stats
     s.sendto(stats_message.encode(), getClient("stats"))
@@ -20,6 +22,7 @@ def getStats(stats):
     return int(data.decode())
 
 
+# Return what is at a specific coordinate
 def checkCoords(coords):
     check_message = "checkcoords" + " " + coords
     s.sendto(check_message.encode(), getClient("map"))
@@ -27,6 +30,7 @@ def checkCoords(coords):
     return data.decode()
 
 
+# Return if a unit exists
 def checkExists(unit):
     check_message = "checkexist" + " " + unit
     s.sendto(check_message.encode(), getClient("map"))
@@ -34,6 +38,7 @@ def checkExists(unit):
     return data.decode()
 
 
+# Return the coordinates of a unit or building
 def getPos(unit_name):
     pos_message = "getpos" + " " + unit_name
     s.sendto(pos_message.encode(), getClient("map"))
@@ -42,6 +47,7 @@ def getPos(unit_name):
     return data
 
 
+# Build a building
 def buildRequest(coords, building):
     buildings_list = ["wall", "archery", "stable", "barracks", "workshop"]
     if building not in buildings_list:
@@ -73,6 +79,8 @@ def buildRequest(coords, building):
         print("Building blocked by", checkCoords(coords) + "!")
 
 
+# Return what is next to a unit or building, must specify direction
+# (up, down, left, right).
 def getNextTo(unit_name, direction):
     current_pos = getPos(unit_name).split(",")
     current_pos_up = current_pos[0] + "," + str((int(current_pos[1]) - 1))
@@ -89,16 +97,19 @@ def getNextTo(unit_name, direction):
         return checkCoords(current_pos_right)
 
 
+# Send the currnt food, stone and wood amounts to stats client
 def sendStats(food, stone, wood):
     stats = "stats" + " " + str(food) + " " + str(stone) + " " + str(wood)
     s.sendto(stats.encode(), getClient("stats"))
 
 
+# Set coords to a building or unit
 def setCoords(coords, unit_name):
     spawn_message = "set" + " " + coords + " " + unit_name
     s.sendto(spawn_message.encode(), getClient("map"))
 
 
+# Return the enemy's player number
 def getEnemyNumber():
     if player_num == "1":
         return "2"
@@ -106,6 +117,7 @@ def getEnemyNumber():
         return "1"
 
 
+# Change or add a unit or building's information in the unit_data list
 def unitDataList(unit_name, unit_symbol, unit_health, movement_speed,
                  food_consumption, unit_type, unit_status, damage):
     if unit_name not in unit_data.keys():
@@ -132,12 +144,14 @@ def unitDataList(unit_name, unit_symbol, unit_health, movement_speed,
     s.sendto(json.dumps(unit_data).encode(), getClient("map"))
 
 
+# Remove a unit or building
 def removeUnit(unit_name):
     unit_data.pop(unit_name)
     kill_message = "set" + " " + getPos(unit_name) + " " + "empty"
     s.sendto(kill_message.encode(), getClient("map"))
 
 
+# Move a unit on the map
 def moveUnit(unit_name, direction, distance_input):
     distance = int(distance_input)
     if direction == "up":
@@ -210,6 +224,7 @@ def moveUnit(unit_name, direction, distance_input):
     time.sleep(unit_data[unit_name][2])
 
 
+# Create a villager at the town_center with the specified job
 def createVillager(villager_type):
     if villager_num < 6:
         if villager_type == "farmer":
@@ -242,6 +257,7 @@ def createVillager(villager_type):
         print("Villager limit reached!")
 
 
+# Create a militia at a barracks
 def createMilitia():
     militia_name = "militia" + str(militia_num) + "_" + str(player_num)
     if checkExists("barracks") == "yes":
@@ -258,6 +274,7 @@ def createMilitia():
         print("You must build a barracks to create a militia!")
 
 
+# Create a archer at an archery
 def createArcher():
     archer_name = "archer" + str(militia_num) + "_" + str(player_num)
     if checkExists("archery") == "yes":
@@ -273,6 +290,7 @@ def createArcher():
         print("You must build a archery to create a archer!")
 
 
+# Create a knight at a stable
 def createKnight():
     knight_name = "knight" + str(knight_num) + "_" + str(player_num)
     if checkExists("stable") == "yes":
@@ -288,6 +306,7 @@ def createKnight():
         print("You must build a stable to create a knight!")
 
 
+# Create a ram at a workshop
 def createRam():
     ram_name = "ram" + str(ram_num) + "_" + str(player_num)
     if checkExists("workshop") == "yes":
@@ -306,6 +325,7 @@ def createRam():
 # Threads
 
 
+# Make units consume food every tick
 def consumeFood(run_time):
     if run_time % 10 == 0:
         for unit in unit_data:
@@ -316,6 +336,7 @@ def consumeFood(run_time):
                 print(unit, "was killed by starvation")
 
 
+# Make farmer's collect food if next to a farm
 def farmer(run_time):
     farmer_amount = 0
     if run_time % 10 == 0:
@@ -345,6 +366,7 @@ def farmer(run_time):
         sendStats(food, 0, 0)
 
 
+# Make lumberjack's collect wood if next to a tree
 def lumberjack(run_time):
     lumberjack_amount = 0
     if run_time % 10 == 0:
@@ -374,6 +396,7 @@ def lumberjack(run_time):
         sendStats(0, wood, 0)
 
 
+# Make miner's collect stone if next to stone
 def miner(run_time):
     miner_amount = 0
     if run_time % 10 == 0:
@@ -403,6 +426,7 @@ def miner(run_time):
         sendStats(0, 0, stone)
 
 
+# Make militia fight enemy if next to enemy
 def militia():
     for unit_name in unit_data:
         if unit_data[unit_name][4] == "militia_" + player_num:
@@ -427,6 +451,7 @@ def militia():
                              None, None, "idle", None)
 
 
+# Start threads
 def threads():
     run_time = 0
     while True:
@@ -442,12 +467,12 @@ def threads():
 # Main script
 
 
-# Get info
-host = input("Server IP: ")
-port = int(input("Server Port: "))
+# Get server IP address and port
+server = (input("Server IP: "), input("Server Port: "))
+
+# Get player and ene number
 player_num = input("Player Number: ")
 enemy_num = getEnemyNumber()
-server = (host, port)
 
 # Default variables
 farmer_num = 0
@@ -459,6 +484,7 @@ knight_num = 0
 ram_num = 0
 villager_num = 0
 
+# Create list to contain unit and building information
 unit_data = {"town_center": ["X", 1000, 0, 0,
                              "town_center_" + player_num, "None", "None"]}
 
@@ -472,12 +498,16 @@ except:
     print("Cannot find server!")
 
 print("Waiting for game to start...")
+
+# Wait for "start" from server
 start, addr = s.recvfrom(1024)
 if start.decode() == "start":
     # Start threads
     threading._start_new_thread(threads, ())
 
     while True:
+
+        # User commands
         usr_command = input("-> ").split()
 
         if usr_command[0] == "b":
