@@ -450,10 +450,7 @@ def militia():
                 unitDataList(unit_name, None, None, None,
                              None, None, "idle", None)
 
-<<<<<<< HEAD
 
-=======
->>>>>>> d24af1005dda72baa4bcc2c7e0f203be29f61212
 # Start threads
 def threads():
     run_time = 0
