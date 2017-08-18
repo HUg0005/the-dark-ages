@@ -5,16 +5,13 @@ import threading
 from termcolor import colored
 
 
-<<<<<<< HEAD
 # Return a client's IP address and port
-=======
 def recvData(required_data):
     data, addr = s.recvfrom(1024)
     if str(required_data) == (data.decode().split(" ", 1))[0]:
         return (data.decode().split(" ", 1))[1]
 
 
->>>>>>> overhaul-networking
 def getClient(client_type):
     request_message = "getClient"
     s.sendto(request_message.encode(), server)

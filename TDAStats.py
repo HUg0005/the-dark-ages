@@ -44,12 +44,8 @@ if start.decode() == "start":
             resources_list["wood"] += int(data[3])
             printStats()
 
-<<<<<<< HEAD
         # Return resources to client
-        elif data[0] == "getstats":
-=======
         elif data[0] == "getStats":
->>>>>>> overhaul-networking
             if data[1] == "food":
                 s.sendto(str("getStatsData" + " " +
                              resources_list["food"]).encode(), addr)

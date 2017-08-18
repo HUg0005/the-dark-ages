@@ -50,15 +50,13 @@ while True:
     # Recive data from clients
     rawdata, addr = s.recvfrom(1024)
     data = rawdata.decode()
-<<<<<<< HEAD
 
     # Check if data is "getClient" and return client_list
     if data == "request clients":
         clients = json.dumps(client_list)
-=======
+
     if data == "getClient":
         clients = "getClientData" + " " + json.dumps(client_list)
->>>>>>> overhaul-networking
         s.sendto(clients.encode(), addr)
 
     # Check if map1 is connected and add ip and port to client_list

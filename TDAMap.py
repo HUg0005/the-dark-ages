@@ -3437,16 +3437,13 @@ def print_game_map(map):
     time.sleep(1)
 
 
-<<<<<<< HEAD
 # Retrive a client's port and IP address from the server
-=======
 def recvData(required_data):
     data, addr = s.recvfrom(1024)
     if str(required_data) == (data.decode().split(" ", 1))[0]:
         return (data.decode().split(" ", 1))[0]
 
 
->>>>>>> overhaul-networking
 def getClient(clienttype, playernum):
     message = "request clients"
     s.sendto(message.encode(), server)
@@ -3525,7 +3522,6 @@ if start.decode() == "start":
 while True:
     data = (s.recvfrom(1024)).decode()
 
-<<<<<<< HEAD
     # Return what is at a specific coordinate to a client
     if data[0] == "checkcoords":
         coords_message = checkCoords(data[1])
@@ -3540,34 +3536,27 @@ while True:
     elif data[0] == "getpos":
         pos_message = getPos(data[1])
         s.sendto(pos_message.encode(), addr)
-=======
-if data[0] == "checkCoords":
-    coords_message = "checkCoordsData" + " " + checkCoords(data[1])
-    s.sendto(coords_message.encode(), addr)
 
-elif data[0] == "checkExist":
-    exists_message = "checkExistData" + " " + checkExists(data[1])
-    s.sendto(exists_message.encode(), addr)
+    if data[0] == "checkCoords":
+        coords_message = "checkCoordsData" + " " + checkCoords(data[1])
+        s.sendto(coords_message.encode(), addr)
 
-elif data[0] == "getPos":
-    pos_message = "getPosData" + " " + (data[1])
-    s.sendto(pos_message.encode(), addr)
->>>>>>> overhaul-networking
+    elif data[0] == "checkExist":
+        exists_message = "checkExistData" + " " + checkExists(data[1])
+        s.sendto(exists_message.encode(), addr)
+
+    elif data[0] == "getPos":
+        pos_message = "getPosData" + " " + (data[1])
+        s.sendto(pos_message.encode(), addr)
 
     # Set a map coord to a unit or building
     elif data[0] == "set":
         player_map[data[1]] = data[2]
 
-<<<<<<< HEAD
     # Get a units data from a client
-    elif data[0] == "unitdata":
+    elif data[0] == "unitData":
         unit_data_data, addr = s.recvfrom(1024)
         unit_data = dict(json.loads(unit_data_data.decode()))
-=======
-elif data[0] == "unitData":
-    unit_data_data, addr = s.recvfrom(1024)
-    unit_data = dict(json.loads(unit_data_data.decode()))
->>>>>>> overhaul-networking
 
     # TODO
     elif data[0] == "stop":
