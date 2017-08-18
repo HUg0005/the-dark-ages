@@ -10,9 +10,9 @@ def startGame():
 
 def cli():
     while True:
-        if "map1" in client_list.keys() and "console1" in client_list.keys() \
-                and "stats1" in client_list.keys():  # and "map2" in \
-            # client_list.keys() and "console2" in client_list.keys() and \
+        # if "map1" in client_list.keys() and "console1" in client_list.keys() \
+                # and "stats1" in client_list.keys() and "map2" in \
+                # client_list.keys() and "console2" in client_list.keys() and \
                 # "stats2" in client_list.keys():
             print("All clients are connected. Type start to start game.")
             usr_input = input("->")
@@ -47,15 +47,15 @@ while True:
         s.sendto(clients.encode(), addr)
 
     elif data == "map1":
-        print("Map1 connected.")
+        # print("Map1 connected.")
         client_list["map1"] = addr
 
     elif data == "console1":
-        print("Console1 connected.")
+        # print("Console1 connected.")
         client_list["console1"] = addr
 
     elif data == "stats1":
-        print("Stats1 connected.")
+        # print("Stats1 connected.")
         client_list["stats1"] = addr
 
     elif data == "map2":
