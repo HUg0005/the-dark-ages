@@ -3495,8 +3495,7 @@ except:
     print("Cannot find server!")
 
 # Generate Map
-player_map = genmap("empty", "tree", "farm", "water", "stone",
-                    "town_center")
+player_map = ("empty", "tree", "farm", "water", "stone", "town_center")
 
 # Create dictonary that contains the current data for a unit or building
 unit_data = {
@@ -3516,7 +3515,8 @@ if start.decode() == "start":
 
     # Collect data from other clients
     while True:
-        data = (s.recvfrom(1024)).decode()
+        recieved, addr = s.recvfrom(1024)
+        data = (recieved.decode()).split()
 
         # Return what is at a specific coordinate to a client
         if data[0] == "checkcoords":
