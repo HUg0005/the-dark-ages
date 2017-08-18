@@ -3430,6 +3430,12 @@ def print_game_map(map):
     time.sleep(1)
 
 
+def recvData(required_data):
+    data, addr = s.recvfrom(1024)
+    if required_data == (data.decode().split())[0]:
+        return data.decode
+
+
 def getClient(clienttype, playernum):
     message = "request clients"
     s.sendto(message.encode(), server)

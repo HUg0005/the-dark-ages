@@ -5,6 +5,12 @@ import threading
 from termcolor import colored
 
 
+def recvData(required_data):
+    data, addr = s.recvfrom(1024)
+    if required_data == (data.decode().split())[0]:
+        return data.decode
+
+
 def getClient(client_type):
     request_message = "request clients"
     s.sendto(request_message.encode(), server)
