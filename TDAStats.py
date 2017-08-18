@@ -47,7 +47,6 @@ if start.decode() == "start":
         # Return resources to client
         elif data[0] == "getStats":
             if data[1] == "food":
-<<<<<<< HEAD
                 s.sendto(("getStatsData" + " " +
                          str(resources_list["food"])).encode(), addr)
             elif data[1] == "stone":
@@ -56,13 +55,3 @@ if start.decode() == "start":
             elif data[1] == "wood":
                 s.sendto(("getStatsData" + " " +
                          str(resources_list["wood"])).encode(), addr)
-=======
-                s.sendto("getStatsData" + " " +
-                         str(resources_list["food"]).encode(), addr)
-            elif data[1] == "stone":
-                s.sendto("getStatsData" + " " +
-                         str(resources_list["stone"]).encode(), addr)
-            elif data[1] == "wood":
-                s.sendto("getStatsData" + " " +
-                         str(resources_list["wood"]).encode(), addr)
->>>>>>> ea5be2c1ab0778916f16be03f9fbb9f5ae1fc709
