@@ -3444,6 +3444,7 @@ def recvData(required_data):
         return (data.decode().split(" ", 1))[0]
 
 
+# Return client IP address and port
 def getClient(clienttype, playernum):
     message = "request clients"
     s.sendto(message.encode(), server)

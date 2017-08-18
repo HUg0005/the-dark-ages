@@ -12,6 +12,7 @@ def recvData(required_data):
         return (data.decode().split(" ", 1))[1]
 
 
+# Return client IP address and port
 def getClient(client_type):
     request_message = "getClient"
     s.sendto(request_message.encode(), server)
