@@ -27,8 +27,7 @@ def getStats(stats):
 def checkCoords(coords):
     check_message = "checkcoords" + " " + coords
     s.sendto(check_message.encode(), getClient("map"))
-    data, addr = s.recvfrom(1024)
-    return data.decode()
+    return recvData("coords")
 
 
 def checkExists(unit):

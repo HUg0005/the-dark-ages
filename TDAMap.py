@@ -3501,7 +3501,7 @@ while True:
     data = (s.recvfrom(1024)).decode()
 
 if data[0] == "checkcoords":
-    coords_message = checkCoords(data[1])
+    coords_message = "coords" + " " + checkCoords(data[1])
     s.sendto(coords_message.encode(), addr)
 
 elif data[0] == "checkexist":
