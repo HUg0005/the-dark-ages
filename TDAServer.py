@@ -12,9 +12,9 @@ def startGame():
 # Server interface
 def cli():
     while True:
-        if "map1" in client_list.keys() and "console1" in client_list.keys() \
-                and "stats1" in client_list.keys():  # and "map2" in \
-            # client_list.keys() and "console2" in client_list.keys() and \
+        # if "map1" in client_list.keys() and "console1" in client_list.keys() \
+                # and "stats1" in client_list.keys() and "map2" in \
+                # client_list.keys() and "console2" in client_list.keys() and \
                 # "stats2" in client_list.keys():
             print("All clients are connected. Type start to start game.")
             usr_input = input("->")
@@ -50,25 +50,30 @@ while True:
     # Recive data from clients
     rawdata, addr = s.recvfrom(1024)
     data = rawdata.decode()
+<<<<<<< HEAD
 
     # Check if data is "getClient" and return client_list
     if data == "request clients":
         clients = json.dumps(client_list)
+=======
+    if data == "getClient":
+        clients = "getClientData" + " " + json.dumps(client_list)
+>>>>>>> overhaul-networking
         s.sendto(clients.encode(), addr)
 
     # Check if map1 is connected and add ip and port to client_list
     elif data == "map1":
-        print("Map1 connected.")
+        # print("Map1 connected.")
         client_list["map1"] = addr
 
     # Check if console1 is connected and add ip and port to client_list
     elif data == "console1":
-        print("Console1 connected.")
+        # print("Console1 connected.")
         client_list["console1"] = addr
 
     # Check if stats1 is connected and add ip and port to client_list
     elif data == "stats1":
-        print("Stats1 connected.")
+        # print("Stats1 connected.")
         client_list["stats1"] = addr
 
     # Check if map2 is connected and add ip and port to client_list

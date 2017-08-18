@@ -5,46 +5,49 @@ import threading
 from termcolor import colored
 
 
+<<<<<<< HEAD
 # Return a client's IP address and port
-def getClient(client_type):
-    request_message = "request clients"
-    s.sendto(request_message.encode(), server)
+=======
+def recvData(required_data):
     data, addr = s.recvfrom(1024)
-    clients_list = json.loads(data.decode())
+    if str(required_data) == (data.decode().split(" ", 1))[0]:
+        return (data.decode().split(" ", 1))[1]
+
+
+>>>>>>> overhaul-networking
+def getClient(client_type):
+    request_message = "getClient"
+    s.sendto(request_message.encode(), server)
+    clients_list = json.loads(recvData("getClientData"))
     return tuple(clients_list[str(client_type) + str(player_num)])
 
 
 # Return the stats of a unit or building
 def getStats(stats):
-    stats_message = "getstats" + " " + stats
+    stats_message = "getStats" + " " + stats
     s.sendto(stats_message.encode(), getClient("stats"))
-    data, addr = s.recvfrom(1024)
-    return int(data.decode())
+    return int(recvData("getStatsData"))
 
 
 # Return what is at a specific coordinate
 def checkCoords(coords):
-    check_message = "checkcoords" + " " + coords
+    check_message = "checkCoords" + " " + coords
     s.sendto(check_message.encode(), getClient("map"))
-    data, addr = s.recvfrom(1024)
-    return data.decode()
+    return recvData("checkCoordsData")
 
 
 # Return if a unit exists
 def checkExists(unit):
-    check_message = "checkexist" + " " + unit
+    check_message = "checkExist" + " " + unit
     s.sendto(check_message.encode(), getClient("map"))
-    data, addr = s.recvfrom(1024)
-    return data.decode()
+    return recvData("checkExistData")
 
 
 # Return the coordinates of a unit or building
 def getPos(unit_name):
-    pos_message = "getpos" + " " + unit_name
+    pos_message = "getPos" + " " + unit_name
     s.sendto(pos_message.encode(), getClient("map"))
-    recived, addr = s.recvfrom(1024)
-    data = recived.decode()
-    return data
+    return recvData("getPosData")
 
 
 # Build a building
@@ -140,7 +143,7 @@ def unitDataList(unit_name, unit_symbol, unit_health, movement_speed,
         elif damage is not None:
             unit_data[unit_name][6] = damage
 
-    s.sendto("unitdata".encode(), getClient("map"))
+    s.sendto("unitData".encode(), getClient("map"))
     s.sendto(json.dumps(unit_data).encode(), getClient("map"))
 
 
