@@ -36,13 +36,13 @@ if start.decode() == "start":
             resources_list["wood"] += int(data[3])
             printStats()
 
-        elif data[0] == "getstats":
+        elif data[0] == "getStats":
             if data[1] == "food":
-                s.sendto(str("stats" + " " + resources_list["food"]).encode(),
-                         addr)
+                s.sendto(str("getStatsData" + " " +
+                             resources_list["food"]).encode(), addr)
             elif data[1] == "stone":
-                s.sendto(str("stats" + " " + resources_list["stone"]).encode(),
-                         addr)
+                s.sendto(str("getStatsData" + " " +
+                             resources_list["stone"]).encode(), addr)
             elif data[1] == "wood":
-                s.sendto(str("stats" + " " + resources_list["wood"]).encode(),
-                         addr)
+                s.sendto(str("getStatsData" + " " +
+                             resources_list["wood"]).encode(), addr)

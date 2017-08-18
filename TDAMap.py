@@ -3500,12 +3500,12 @@ if start.decode() == "start":
 while True:
     data = (s.recvfrom(1024)).decode()
 
-if data[0] == "checkcoords":
-    coords_message = "coords" + " " + checkCoords(data[1])
+if data[0] == "checkCoords":
+    coords_message = "checkCoordsData" + " " + checkCoords(data[1])
     s.sendto(coords_message.encode(), addr)
 
-elif data[0] == "checkexist":
-    exists_message = "checkexistdata" + " " + checkExists(data[1])
+elif data[0] == "checkExist":
+    exists_message = "checkExistData" + " " + checkExists(data[1])
     s.sendto(exists_message.encode(), addr)
 
 elif data[0] == "getpos":

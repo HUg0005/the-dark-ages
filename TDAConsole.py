@@ -12,28 +12,28 @@ def recvData(required_data):
 
 
 def getClient(client_type):
-    request_message = "request clients"
+    request_message = "getClient"
     s.sendto(request_message.encode(), server)
-    clients_list = json.loads(recvData("client_list"))
+    clients_list = json.loads(recvData("getClientData"))
     return tuple(clients_list[str(client_type) + str(player_num)])
 
 
 def getStats(stats):
-    stats_message = "getstats" + " " + stats
+    stats_message = "getStats" + " " + stats
     s.sendto(stats_message.encode(), getClient("stats"))
-    return int(recvData("stats"))
+    return int(recvData("getStatsData"))
 
 
 def checkCoords(coords):
-    check_message = "checkcoords" + " " + coords
+    check_message = "checkCoords" + " " + coords
     s.sendto(check_message.encode(), getClient("map"))
-    return recvData("coords")
+    return recvData("checkCoordsData")
 
 
 def checkExists(unit):
-    check_message = "checkexist" + " " + unit
+    check_message = "checkExist" + " " + unit
     s.sendto(check_message.encode(), getClient("map"))
-    return recvData("checkexistdata")
+    return recvData("checkExistData")
 
 
 def getPos(unit_name):

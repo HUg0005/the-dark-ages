@@ -42,8 +42,8 @@ threading._start_new_thread(cli, ())
 while True:
     rawdata, addr = s.recvfrom(1024)
     data = rawdata.decode()
-    if data == "request clients":
-        clients = "client_list" + " " + json.dumps(client_list)
+    if data == "getClient":
+        clients = "getClientData" + " " + json.dumps(client_list)
         s.sendto(clients.encode(), addr)
 
     elif data == "map1":
