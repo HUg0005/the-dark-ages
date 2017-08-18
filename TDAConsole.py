@@ -7,8 +7,8 @@ from termcolor import colored
 
 def recvData(required_data):
     data, addr = s.recvfrom(1024)
-    if required_data == (data.decode().split())[0]:
-        return data.decode
+    if str(required_data) == (data.decode().split())[0]:
+        return (data.decode().split())[1]
 
 
 def getClient(client_type):
