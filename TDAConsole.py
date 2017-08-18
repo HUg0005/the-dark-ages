@@ -33,8 +33,7 @@ def checkCoords(coords):
 def checkExists(unit):
     check_message = "checkexist" + " " + unit
     s.sendto(check_message.encode(), getClient("map"))
-    data, addr = s.recvfrom(1024)
-    return data.decode()
+    return recvData("checkexistdata")
 
 
 def getPos(unit_name):

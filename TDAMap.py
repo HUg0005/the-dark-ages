@@ -3505,7 +3505,7 @@ if data[0] == "checkcoords":
     s.sendto(coords_message.encode(), addr)
 
 elif data[0] == "checkexist":
-    exists_message = checkExists(data[1])
+    exists_message = "checkexistdata" + " " + checkExists(data[1])
     s.sendto(exists_message.encode(), addr)
 
 elif data[0] == "getpos":
