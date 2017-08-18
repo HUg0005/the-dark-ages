@@ -3432,8 +3432,8 @@ def print_game_map(map):
 
 def recvData(required_data):
     data, addr = s.recvfrom(1024)
-    if str(required_data) == (data.decode().split())[0]:
-        return (data.decode().split())[0]
+    if str(required_data) == (data.decode().split(" ", 1))[0]:
+        return (data.decode().split(" ", 1))[0]
 
 
 def getClient(clienttype, playernum):
