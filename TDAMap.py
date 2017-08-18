@@ -1,7 +1,5 @@
 import socket
 import json
-import time
-import threading
 from termcolor import colored
 
 
@@ -3515,7 +3513,7 @@ if start.decode() == "start":
 
     # Print the map at the start of the game
     print_game_map(player_map)
-    
+
     # Collect data from other clients
     while True:
         data = (s.recvfrom(1024)).decode()
