@@ -21,8 +21,7 @@ def getClient(client_type):
 def getStats(stats):
     stats_message = "getstats" + " " + stats
     s.sendto(stats_message.encode(), getClient("stats"))
-    data, addr = s.recvfrom(1024)
-    return int(data.decode())
+    return int(recvData("stats"))
 
 
 def checkCoords(coords):
