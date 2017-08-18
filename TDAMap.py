@@ -3508,8 +3508,8 @@ elif data[0] == "checkExist":
     exists_message = "checkExistData" + " " + checkExists(data[1])
     s.sendto(exists_message.encode(), addr)
 
-elif data[0] == "getpos":
-    pos_message = getPos(data[1])
+elif data[0] == "getPos":
+    pos_message = "getPosData" + " " + (data[1])
     s.sendto(pos_message.encode(), addr)
 
 elif data[0] == "set":

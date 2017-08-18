@@ -37,11 +37,9 @@ def checkExists(unit):
 
 
 def getPos(unit_name):
-    pos_message = "getpos" + " " + unit_name
+    pos_message = "getPos" + " " + unit_name
     s.sendto(pos_message.encode(), getClient("map"))
-    recived, addr = s.recvfrom(1024)
-    data = recived.decode()
-    return data
+    return recvData("getPosData")
 
 
 def buildRequest(coords, building):
