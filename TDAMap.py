@@ -3519,28 +3519,16 @@ if start.decode() == "start":
         data = (recieved.decode()).split()
 
         # Return what is at a specific coordinate to a client
-        if data[0] == "checkcoords":
-            coords_message = checkCoords(data[1])
-            s.sendto(coords_message.encode(), addr)
-
-        # Return whether a unit or building exists to a client
-        elif data[0] == "checkexist":
-            exists_message = checkExists(data[1])
-            s.sendto(exists_message.encode(), addr)
-
-        # Return the position of a unit to a client
-        elif data[0] == "getpos":
-            pos_message = getPos(data[1])
-            s.sendto(pos_message.encode(), addr)
-
         if data[0] == "checkCoords":
             coords_message = "checkCoordsData" + " " + checkCoords(data[1])
             s.sendto(coords_message.encode(), addr)
 
+        # Return whether a unit or building exists to a client
         elif data[0] == "checkExist":
             exists_message = "checkExistData" + " " + checkExists(data[1])
             s.sendto(exists_message.encode(), addr)
 
+        # Return the position of a unit to a client
         elif data[0] == "getPos":
             pos_message = "getPosData" + " " + (data[1])
             s.sendto(pos_message.encode(), addr)
