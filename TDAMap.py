@@ -3530,7 +3530,7 @@ if start.decode() == "start":
 
         # Return the position of a unit to a client
         elif data[0] == "getPos":
-            pos_message = "getPosData" + " " + (data[1])
+            pos_message = "getPosData" + " " + getPos(data[1])
             s.sendto(pos_message.encode(), addr)
 
         # Set a map coord to a unit or building
