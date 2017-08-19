@@ -129,6 +129,6 @@
 * all other units (except rams)= 1 food per 10 ticks
 
 ## Developer's Notes:
-* unit_data(symbol, health, movement_speed, food_consumption, owner_number, unit_status, damage)
+* unit_data(symbol, health, movement_speed, food_consumption, unit_type, unit_status, damage)
 
 *Hayden Hughes*
