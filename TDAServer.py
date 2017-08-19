@@ -51,10 +51,6 @@ while True:
     rawdata, addr = s.recvfrom(1024)
     data = rawdata.decode()
 
-    # Check if data is "getClient" and return client_list
-    if data == "request clients":
-        clients = json.dumps(client_list)
-
     # Return client IP address and port to client
     if data == "getClient":
         clients = "getClientData" + " " + json.dumps(client_list)
