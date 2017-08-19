@@ -4,7 +4,7 @@ from termcolor import colored
 
 
 # Create dictonary with map data
-def genmap(empty, tree, farm, water, stone, town_center):
+def genMap(empty, tree, farm, water, stone, town_center):
     default_map = {
         "1,1": empty,
         "2,1": empty,
@@ -2059,7 +2059,7 @@ def genmap(empty, tree, farm, water, stone, town_center):
 
 
 # Print the map
-def print_game_map(map):
+def printGameMap(map):
     printmap_unit_data = unit_data.copy()
     printmap_game_map = map.copy()
 
@@ -3495,7 +3495,7 @@ except:
     print("Cannot find server!")
 
 # Generate Map
-player_map = ("empty", "tree", "farm", "water", "stone", "town_center")
+player_map = genMap("empty", "tree", "farm", "water", "stone", "town_center")
 
 # Create dictonary that contains the current data for a unit or building
 unit_data = {
@@ -3511,7 +3511,7 @@ start, addr = s.recvfrom(1024)
 if start.decode() == "start":
 
     # Print the map at the start of the game
-    print_game_map(player_map)
+    printGameMap(player_map)
 
     # Collect data from other clients
     while True:
@@ -3536,7 +3536,7 @@ if start.decode() == "start":
         # Set a map coord to a unit or building
         elif data[0] == "set":
             player_map[data[1]] = data[2]
-            print_game_map(player_map)
+            printGameMap(player_map)
 
         # Get a units data from a client
         elif data[0] == "unitData":
