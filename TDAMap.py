@@ -2077,29 +2077,13 @@ def printGameMap(map):
             printmap_game_map[key] = "o"
 
     for unit_name in printmap_unit_data:
-        if printmap_unit_data[unit_name] != "deleted":
-            if printmap_unit_data[unit_name][5] == "militia_" + enemy_num \
-                or printmap_unit_data[unit_name][5] == "archer_" \
-                + enemy_num or printmap_unit_data[unit_name] == "knight_" \
-                + enemy_num or \
-                    printmap_unit_data[unit_name][5] == "ram_" + enemy_num:
-                printmap_game_map[list(printmap_game_map.keys())[list(
-                    printmap_game_map.values()).index(unit_name)]] = \
-                    colored(str(printmap_unit_data[unit_name][0]), "red")
-                printmap_unit_data[unit_name] = "deleted"
+        if int((printmap_unit_data[unit_name][4].split())[1]) == \
+                int(enemy_num):
+            printmap_game_map[unit_name] = \
+                colored(printmap_unit_data[unit_name][0], "red")
         else:
-            printmap_game_map[list(printmap_game_map.keys())[list(
-                printmap_game_map.values()).index(unit_name)]] = \
-                str(printmap_unit_data[unit_name][0])
-            printmap_unit_data[unit_name] = "deleted"
-
-    # Moved, destoryed units or buildings are changed to deleted to stop
-    # them from being reprinted.
-    # TODO:
-    # find a better way to do this. Use empty instead?
-    while "deleted" in printmap_unit_data.values():
-        printmap_unit_data.pop(list(printmap_unit_data.keys())[
-            list(printmap_unit_data.values()).index("deleted")])
+            printmap_game_map[getPos(unit_name)] = \
+                printmap_unit_data[unit_name][0]
 
     # Print map
     print(" " + " " + "|" + "0" + "0" + "0" + "0" + "0" + "0" + "0" + "0" +
@@ -3442,7 +3426,7 @@ def recvData(required_data):
 
 # Return client IP address and port
 def getClient(clienttype, playernum):
-    message = "request clients"
+    message = "getClient"
     s.sendto(message.encode(), server)
     clients = json.loads(recvData("client_list"))
     return tuple(clients[str(clienttype + playernum)])
@@ -3500,7 +3484,7 @@ player_map = genMap("empty", "tree", "farm", "water", "stone", "town_center")
 # Create dictonary that contains the current data for a unit or building
 unit_data = {
     "town_center": ["X", 1000, 0, 0,
-                    "town_center_" + player_num, "None", "None"
+                    "town_center " + player_num, "None", "None"
                     ]
 }
 

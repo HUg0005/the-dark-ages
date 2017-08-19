@@ -168,8 +168,7 @@ def moveUnit(unit_name, direction, distance_input):
                 distance -= 1
             else:
                 blocked_by = checkCoords(current_pos_up)
-                print(unit_name.replace("_", "").replace(
-                    player_num, "") + " is blocked by " + blocked_by)
+                print(unit_name + " is blocked by " + blocked_by)
                 break
 
     if direction == "down":
@@ -185,8 +184,7 @@ def moveUnit(unit_name, direction, distance_input):
                 distance -= 1
             else:
                 blocked_by = checkCoords(current_pos_down)
-                print(unit_name.replace("_", "").replace(
-                    player_num, "") + " is blocked by " + blocked_by)
+                print(unit_name + " is blocked by " + blocked_by)
                 break
 
     if direction == "left":
@@ -202,8 +200,7 @@ def moveUnit(unit_name, direction, distance_input):
                 distance -= 1
             else:
                 blocked_by = checkCoords(current_pos_left)
-                print(unit_name.replace("_", "").replace(
-                    player_num, "") + " is blocked by " + blocked_by)
+                print(unit_name + " is blocked by " + blocked_by)
                 break
 
     if direction == "right":
@@ -219,8 +216,7 @@ def moveUnit(unit_name, direction, distance_input):
                 distance -= 1
             else:
                 blocked_by = checkCoords(current_pos_right)
-                print(unit_name.replace("_", "").replace(
-                    player_num, "") + " is blocked by " + blocked_by)
+                print(unit_name + " is blocked by " + blocked_by)
                 break
     time.sleep(unit_data[unit_name][2])
 
@@ -229,20 +225,14 @@ def moveUnit(unit_name, direction, distance_input):
 def createVillager(villager_type):
     if villager_num < 6:
         if villager_type == "farmer":
-            villager_name = villager_type + \
-                str(farmer_num) + "_" + str(player_num)
+            villager_name = villager_type + str(farmer_num)
         elif villager_type == "lumberjack":
-            villager_name = villager_type + \
-                str(lumberjack_num) + "_" + str(player_num)
+            villager_name = villager_type + str(lumberjack_num)
         else:
-            villager_name = villager_type + \
-                str(miner_num) + "_" + str(player_num)
+            villager_name = villager_type + str(miner_num)
 
         if getNextTo("town_center", "down") == "empty":
-            town_center_pos = getPos("town_center").split(",")
-            town_center_spawn = town_center_pos[0] + \
-                "," + str(int(town_center_pos[1]) + 1)
-            setCoords(town_center_spawn, villager_name)
+            # Add to unit_data
             if villager_type == "farmer":
                 symbol = colored("0", "yellow")
             elif villager_type == "lumberjack":
@@ -250,7 +240,15 @@ def createVillager(villager_type):
             else:
                 symbol = "0"
             unitDataList(villager_name, symbol, 100,
-                         1, -1, villager_type, "idle", 1)
+                         1, -1, villager_type + " " + player_num, "idle", 1)
+
+            # Set position on map
+            town_center_pos = getPos("town_center").split(",")
+            town_center_spawn = town_center_pos[0] + \
+                "," + str(int(town_center_pos[1]) + 1)
+            setCoords(town_center_spawn, villager_name)
+
+            # Tax player for villager creation
             sendStats(-100, 0, 0)
         else:
             print("Town Center spawn site blocked!")
@@ -260,7 +258,7 @@ def createVillager(villager_type):
 
 # Create a militia at a barracks
 def createMilitia():
-    militia_name = "militia" + str(militia_num) + "_" + str(player_num)
+    militia_name = "militia" + str(militia_num)
     if checkExists("barracks") == "yes":
         if getNextTo("barracks", "down") == "empty":
             barracks_pos = getPos("barracks").split(",")
@@ -268,7 +266,7 @@ def createMilitia():
                 "," + str(int(barracks_pos[1]) + 1)
             setCoords(barracks_spawn, militia_name)
             unitDataList(militia_name, "!", 150, 1, -1,
-                         "militia_" + player_num, "idle", 50)
+                         "militia " + player_num, "idle", 50)
         else:
             print("Barracks spawn site blocked!")
     else:
@@ -277,14 +275,14 @@ def createMilitia():
 
 # Create a archer at an archery
 def createArcher():
-    archer_name = "archer" + str(militia_num) + "_" + str(player_num)
+    archer_name = "archer" + str(militia_num)
     if checkExists("archery") == "yes":
         if getNextTo("archery", "down") == "empty":
             archery_pos = getPos("archery").split(",")
             archery_spawn = archery_pos[0] + "," + str(int(archery_pos[1]) + 1)
             setCoords(archery_spawn, archer_name)
             unitDataList(archer_name, ")", 125, 1, -1,
-                         "archer_" + player_num, "idle", 25)
+                         "archer " + player_num, "idle", 25)
         else:
             print("Archery spawn site blocked!")
     else:
@@ -293,14 +291,14 @@ def createArcher():
 
 # Create a knight at a stable
 def createKnight():
-    knight_name = "knight" + str(knight_num) + "_" + str(player_num)
+    knight_name = "knight" + str(knight_num)
     if checkExists("stable") == "yes":
         if getNextTo("stable", "down") == "empty":
             stable_pos = getPos("stable").split(",")
             stable_spawn = stable_pos[0] + "," + str(int(stable_pos[1]) + 1)
             setCoords(stable_spawn, knight_name)
             unitDataList(knight_name, "^", 200, 2, -2,
-                         "knight_" + player_num, "idle", 100)
+                         "knight " + player_num, "idle", 100)
         else:
             print("Stable spawn site blocked!")
     else:
@@ -309,7 +307,7 @@ def createKnight():
 
 # Create a ram at a workshop
 def createRam():
-    ram_name = "ram" + str(ram_num) + "_" + str(player_num)
+    ram_name = "ram" + str(ram_num)
     if checkExists("workshop") == "yes":
         if getNextTo("workshop", "down") == "empty":
             workshop_pos = getPos("workshop").split(",")
@@ -317,7 +315,7 @@ def createRam():
                 "," + str(int(workshop_pos[1]) + 1)
             setCoords(workshop_spawn, ram_name)
             unitDataList(ram_name, "=", 100, 1, 0,
-                         "ram_" + player_num, "idle", 200)
+                         "ram " + player_num, "idle", 200)
         else:
             print("Workshop spawn site blocked!")
     else:
@@ -342,7 +340,7 @@ def farmer(run_time):
     farmer_amount = 0
     if run_time % 10 == 0:
         for unit_name in unit_data:
-            if unit_data[unit_name][3] == "farmer_" + player_num:
+            if unit_data[unit_name][3] == "farmer " + player_num:
                 if getNextTo(unit_name, "up") == "farm":
                     unitDataList(unit_name, None, None, None,
                                  None, None, "farming", None)
@@ -372,7 +370,7 @@ def lumberjack(run_time):
     lumberjack_amount = 0
     if run_time % 10 == 0:
         for unit_name in unit_data:
-            if unit_data[unit_name][3] == "lumberjack_" + player_num:
+            if unit_data[unit_name][3] == "lumberjack " + player_num:
                 if getNextTo(unit_name, "up") == "tree":
                     unitDataList(unit_name, None, None, None,
                                  None, None, "chopping", None)
@@ -402,7 +400,7 @@ def miner(run_time):
     miner_amount = 0
     if run_time % 10 == 0:
         for unit_name in unit_data:
-            if unit_data[unit_name][3] == "miner_" + player_num:
+            if unit_data[unit_name][3] == "miner " + player_num:
                 if getNextTo(unit_name, "up") == "stone":
                     unitDataList(unit_name, None, None, None,
                                  None, None, "mining", None)
@@ -430,7 +428,7 @@ def miner(run_time):
 # Make militia fight enemy if next to enemy
 def militia():
     for unit_name in unit_data:
-        if unit_data[unit_name][4] == "militia_" + player_num:
+        if unit_data[unit_name][4] == "militia " + player_num:
             if getNextTo(unit_name, "up").endswith(enemy_num):
                 unitDataList(unit_name, None, None, None,
                              None, None, "fighting", None)
@@ -487,7 +485,7 @@ villager_num = 0
 
 # Create list to contain unit and building information
 unit_data = {"town_center": ["X", 1000, 0, 0,
-                             "town_center_" + player_num, "None", "None"]}
+                             "town_center " + player_num, "None", "None"]}
 
 # Connect to Server
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -544,7 +542,7 @@ if start.decode() == "start":
 
         elif usr_command[0] == "m":
             threading._start_new_thread(
-                moveUnit, (usr_command[1] + "_" + player_num, usr_command[2],
+                moveUnit, (usr_command[1], usr_command[2],
                            usr_command[3]))
 
         elif usr_command[0] == "map":
