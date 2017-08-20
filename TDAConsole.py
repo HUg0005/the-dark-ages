@@ -352,20 +352,20 @@ def farmer(run_time):
     farmer_amount = 0
     if run_time % 10 == 0:
         for unit_name in unit_data:
-            if unit_data[unit_name][3] == "farmer " + player_num:
+            if unit_data[unit_name][4] == "farmer " + player_num:
                 if getNextTo(unit_name, "up") == "farm":
                     unitDataList(unit_name, None, None, None,
                                  None, None, "farming", None)
                     farmer_amount += 1
-                if getNextTo(unit_name, "down") == "farm":
+                elif getNextTo(unit_name, "down") == "farm":
                     unitDataList(unit_name, None, None, None,
                                  None, None, "farming", None)
                     farmer_amount += 1
-                if getNextTo(unit_name, "left") == "farm":
+                elif getNextTo(unit_name, "left") == "farm":
                     unitDataList(unit_name, None, None, None,
                                  None, None, "farming", None)
                     farmer_amount += 1
-                if getNextTo(unit_name, "right") == "farm":
+                elif getNextTo(unit_name, "right") == "farm":
                     unitDataList(unit_name, None, None, None,
                                  None, None, "farming", None)
                     farmer_amount += 1
@@ -373,7 +373,8 @@ def farmer(run_time):
                     unitDataList(unit_name, None, None, None,
                                  None, None, "idle", None)
                     farmer_amount -= 1
-        food = 1 * farmer_amount
+        sendText(str(farmer_amount))
+        food = 2 * farmer_amount
         sendStats(food, 0, 0)
 
 
@@ -382,20 +383,20 @@ def lumberjack(run_time):
     lumberjack_amount = 0
     if run_time % 10 == 0:
         for unit_name in unit_data:
-            if unit_data[unit_name][3] == "lumberjack " + player_num:
+            if unit_data[unit_name][4] == "lumberjack " + player_num:
                 if getNextTo(unit_name, "up") == "tree":
                     unitDataList(unit_name, None, None, None,
                                  None, None, "chopping", None)
                     lumberjack_amount += 1
-                if getNextTo(unit_name, "down") == "tree":
+                elif getNextTo(unit_name, "down") == "tree":
                     unitDataList(unit_name, None, None, None,
                                  None, None, "chopping", None)
                     lumberjack_amount += 1
-                if getNextTo(unit_name, "left") == "tree":
+                elif getNextTo(unit_name, "left") == "tree":
                     unitDataList(unit_name, None, None, None,
                                  None, None, "chopping", None)
                     lumberjack_amount += 1
-                if getNextTo(unit_name, "right") == "tree":
+                elif getNextTo(unit_name, "right") == "tree":
                     unitDataList(unit_name, None, None, None,
                                  None, None, "chopping", None)
                     lumberjack_amount += 1
@@ -403,7 +404,7 @@ def lumberjack(run_time):
                     unitDataList(unit_name, None, None, None,
                                  None, None, "idle", None)
                     lumberjack_amount -= 1
-        wood = 1 * lumberjack_amount
+        wood = 2 * lumberjack_amount
         sendStats(0, wood, 0)
 
 
@@ -412,20 +413,20 @@ def miner(run_time):
     miner_amount = 0
     if run_time % 10 == 0:
         for unit_name in unit_data:
-            if unit_data[unit_name][3] == "miner " + player_num:
+            if unit_data[unit_name][4] == "miner " + player_num:
                 if getNextTo(unit_name, "up") == "stone":
                     unitDataList(unit_name, None, None, None,
                                  None, None, "mining", None)
                     miner_amount += 1
-                if getNextTo(unit_name, "down") == "stone":
+                elif getNextTo(unit_name, "down") == "stone":
                     unitDataList(unit_name, None, None, None,
                                  None, None, "mining", None)
                     miner_amount += 1
-                if getNextTo(unit_name, "left") == "stone":
+                elif getNextTo(unit_name, "left") == "stone":
                     unitDataList(unit_name, None, None, None,
                                  None, None, "mining", None)
                     miner_amount += 1
-                if getNextTo(unit_name, "right") == "stone":
+                elif getNextTo(unit_name, "right") == "stone":
                     unitDataList(unit_name, None, None, None,
                                  None, None, "mining", None)
                     miner_amount += 1
@@ -433,7 +434,7 @@ def miner(run_time):
                     unitDataList(unit_name, None, None, None,
                                  None, None, "idle", None)
                     miner_amount -= 1
-        stone = 1 * miner_amount
+        stone = 2 * miner_amount
         sendStats(0, 0, stone)
 
 
