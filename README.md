@@ -3,13 +3,12 @@
 ## Game Mechanics:
 * 1 tick is equal to 1 second.
 * Units require food every 10 ticks except for rams. Knights consume 2 food every 10 ticks; all other units 1 food every 10 ticks.
-* Idle villagers decrease working villagers of the same type efficiency.
-* To win all built buildings (not including walls) must to be destroyed.
+* Idle villagers decrease working villagers of the same types efficiency.
+* To win all enemy built buildings (not including walls) must to be destroyed.
 * Archers have a attack radius of 3.
 * Villagers will yield 10 items every 10 ticks if next their specified resource.
 * WARNING: YOU CANNOT CHANGE A VILLAGER'S JOB!
-* Units will spawn under their buildings. Units cannot spawn if this site is blocked.
-* The map refreshes every second.
+* Units will spawn south of their buildings. Units cannot spawn if this site is blocked.
 * Limit of 5 villagers.
 * All units enter and leave the map on the right hand side.
 * To move units to the enemy's map, move the unit off the right hand side of the map.
@@ -27,8 +26,8 @@
 * m unit_name direction distance
     move; moves unit specified distance. Speed depends on unit.
 
-* map [start, stop, player number]
-    map; controls map display. player number; change what map player the map is shown, start; start map refreshing, stop; stops map refreshing (WARNING: unit movement, unit creation and building creation after map refreshing stopped will not be shown!)
+* map player number
+    map; change what map player the map is shown
 
 * f unit_name/building/coordinates
     focus; displays information in stats

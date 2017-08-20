@@ -373,7 +373,6 @@ def farmer(run_time):
                     unitDataList(unit_name, None, None, None,
                                  None, None, "idle", None)
                     farmer_amount -= 1
-        log(str(farmer_amount))
         food = 10 * farmer_amount
         sendStats(food, 0, 0)
 
