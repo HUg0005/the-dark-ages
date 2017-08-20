@@ -176,6 +176,7 @@ def moveUnit(unit_name, direction, distance_input):
                 blocked_by = checkCoords(current_pos_up)
                 print(unit_name + " is blocked by " + blocked_by)
                 break
+            time.sleep(unit_data[unit_name][2])
 
     if direction == "down":
         while distance != 0:
@@ -192,6 +193,7 @@ def moveUnit(unit_name, direction, distance_input):
                 blocked_by = checkCoords(current_pos_down)
                 print(unit_name + " is blocked by " + blocked_by)
                 break
+            time.sleep(unit_data[unit_name][2])
 
     if direction == "left":
         while distance != 0:
@@ -208,6 +210,7 @@ def moveUnit(unit_name, direction, distance_input):
                 blocked_by = checkCoords(current_pos_left)
                 print(unit_name + " is blocked by " + blocked_by)
                 break
+            time.sleep(unit_data[unit_name][2])
 
     if direction == "right":
         while distance != 0:
@@ -224,7 +227,7 @@ def moveUnit(unit_name, direction, distance_input):
                 blocked_by = checkCoords(current_pos_right)
                 print(unit_name + " is blocked by " + blocked_by)
                 break
-    time.sleep(unit_data[unit_name][2])
+            time.sleep(unit_data[unit_name][2])
 
 
 # Create a villager at the town_center with the specified job
@@ -550,9 +553,12 @@ if start.decode() == "start":
                 print("Unknown unit type,", usr_command[1] + "!")
 
         elif usr_command[0] == "m":
-            threading._start_new_thread(
-                moveUnit, (usr_command[1], usr_command[2],
-                           usr_command[3]))
+            if usr_command[1] in unit_data:
+                threading._start_new_thread(
+                    moveUnit, (usr_command[1], usr_command[2],
+                               usr_command[3]))
+            else:
+                print(usr_command[1] + " does not exist!")
 
         elif usr_command[0] == "map":
             if usr_command[1] == "stop":
