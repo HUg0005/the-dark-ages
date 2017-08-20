@@ -20,6 +20,11 @@ def getClient(client_type):
     return tuple(clients_list[str(client_type) + str(player_num)])
 
 
+# Send text to stats client
+def sendText(text):
+    s.sendto(("print " + text).encode(), getClient("stats"))
+
+
 # Return the stats of a unit or building
 def getStats(stats):
     stats_message = "getStats" + " " + stats
@@ -148,6 +153,7 @@ def unitDataList(unit_name, unit_symbol, unit_health, movement_speed,
 # Remove a unit or building
 def removeUnit(unit_name):
     unit_data.pop(unit_name)
+    s.sendto(("removeUnit " + unit_name).encode(), getClient("map"))
     kill_message = "set" + " " + getPos(unit_name) + " " + "empty"
     s.sendto(kill_message.encode(), getClient("map"))
 
@@ -327,12 +333,15 @@ def createRam():
 # Make units consume food every tick
 def consumeFood(run_time):
     if run_time % 10 == 0:
-        for unit in unit_data:
+        # Copy unit data to avoid list changing whilst being iterated over
+        # error
+        unit_data_copy = unit_data.copy()
+        for unit in unit_data_copy:
             if getStats("food") > 0:
                 sendStats(unit_data[unit][3], 0, 0)
             elif unit_data[unit][3] != 0:
                 removeUnit(unit)
-                print(unit, "was killed by starvation")
+                sendText(unit + " was killed by starvation")
 
 
 # Make farmer's collect food if next to a farm

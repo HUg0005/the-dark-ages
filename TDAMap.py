@@ -2082,8 +2082,9 @@ def printGameMap(map):
             printmap_game_map[unit_name] = \
                 colored(printmap_unit_data[unit_name][0], "red")
         else:
-            printmap_game_map[getPos(unit_name)] = \
-                printmap_unit_data[unit_name][0]
+            printmap_game_map[list(printmap_game_map.keys())[
+                list(printmap_game_map.values()).index(unit_name)]] = \
+                    printmap_unit_data[unit_name][0]
 
     # Print map
     print(" " + " " + "|" + "0" + "0" + "0" + "0" + "0" + "0" + "0" + "0" +
@@ -3526,3 +3527,7 @@ if start.decode() == "start":
         elif data[0] == "unitData":
             unit_data_data, addr = s.recvfrom(1024)
             unit_data = dict(json.loads(unit_data_data.decode()))
+
+        # Remove a unit or4 building from unit_data
+        elif data[0] == "removeUnit":
+            unit_data.pop(data[1])

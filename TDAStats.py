@@ -55,3 +55,8 @@ if start.decode() == "start":
             elif data[1] == "wood":
                 s.sendto(("getStatsData" + " " +
                          str(resources_list["wood"])).encode(), addr)
+
+        # Get text to print from other clients
+        elif data[0] == "print":
+            data.pop(0)
+            print(" ".join(data))
