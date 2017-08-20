@@ -561,14 +561,11 @@ if start.decode() == "start":
             else:
                 print(usr_command[1] + " does not exist!")
 
+        # TODO
         elif usr_command[0] == "map":
-            if usr_command[1] == "stop":
-                s.sendto("stop".encode(), getClient("map"))
-            elif usr_command[1] == "start":
-                s.sendto("start".encode(), getClient("map"))
-            elif usr_command[1] == "1":
+            if usr_command[1] == "1":
                 s.sendto("map 1".encode(), getClient("map"))
             elif usr_command[1] == "2":
                 s.sendto("map 2".encode(), getClient("map"))
             else:
-                print(usr_command[1], "is not a valid map command!")
+                print(usr_command[1], "is not a valid player map!")
