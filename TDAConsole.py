@@ -373,10 +373,7 @@ def farmer(run_time):
                     unitDataList(unit_name, None, None, None,
                                  None, None, "idle", None)
                     farmer_amount -= 1
-<<<<<<< HEAD
-=======
-        sendText(str(farmer_amount))
->>>>>>> parent of debbff3... GUI Testing
+
         food = 10 * farmer_amount
         sendStats(food, 0, 0)
 
@@ -520,16 +517,7 @@ if start.decode() == "start":
     # Start threads
     threading._start_new_thread(threads, ())
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-# Get player and enemy number
-player_num_label = Label(root, text="Player Number:")
-player_num_label.grid(row=0, column=4)
-player_num_entry = Entry(root, width=1)
-player_num_entry.grid(row=0, column=5)
-=======
     while True:
->>>>>>> parent of debbff3... GUI Testing
 
         # User commands
         usr_command = input("-> ").split()
@@ -565,11 +553,6 @@ player_num_entry.grid(row=0, column=5)
             else:
                 print("Unknown unit type,", usr_command[1] + "!")
 
-<<<<<<< HEAD
-root.mainloop()
-=======
-=======
->>>>>>> parent of debbff3... GUI Testing
         elif usr_command[0] == "m":
             if usr_command[1] in unit_data:
                 threading._start_new_thread(
@@ -578,25 +561,11 @@ root.mainloop()
             else:
                 print(usr_command[1] + " does not exist!")
 
-<<<<<<< HEAD
-        elif usr_command[0] == "map":
-            if usr_command[1] == "stop":
-                s.sendto("stop".encode(), getClient("map"))
-            elif usr_command[1] == "start":
-                s.sendto("start".encode(), getClient("map"))
-            elif usr_command[1] == "1":
-=======
         # TODO
         elif usr_command[0] == "map":
             if usr_command[1] == "1":
->>>>>>> parent of debbff3... GUI Testing
                 s.sendto("map 1".encode(), getClient("map"))
             elif usr_command[1] == "2":
                 s.sendto("map 2".encode(), getClient("map"))
             else:
-<<<<<<< HEAD
-                print(usr_command[1], "is not a valid map command!")
->>>>>>> parent of 7d8fabb... Cleaned up old map data
-=======
                 print(usr_command[1], "is not a valid player map!")
->>>>>>> parent of debbff3... GUI Testing
