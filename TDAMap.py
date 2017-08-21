@@ -3448,8 +3448,11 @@ def checkExists(unit):
 
 # Get the coords of a specific unit or building
 def getPos(unit_name):
-    return list(player_map.keys())[list(player_map.values()).index(
-        unit_name)]
+    try:
+        return list(player_map.keys())[list(player_map.values()).index(
+            unit_name)]
+    except:
+        return "dead"
 
 
 # Return the enemy's player number

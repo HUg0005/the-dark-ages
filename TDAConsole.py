@@ -88,19 +88,25 @@ def buildRequest(coords, building):
 # Return what is next to a unit or building, must specify direction
 # (up, down, left, right).
 def getNextTo(unit_name, direction):
-    current_pos = getPos(unit_name).split(",")
-    current_pos_up = current_pos[0] + "," + str((int(current_pos[1]) - 1))
-    current_pos_down = current_pos[0] + "," + str((int(current_pos[1]) + 1))
-    current_pos_left = str((int(current_pos[0]) - 1)) + "," + current_pos[1]
-    current_pos_right = str((int(current_pos[0]) + 1)) + "," + current_pos[1]
-    if direction == "up":
-        return checkCoords(current_pos_up)
-    elif direction == "down":
-        return checkCoords(current_pos_down)
-    elif direction == "left":
-        return checkCoords(current_pos_left)
-    elif direction == "right":
-        return checkCoords(current_pos_right)
+    if getPos(unit_name) != "dead":
+        current_pos = getPos(unit_name).split(",")
+        current_pos_up = current_pos[0] + "," + str((int(current_pos[1]) - 1))
+        current_pos_down = current_pos[0] + "," + \
+            str((int(current_pos[1]) + 1))
+        current_pos_left = str((int(current_pos[0]) - 1)) + "," + \
+            current_pos[1]
+        current_pos_right = str((int(current_pos[0]) + 1)) + "," +\
+            current_pos[1]
+        if direction == "up":
+            return checkCoords(current_pos_up)
+        elif direction == "down":
+            return checkCoords(current_pos_down)
+        elif direction == "left":
+            return checkCoords(current_pos_left)
+        elif direction == "right":
+            return checkCoords(current_pos_right)
+    else:
+        return "dead"
 
 
 # Send the currnt food, stone and wood amounts to stats client
@@ -353,7 +359,9 @@ def farmer(run_time):
     if run_time % 10 == 0:
         for unit_name in unit_data:
             if unit_data[unit_name][4] == "farmer " + player_num:
-                if getNextTo(unit_name, "up") == "farm":
+                if getNextTo(unit_name, "up") == "dead":
+                    break
+                elif getNextTo(unit_name, "up") == "farm":
                     unitDataList(unit_name, None, None, None,
                                  None, None, "farming", None)
                     farmer_amount += 1
@@ -384,7 +392,9 @@ def lumberjack(run_time):
     if run_time % 10 == 0:
         for unit_name in unit_data:
             if unit_data[unit_name][4] == "lumberjack " + player_num:
-                if getNextTo(unit_name, "up") == "tree":
+                if getNextTo(unit_name, "up") == "dead":
+                    break
+                elif getNextTo(unit_name, "up") == "tree":
                     unitDataList(unit_name, None, None, None,
                                  None, None, "chopping", None)
                     lumberjack_amount += 1
@@ -414,7 +424,9 @@ def miner(run_time):
     if run_time % 10 == 0:
         for unit_name in unit_data:
             if unit_data[unit_name][4] == "miner " + player_num:
-                if getNextTo(unit_name, "up") == "stone":
+                if getNextTo(unit_name, "up") == "dead":
+                    break
+                elif getNextTo(unit_name, "up") == "stone":
                     unitDataList(unit_name, None, None, None,
                                  None, None, "mining", None)
                     miner_amount += 1
@@ -442,7 +454,9 @@ def miner(run_time):
 def militia():
     for unit_name in unit_data:
         if unit_data[unit_name][4] == "militia " + player_num:
-            if getNextTo(unit_name, "up").endswith(enemy_num):
+            if getNextTo(unit_name, "up") == "dead":
+                break
+            elif getNextTo(unit_name, "up").endswith(enemy_num):
                 unitDataList(unit_name, None, None, None,
                              None, None, "fighting", None)
                 unit_data[getNextTo(unit_name, "up")][1] -= 50
