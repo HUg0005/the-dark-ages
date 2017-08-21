@@ -3528,6 +3528,6 @@ if start.decode() == "start":
             unit_data_data, addr = s.recvfrom(1024)
             unit_data = dict(json.loads(unit_data_data.decode()))
 
-        # Remove a unit or4 building from unit_data
+        # Remove a unit or building from unit_data
         elif data[0] == "removeUnit":
             unit_data.pop(data[1])
