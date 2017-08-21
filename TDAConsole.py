@@ -599,6 +599,7 @@ port_label.grid(row=0, column=2)
 port_entry = Entry(root, width=4)
 port_entry.grid(row=0, column=3)
 
+<<<<<<< HEAD
 # Get player and enemy number
 player_num_label = Label(root, text="Player Number:")
 player_num_label.grid(row=0, column=4)
@@ -610,3 +611,24 @@ connect_button = Button(root, text="Connect", command=connect)
 connect_button.grid(row=0, column=6)
 
 root.mainloop()
+=======
+        elif usr_command[0] == "m":
+            if usr_command[1] in unit_data:
+                threading._start_new_thread(
+                    moveUnit, (usr_command[1], usr_command[2],
+                               usr_command[3]))
+            else:
+                print(usr_command[1] + " does not exist!")
+
+        elif usr_command[0] == "map":
+            if usr_command[1] == "stop":
+                s.sendto("stop".encode(), getClient("map"))
+            elif usr_command[1] == "start":
+                s.sendto("start".encode(), getClient("map"))
+            elif usr_command[1] == "1":
+                s.sendto("map 1".encode(), getClient("map"))
+            elif usr_command[1] == "2":
+                s.sendto("map 2".encode(), getClient("map"))
+            else:
+                print(usr_command[1], "is not a valid map command!")
+>>>>>>> parent of 7d8fabb... Cleaned up old map data
