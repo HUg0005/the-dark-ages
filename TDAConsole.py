@@ -1,4 +1,3 @@
-from tkinter import Tk, Listbox, Label, Entry, END, Button
 import socket
 import json
 import time
@@ -13,16 +12,17 @@ def recvData(required_data):
         return (data.decode().split(" ", 1))[1]
 
 
-def log(text):
-    logBox.insert(END, text)
-
-
 # Return client IP address and port
 def getClient(client_type):
     request_message = "getClient"
     s.sendto(request_message.encode(), server)
     clients_list = json.loads(recvData("getClientData"))
     return tuple(clients_list[str(client_type) + str(player_num)])
+
+
+# Send text to stats client
+def sendText(text):
+    s.sendto(("print " + text).encode(), getClient("stats"))
 
 
 # Return the stats of a unit or building
@@ -57,10 +57,10 @@ def getPos(unit_name):
 def buildRequest(coords, building):
     buildings_list = ["wall", "archery", "stable", "barracks", "workshop"]
     if building not in buildings_list:
-        log("Invalid building!")
+        print("Invalid building")
         return
     if building != "wall" and checkExists(building) == "yes":
-        log(building + " has already been built!")
+        print(building + " has already been built!")
         return
     if checkCoords(coords) == "empty":
         request_message = str("set" + " " + coords + " " + building)
@@ -80,9 +80,9 @@ def buildRequest(coords, building):
         elif building == "workshop":
             unitDataList(building, "W", 2500, 0, 0,
                          "workshop_" + player_num, "None", "None")
-        log("Built" + " " + building + " at " + coords)
+        print("Built" + " " + building + " at " + coords)
     else:
-        log("Building blocked by", checkCoords(coords) + "!")
+        print("Building blocked by", checkCoords(coords) + "!")
 
 
 # Return what is next to a unit or building, must specify direction
@@ -174,7 +174,7 @@ def moveUnit(unit_name, direction, distance_input):
                 distance -= 1
             else:
                 blocked_by = checkCoords(current_pos_up)
-                log(unit_name + " is blocked by " + blocked_by)
+                print(unit_name + " is blocked by " + blocked_by)
                 break
             time.sleep(unit_data[unit_name][2])
 
@@ -191,7 +191,7 @@ def moveUnit(unit_name, direction, distance_input):
                 distance -= 1
             else:
                 blocked_by = checkCoords(current_pos_down)
-                log(unit_name + " is blocked by " + blocked_by)
+                print(unit_name + " is blocked by " + blocked_by)
                 break
             time.sleep(unit_data[unit_name][2])
 
@@ -208,7 +208,7 @@ def moveUnit(unit_name, direction, distance_input):
                 distance -= 1
             else:
                 blocked_by = checkCoords(current_pos_left)
-                log(unit_name + " is blocked by " + blocked_by)
+                print(unit_name + " is blocked by " + blocked_by)
                 break
             time.sleep(unit_data[unit_name][2])
 
@@ -225,7 +225,7 @@ def moveUnit(unit_name, direction, distance_input):
                 distance -= 1
             else:
                 blocked_by = checkCoords(current_pos_right)
-                log(unit_name + " is blocked by " + blocked_by)
+                print(unit_name + " is blocked by " + blocked_by)
                 break
             time.sleep(unit_data[unit_name][2])
 
@@ -260,9 +260,9 @@ def createVillager(villager_type):
             # Tax player for villager creation
             sendStats(-100, 0, 0)
         else:
-            log("Town Center spawn site blocked!")
+            print("Town Center spawn site blocked!")
     else:
-        log("Villager limit reached!")
+        print("Villager limit reached!")
 
 
 # Create a militia at a barracks
@@ -277,9 +277,9 @@ def createMilitia():
             unitDataList(militia_name, "!", 150, 1, -1,
                          "militia " + player_num, "idle", 50)
         else:
-            log("Barracks spawn site blocked!")
+            print("Barracks spawn site blocked!")
     else:
-        log("You must build a barracks to create a militia!")
+        print("You must build a barracks to create a militia!")
 
 
 # Create a archer at an archery
@@ -293,9 +293,9 @@ def createArcher():
             unitDataList(archer_name, ")", 125, 1, -1,
                          "archer " + player_num, "idle", 25)
         else:
-            log("Archery spawn site blocked!")
+            print("Archery spawn site blocked!")
     else:
-        log("You must build a archery to create a archer!")
+        print("You must build a archery to create a archer!")
 
 
 # Create a knight at a stable
@@ -309,9 +309,9 @@ def createKnight():
             unitDataList(knight_name, "^", 200, 2, -2,
                          "knight " + player_num, "idle", 100)
         else:
-            log("Stable spawn site blocked!")
+            print("Stable spawn site blocked!")
     else:
-        log("You must build a stable to create a knight!")
+        print("You must build a stable to create a knight!")
 
 
 # Create a ram at a workshop
@@ -326,9 +326,9 @@ def createRam():
             unitDataList(ram_name, "=", 100, 1, 0,
                          "ram " + player_num, "idle", 200)
         else:
-            log("Workshop spawn site blocked!")
+            print("Workshop spawn site blocked!")
     else:
-        log("You must build a workshop to create a ram!")
+        print("You must build a workshop to create a ram!")
 
 # Threads
 
@@ -344,7 +344,7 @@ def consumeFood(run_time):
                 sendStats(unit_data[unit][3], 0, 0)
             elif unit_data[unit][3] != 0:
                 removeUnit(unit)
-                log(unit + " was killed by starvation")
+                sendText(unit + " was killed by starvation")
 
 
 # Make farmer's collect food if next to a farm
@@ -373,6 +373,10 @@ def farmer(run_time):
                     unitDataList(unit_name, None, None, None,
                                  None, None, "idle", None)
                     farmer_amount -= 1
+<<<<<<< HEAD
+=======
+        sendText(str(farmer_amount))
+>>>>>>> parent of debbff3... GUI Testing
         food = 10 * farmer_amount
         sendStats(food, 0, 0)
 
@@ -475,98 +479,15 @@ def threads():
         run_time += 1
         time.sleep(1)
 
-
-# Connect to Server
-def connect():
-    global player_num
-    global enemy_num
-    global unit_data
-    global server
-
-    player_num = int(player_num_entry.get())
-    enemy_num = getEnemyNumber()
-
-    # Get server IP address and port
-    server = (ip_entry.get(), int(port_entry.get()))
-
-    # Create list to contain unit and building information
-    unit_data = {"town_center": ["X", 1000, 0, 0,
-                                 "town_center " + player_num, "None", "None"]}
-    try:
-        s.connect(("localhost", 0))
-        clientid = "console" + player_num
-        s.sendto(clientid.encode(), server)
-    except:
-        log("Cannot find server!")
-
-    log("Waiting for game to start...")
-
-
-def entryProcessing():
-    global farmer_num
-    global villager_num
-    global lumberjack_num
-    global miner_num
-    global militia_num
-    global archer_num
-    global knight_num
-    global ram_num
-
-    # User commands
-    usr_command = inputbox.get()
-
-    if usr_command[0] == "b":
-        buildRequest(usr_command[1], usr_command[2])
-
-    elif usr_command[0] == "c":
-        if usr_command[1] == "farmer":
-            createVillager("farmer")
-            farmer_num += 1
-            villager_num += 1
-        elif usr_command[1] == "lumberjack":
-            createVillager("lumberjack")
-            lumberjack_num += 1
-            villager_num += 1
-        elif usr_command[1] == "miner":
-            createVillager("miner")
-            miner_num += 1
-            villager_num += 1
-        elif usr_command[1] == "militia":
-            createMilitia()
-            militia_num += 1
-        elif usr_command[1] == "archer":
-            createArcher()
-            archer_num += 1
-        elif usr_command[1] == "knight":
-            createKnight()
-            knight_num += 1
-        elif usr_command[1] == "ram":
-            createRam()
-            ram_num += 1
-        else:
-            log("Unknown unit type,", usr_command[1] + "!")
-
-    elif usr_command[0] == "m":
-        if usr_command[1] in unit_data:
-            threading._start_new_thread(
-                moveUnit, (usr_command[1], usr_command[2],
-                           usr_command[3]))
-        else:
-            log(usr_command[1] + " does not exist!")
-
-    # TODO
-    elif usr_command[0] == "map":
-        if usr_command[1] == "1":
-            s.sendto("map 1".encode(), getClient("map"))
-        elif usr_command[1] == "2":
-            s.sendto("map 2".encode(), getClient("map"))
-        else:
-            log(usr_command[1], "is not a valid player map!")
-
-
 # Main script
 
-root = Tk()
+
+# Get server IP address and port
+server = (input("Server IP: "), int(input("Server Port: ")))
+
+# Get player and ene number
+player_num = input("Player Number: ")
+enemy_num = getEnemyNumber()
 
 # Default variables
 farmer_num = 0
@@ -578,40 +499,77 @@ knight_num = 0
 ram_num = 0
 villager_num = 0
 
+# Create list to contain unit and building information
+unit_data = {"town_center": ["X", 1000, 0, 0,
+                             "town_center " + player_num, "None", "None"]}
+
+# Connect to Server
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+try:
+    s.connect(("localhost", 0))
+    clientid = "console" + player_num
+    s.sendto(clientid.encode(), server)
+except:
+    print("Cannot find server!")
 
-# Log
-logBox = Listbox(root, width=50, height=25)
-logBox.grid(row=1, columnspan=6)
+print("Waiting for game to start...")
 
-# Input
-inputbox = Entry(root, width=50)
-inputbox.grid(row=2, columnspan=6)
+# Wait for "start" from server
+start, addr = s.recvfrom(1024)
+if start.decode() == "start":
+    # Start threads
+    threading._start_new_thread(threads, ())
 
-# Server information input
-ip_label = Label(root, text="Server IP:")
-ip_label.grid(row=0, column=0)
-ip_entry = Entry(root, width=10)
-ip_entry.grid(row=0, column=1)
-
-port_label = Label(root, text="Server Port:")
-port_label.grid(row=0, column=2)
-port_entry = Entry(root, width=4)
-port_entry.grid(row=0, column=3)
-
+<<<<<<< HEAD
 <<<<<<< HEAD
 # Get player and enemy number
 player_num_label = Label(root, text="Player Number:")
 player_num_label.grid(row=0, column=4)
 player_num_entry = Entry(root, width=1)
 player_num_entry.grid(row=0, column=5)
+=======
+    while True:
+>>>>>>> parent of debbff3... GUI Testing
 
-# Connect to server
-connect_button = Button(root, text="Connect", command=connect)
-connect_button.grid(row=0, column=6)
+        # User commands
+        usr_command = input("-> ").split()
 
+        if usr_command[0] == "b":
+            buildRequest(usr_command[1], usr_command[2])
+
+        elif usr_command[0] == "c":
+            if usr_command[1] == "farmer":
+                createVillager("farmer")
+                farmer_num += 1
+                villager_num += 1
+            elif usr_command[1] == "lumberjack":
+                createVillager("lumberjack")
+                lumberjack_num += 1
+                villager_num += 1
+            elif usr_command[1] == "miner":
+                createVillager("miner")
+                miner_num += 1
+                villager_num += 1
+            elif usr_command[1] == "militia":
+                createMilitia()
+                militia_num += 1
+            elif usr_command[1] == "archer":
+                createArcher()
+                archer_num += 1
+            elif usr_command[1] == "knight":
+                createKnight()
+                knight_num += 1
+            elif usr_command[1] == "ram":
+                createRam()
+                ram_num += 1
+            else:
+                print("Unknown unit type,", usr_command[1] + "!")
+
+<<<<<<< HEAD
 root.mainloop()
 =======
+=======
+>>>>>>> parent of debbff3... GUI Testing
         elif usr_command[0] == "m":
             if usr_command[1] in unit_data:
                 threading._start_new_thread(
@@ -620,15 +578,25 @@ root.mainloop()
             else:
                 print(usr_command[1] + " does not exist!")
 
+<<<<<<< HEAD
         elif usr_command[0] == "map":
             if usr_command[1] == "stop":
                 s.sendto("stop".encode(), getClient("map"))
             elif usr_command[1] == "start":
                 s.sendto("start".encode(), getClient("map"))
             elif usr_command[1] == "1":
+=======
+        # TODO
+        elif usr_command[0] == "map":
+            if usr_command[1] == "1":
+>>>>>>> parent of debbff3... GUI Testing
                 s.sendto("map 1".encode(), getClient("map"))
             elif usr_command[1] == "2":
                 s.sendto("map 2".encode(), getClient("map"))
             else:
+<<<<<<< HEAD
                 print(usr_command[1], "is not a valid map command!")
 >>>>>>> parent of 7d8fabb... Cleaned up old map data
+=======
+                print(usr_command[1], "is not a valid player map!")
+>>>>>>> parent of debbff3... GUI Testing
