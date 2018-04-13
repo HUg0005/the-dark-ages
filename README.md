@@ -1,5 +1,8 @@
 # The Dark Ages
 
+## NOTE:
+Due to terrible non-pythonic programming this project has been abandoned as to bring it up to a level where I would find it acceptable it would be easier to start again from scratch. I may do this in the future but so far have no plans. This project has taught me alot and is a reminder to always follow the python zen. This repo will be kept up for record keeping purposes only.
+
 ## Game Mechanics:
 * 1 tick is equal to 1 second.
 * Units require food every 10 ticks except for rams. Knights consume 2 food every 10 ticks; all other units 1 food every 10 ticks.
